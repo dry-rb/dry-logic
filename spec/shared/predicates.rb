@@ -1,21 +1,41 @@
-require 'dry/logic/predicate'
+require 'dry/logic/predicates'
 
 RSpec.shared_examples 'predicates' do
-  let(:none?) { Dry::Logic::Predicate.new(:none?) { |value| value.nil? } }
+  let(:none?) { Dry::Logic::Predicates[:none?] }
 
-  let(:str?) { Dry::Logic::Predicate.new(:str?) { |value| value.is_a?(String) } }
+  let(:str?) { Dry::Logic::Predicates[:str?] }
 
-  let(:int?) { Dry::Logic::Predicate.new(:int?) { |value| value.is_a?(Fixnum) } }
+  let(:int?) { Dry::Logic::Predicates[:int?] }
 
-  let(:filled?) { Dry::Logic::Predicate.new(:filled?) { |value| value.size > 0 } }
+  let(:filled?) { Dry::Logic::Predicates[:filled?] }
 
-  let(:min_size?) { Dry::Logic::Predicate.new(:min_size?) { |size, value| value.size >= size } }
+  let(:min_size?) { Dry::Logic::Predicates[:min_size?] }
 
-  let(:gt?) { Dry::Logic::Predicate.new(:gt?) { |num, value| value > num } }
+  let(:lt?) { Dry::Logic::Predicates[:lt?] }
 
-  let(:lt?) { Dry::Logic::Predicate.new(:lt?) { |num, value| value < num } }
+  let(:gt?) { Dry::Logic::Predicates[:gt?] }
 
-  let(:key?) { Dry::Logic::Predicate.new(:key?) { |key, hash| hash.key?(key) } }
+  let(:key?) { Dry::Logic::Predicates[:key?] }
 
-  let(:eql?) { Dry::Logic::Predicate.new(:eql?) { |other, value| other == value } }
+  let(:eql?) { Dry::Logic::Predicates[:eql?] }
+end
+
+RSpec.shared_examples 'a passing predicate' do
+  let(:predicate) { Dry::Logic::Predicates[predicate_name] }
+
+  it do
+    arguments_list.each do |(left, right)|
+      expect(predicate.call(left, right)).to be(true)
+    end
+  end
+end
+
+RSpec.shared_examples 'a failing predicate' do
+  let(:predicate) { Dry::Logic::Predicates[predicate_name] }
+
+  it do
+    arguments_list.each do |(left, right)|
+      expect(predicate.call(left, right)).to be(false)
+    end
+  end
 end
