@@ -1,4 +1,5 @@
 require 'dry/logic/predicate'
+require 'dry-container'
 
 module Dry
   module Logic
