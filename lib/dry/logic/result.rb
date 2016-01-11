@@ -2,18 +2,18 @@ module Dry
   module Logic
     def self.Result(input, value, rule)
       case value
-      when Rule::Result then value.class.new(value.input, value.success?, rule)
-      when Array then Rule::Result::Set.new(input, value, rule)
-      else Rule::Result::Value.new(input, value, rule)
+      when Result then value.class.new(value.input, value.success?, rule)
+      when Array then Result::Set.new(input, value, rule)
+      else Result::Value.new(input, value, rule)
       end
     end
 
-    class Rule::Result
+    class Result
       include Dry::Equalizer(:success?, :input, :rule)
 
       attr_reader :input, :value, :rule, :name
 
-      class Rule::Result::Set < Rule::Result
+      class Result::Set < Result
         def success?
           value.all?(&:success?)
         end
@@ -24,14 +24,14 @@ module Dry
         end
       end
 
-      class Rule::Result::Value < Rule::Result
+      class Result::Value < Result
         def to_ary
           [:input, [rule.name, input, [rule.to_ary]]]
         end
         alias_method :to_a, :to_ary
       end
 
-      class Rule::Result::Verified < Rule::Result
+      class Result::Verified < Result
         attr_reader :predicate_id
 
         def initialize(result, predicate_id)
@@ -69,7 +69,7 @@ module Dry
 
       def curry(predicate_id = nil)
         if predicate_id
-          Rule::Result::Verified.new(self, predicate_id)
+          Result::Verified.new(self, predicate_id)
         else
           self
         end

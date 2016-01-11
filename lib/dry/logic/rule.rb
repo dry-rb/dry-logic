@@ -87,4 +87,5 @@ require 'dry/logic/rule/set'
 require 'dry/logic/rule/composite'
 require 'dry/logic/rule/check'
 require 'dry/logic/rule/group'
-require 'dry/logic/rule/result'
+
+require 'dry/logic/result'
