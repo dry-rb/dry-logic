@@ -56,6 +56,17 @@ module Dry
         end
       end
 
+      class Result::LazyValue < Result
+        def to_ary
+          [:input, [rule.name, input, [rule.to_ary]]]
+        end
+        alias_method :to_a, :to_ary
+
+        def input
+          success? ? rule.evaluate_input(@input) : @input
+        end
+      end
+
       def initialize(input, value, rule)
         @input = input
         @value = value

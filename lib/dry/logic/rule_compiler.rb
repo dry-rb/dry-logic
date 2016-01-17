@@ -32,6 +32,11 @@ module Dry
         Rule::Key.new(name, visit(predicate))
       end
 
+      def visit_attr(node)
+        name, predicate = node
+        Rule::Attr.new(name, visit(predicate))
+      end
+
       def visit_val(node)
         name, predicate = node
         Rule::Value.new(name, visit(predicate))

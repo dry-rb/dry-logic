@@ -1,16 +1,16 @@
 module Dry
   module Logic
-    class Rule::Key < Rule
+    class Rule::Attr < Rule
       def self.new(name, predicate)
         super(name, predicate.curry(name))
       end
 
       def type
-        :key
+        :attr
       end
 
       def evaluate_input(input)
-        input[name]
+        input.public_send(name)
       end
 
       def call(input)

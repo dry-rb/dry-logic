@@ -23,6 +23,10 @@ module Dry
         input.key?(name)
       end
 
+      predicate(:attr?) do |name, input|
+        input.respond_to?(name)
+      end
+
       predicate(:empty?) do |input|
         case input
         when String, Array, Hash then input.empty?

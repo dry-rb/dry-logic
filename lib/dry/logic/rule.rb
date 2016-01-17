@@ -81,6 +81,7 @@ module Dry
 end
 
 require 'dry/logic/rule/key'
+require 'dry/logic/rule/attr'
 require 'dry/logic/rule/value'
 require 'dry/logic/rule/each'
 require 'dry/logic/rule/set'
