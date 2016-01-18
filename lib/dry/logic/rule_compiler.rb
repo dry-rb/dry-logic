@@ -23,6 +23,11 @@ module Dry
         Rule::Check.new(name, visit(predicate))
       end
 
+      def visit_res(node)
+        name, predicate = node
+        Rule::Result.new(name, visit(predicate))
+      end
+
       def visit_not(node)
         visit(node).negation
       end
