@@ -14,6 +14,14 @@ RSpec.describe Dry::Logic::Rule::Result do
       expect(rule.(name: is_str.('jan'))).to be_failure
       expect(rule.(name: is_str.(nil))).to be_failure
     end
+
+    it 'evaluates input for the ast' do
+      expect(rule.(name: is_str.('jane')).to_ary).to eql([
+        :input, [
+          :name, nil, [[:res, [:name, [:predicate, [:min_size?, [4]]]]]]
+        ]
+      ])
+    end
   end
 
   describe '#and' do

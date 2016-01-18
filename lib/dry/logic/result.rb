@@ -67,6 +67,13 @@ module Dry
         end
       end
 
+      class Result::Wrapped < Result
+        def to_ary
+          [:input, [name, nil, [rule.to_ary]]]
+        end
+        alias_method :to_a, :to_ary
+      end
+
       def initialize(input, value, rule)
         @input = input
         @value = value

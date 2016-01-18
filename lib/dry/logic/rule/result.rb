@@ -5,7 +5,7 @@ module Dry
         result = input[name]
         return result unless result.success?
         result_input = result.input
-        Logic.Result(input, predicate.(result_input), self)
+        Result::Wrapped.new(input, predicate.(result_input), self)
       end
 
       def type
