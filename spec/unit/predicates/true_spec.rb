@@ -1,20 +1,21 @@
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#bool?' do
-    let(:predicate_name) { :bool? }
+  describe '#true?' do
+    let(:predicate_name) { :true? }
 
     context 'when value is a date' do
       let(:arguments_list) do
-        [[true], [false]]
+        [[true]]
       end
 
       it_behaves_like 'a passing predicate'
     end
 
-    context 'when value is not a bool' do
+    context 'with value is not true' do
       let(:arguments_list) do
         [
+          [false],
           [''],
           [[]],
           [{}],

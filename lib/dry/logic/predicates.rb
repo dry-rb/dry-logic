@@ -125,6 +125,14 @@ module Dry
         left.eql?(right)
       end
 
+      predicate(:true?) do |value|
+        value === true
+      end
+
+      predicate(:false?) do |value|
+        value === false
+      end
+
       predicate(:format?) do |regex, input|
         !regex.match(input).nil?
       end
