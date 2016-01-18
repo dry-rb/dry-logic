@@ -9,12 +9,8 @@ module Dry
         :key
       end
 
-      def evaluate_input(input)
-        input[name]
-      end
-
       def call(input)
-        Logic::Result::LazyValue.new(input, predicate.(input), self)
+        Logic.Result(input[name], predicate.(input), self)
       end
     end
   end
