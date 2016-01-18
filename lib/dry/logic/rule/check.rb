@@ -3,8 +3,8 @@ module Dry
     class Rule::Check < Rule
       alias_method :result, :predicate
 
-      def call(*)
-        Logic.Result(nil, result.call, self)
+      def call(*args)
+        Logic.Result(nil, result.(*args), self)
       end
 
       def type

@@ -42,7 +42,7 @@ module Dry
           @predicate_id = predicate_id
         end
 
-        def call
+        def call(*)
           Logic.Result(input, success?, rule)
         end
 
@@ -74,7 +74,7 @@ module Dry
         @name = rule.name
       end
 
-      def call
+      def call(*)
         self
       end
 
