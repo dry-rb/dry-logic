@@ -2,7 +2,7 @@ module Dry
   module Logic
     def self.Result(input, value, rule)
       case value
-      when Result, Result::Wrapped
+      when Result
         value.class.new(value.input, value.success?, rule)
       when Array
         Result::Set.new(input, value, rule)
