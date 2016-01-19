@@ -2,9 +2,12 @@ module Dry
   module Logic
     def self.Result(input, value, rule)
       case value
-      when Result then value.class.new(value.input, value.success?, rule)
-      when Array then Result::Set.new(input, value, rule)
-      else Result::Value.new(input, value, rule)
+      when Result, Result::Wrapped
+        value.class.new(value.input, value.success?, rule)
+      when Array
+        Result::Set.new(input, value, rule)
+      else
+        Result::Value.new(input, value, rule)
       end
     end
 
@@ -72,6 +75,10 @@ module Dry
           [:input, [name, nil, [rule.to_ary]]]
         end
         alias_method :to_a, :to_ary
+
+        def wrapped?
+          true
+        end
       end
 
       def initialize(input, value, rule)
@@ -122,7 +129,14 @@ module Dry
       end
 
       def xor(other)
-        Logic.Result(input, success? ^ other.(input).success?, rule)
+        other_result = other.(input)
+        value = success? ^ other_result.success?
+
+        if other_result.wrapped?
+          Result::Wrapped.new(input, value, rule)
+        else
+          Logic.Result(other_result.input, value, rule)
+        end
       end
 
       def success?
@@ -131,6 +145,10 @@ module Dry
 
       def failure?
         ! success?
+      end
+
+      def wrapped?
+        false
       end
     end
   end

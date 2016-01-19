@@ -3,9 +3,13 @@ module Dry
     class Rule::Result < Rule
       def call(input)
         result = input[name]
-        return result unless result.success?
         result_input = result.input
-        Result::Wrapped.new(input, predicate.(result_input), self)
+
+        if result.success?
+          Result::Wrapped.new(input, predicate.(result_input), self)
+        else
+          result
+        end
       end
 
       def type
