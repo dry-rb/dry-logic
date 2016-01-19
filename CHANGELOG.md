@@ -1,9 +1,16 @@
+# v0.1.2 2016-01-19
+
+### Fixed
+
+* `xor` returns wrapped results when used against another result-rule (solnic)
+
 # v0.1.1 2016-01-18
 
 ### Added
 
 * `Rule::Attr` which can be applied to a data object with attr readers (SunnyMagadan)
 * `Rule::Result` which can be applied to a result object (solnic)
+* `true?` and `false?` predicates (solnic)
 
 [Compare v0.1.0...v0.1.1](https://github.com/dryrb/dry-logic/compare/v0.1.0...v0.1.1)
 
