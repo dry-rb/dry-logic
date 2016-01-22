@@ -7,7 +7,10 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     { key?: predicate,
       attr?: predicate,
       filled?: predicate,
-      email: val_rule.('email').curry(:filled?) }
+      gt?: predicate,
+      email: val_rule.('email').curry(:filled?),
+      left: res_left_rule,
+      right: double(input: 312) }
   }
 
   let(:predicate) { double(:predicate).as_null_object }
@@ -18,6 +21,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:val_rule) { Rule::Value.new(:email, predicate) }
   let(:check_rule) { Rule::Check.new(:email, predicates[:email]) }
   let(:res_rule) { Rule::Result.new(:email, predicates[:email]) }
+  let(:res_left_rule) { Rule::Result.new(:left, predicate) }
   let(:and_rule) { key_rule & val_rule }
   let(:or_rule) { key_rule | val_rule }
   let(:xor_rule) { key_rule ^ val_rule }
@@ -46,6 +50,16 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     rules = compiler.(ast)
 
     expect(rules).to eql([res_rule])
+  end
+
+  it 'compiles result rules with res args' do
+    ast = [[:res, [:left, [:predicate, [:gt?, [:args, [[:res_arg, :right]]]]]]]]
+
+    expect(predicate).to receive(:curry).with(312)
+
+    rules = compiler.(ast)
+
+    expect(rules).to eql([res_left_rule])
   end
 
   it 'compiles attr rules' do

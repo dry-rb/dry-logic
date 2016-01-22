@@ -10,7 +10,7 @@ module Dry
       end
 
       def call(ast)
-        ast.map { |node| visit(node) }
+        ast.to_ary.map { |node| visit(node) }
       end
 
       def visit(node)
@@ -26,6 +26,14 @@ module Dry
       def visit_res(node)
         name, predicate = node
         Rule::Result.new(name, visit(predicate))
+      end
+
+      def visit_args(nodes)
+        nodes.map { |node| visit(node) }
+      end
+
+      def visit_res_arg(name)
+        predicates[name].input
       end
 
       def visit_not(node)
@@ -59,7 +67,12 @@ module Dry
 
       def visit_predicate(node)
         name, args = node
-        predicates[name].curry(*args)
+
+        if args[0] == :args
+          predicates[name].curry(*visit(args))
+        else
+          predicates[name].curry(*args)
+        end
       end
 
       def visit_and(node)

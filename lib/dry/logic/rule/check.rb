@@ -7,6 +7,10 @@ module Dry
         Logic.Result(nil, result.(*args), self)
       end
 
+      def input
+        result.input
+      end
+
       def type
         :check
       end
