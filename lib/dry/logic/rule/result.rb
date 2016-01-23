@@ -12,6 +12,10 @@ module Dry
         end
       end
 
+      def evaluate_input(result)
+        result[name].input
+      end
+
       def type
         :res
       end

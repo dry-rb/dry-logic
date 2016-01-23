@@ -19,8 +19,8 @@ module Dry
       end
 
       def visit_check(node)
-        name, predicate = node
-        Rule::Check.new(name, visit(predicate))
+        name, predicate, keys = node
+        Rule::Check.new(name, visit(predicate), keys)
       end
 
       def visit_res(node)
@@ -34,6 +34,10 @@ module Dry
 
       def visit_res_arg(name)
         predicates[name].input
+      end
+
+      def visit_arg(value)
+        value
       end
 
       def visit_not(node)

@@ -13,7 +13,7 @@ RSpec.describe Rule::Check do
       let(:predicate) { :filled? }
 
       it 'returns a success' do
-        expect(rule.()).to be_success
+        expect(rule.('Jane')).to be_success
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe Rule::Check do
       let(:predicate) { :filled? }
 
       it 'returns a failure' do
-        expect(rule.()).to be_failure
+        expect(rule.(nil)).to be_failure
       end
     end
   end

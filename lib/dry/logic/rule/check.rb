@@ -1,14 +1,19 @@
 module Dry
   module Logic
     class Rule::Check < Rule
-      alias_method :result, :predicate
+      attr_reader :keys
 
-      def call(*args)
-        Logic.Result(nil, result.(*args), self)
+      def initialize(name, predicate, keys = [])
+        super(name, predicate)
+        @keys = keys
       end
 
-      def input
-        result.input
+      def call(result)
+        Logic.Result(evaluate_input(result), predicate.(result), self)
+      end
+
+      def evaluate_input(result)
+        keys.map { |key| result[key].input }
       end
 
       def type

@@ -23,15 +23,37 @@ module Dry
 
         def to_ary
           indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
-          [:input, [rule.name, input, value.values_at(*indices).map(&:to_ary)]]
+          [:input, [name, input, value.values_at(*indices).map(&:to_ary)]]
         end
       end
 
       class Result::Value < Result
         def to_ary
+          [:input, [name, input, [rule.to_ary]]]
+        end
+        alias_method :to_a, :to_ary
+      end
+
+      class Result::LazyValue < Result
+        def to_ary
           [:input, [rule.name, input, [rule.to_ary]]]
         end
         alias_method :to_a, :to_ary
+
+        def input
+          success? ? rule.evaluate_input(@input) : @input
+        end
+      end
+
+      class Result::Wrapped < Result::Value
+        def to_ary
+          [:input, [rule.name, rule.evaluate_input(input), [rule.to_ary]]]
+        end
+        alias_method :to_a, :to_ary
+
+        def wrapped?
+          true
+        end
       end
 
       class Result::Verified < Result
@@ -56,28 +78,6 @@ module Dry
 
         def success?
           rule.predicate_id == predicate_id
-        end
-      end
-
-      class Result::LazyValue < Result
-        def to_ary
-          [:input, [rule.name, input, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def input
-          success? ? rule.evaluate_input(@input) : @input
-        end
-      end
-
-      class Result::Wrapped < Result
-        def to_ary
-          [:input, [name, nil, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def wrapped?
-          true
         end
       end
 

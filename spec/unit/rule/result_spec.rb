@@ -19,7 +19,7 @@ RSpec.describe Dry::Logic::Rule::Result do
     it 'evaluates successful input for the ast' do
       expect(rule.(name: is_str.('jane')).to_ary).to eql([
         :input, [
-          :name, nil, [[:res, [:name, [:predicate, [:min_size?, [4]]]]]]
+          :name, 'jane', [[:res, [:name, [:predicate, [:min_size?, [4]]]]]]
         ]
       ])
     end
@@ -44,7 +44,7 @@ RSpec.describe Dry::Logic::Rule::Result do
     it 'evaluates input for the ast' do
       expect(conjunction.(name: is_str.('john')).to_ary).to eql([
         :input, [
-          :name, nil, [[:res, [:name, [:predicate, [:eql?, ["jane"]]]]]]
+          :name, 'john', [[:res, [:name, [:predicate, [:eql?, ['jane']]]]]]
         ]
       ])
     end
@@ -63,7 +63,7 @@ RSpec.describe Dry::Logic::Rule::Result do
 
       expect(result.to_ary).to eql([
         :input, [
-          :name, nil, [[:res, [:name, [:predicate, [:min_size?, [4]]]]]]
+          :name, 'john', [[:res, [:name, [:predicate, [:min_size?, [4]]]]]]
         ]
       ])
     end
@@ -83,7 +83,7 @@ RSpec.describe Dry::Logic::Rule::Result do
 
       expect(result.to_ary).to eql([
         :input, [
-          :name, nil, [[:res, [:name, [:predicate, [:eql?, ['jane']]]]]]
+          :name, 'john', [[:res, [:name, [:predicate, [:eql?, ['jane']]]]]]
         ]
       ])
     end
