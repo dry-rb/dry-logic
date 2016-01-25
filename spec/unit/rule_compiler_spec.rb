@@ -19,7 +19,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:not_key_rule) { Rule::Key.new(:email, predicate).negation }
   let(:attr_rule) { Rule::Attr.new(:email, predicate) }
   let(:val_rule) { Rule::Value.new(:email, predicate) }
-  let(:check_rule) { Rule::Check.new(:email, predicates[:email]) }
+  let(:check_rule) { Rule::Check::Unary.new(:email, predicates[:email], [:email]) }
   let(:res_rule) { Rule::Result.new(:email, predicates[:email]) }
   let(:res_left_rule) { Rule::Result.new(:left, predicate) }
   let(:and_rule) { key_rule & val_rule }

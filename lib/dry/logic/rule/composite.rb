@@ -22,7 +22,7 @@ module Dry
 
     class Rule::Implication < Rule::Composite
       def call(*args)
-        left.(*args) > right
+        left.(*args).then(right)
       end
 
       def type

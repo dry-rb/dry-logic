@@ -20,7 +20,9 @@ module Dry
 
       def visit_check(node)
         name, predicate, keys = node
-        Rule::Check.new(name, visit(predicate), keys)
+        check_keys = keys ? keys : [name]
+        klass = check_keys.size == 1 ? Rule::Check::Unary : Rule::Check::Binary
+        klass.new(name, visit(predicate), check_keys)
       end
 
       def visit_res(node)

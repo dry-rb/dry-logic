@@ -104,7 +104,7 @@ module Dry
         self.class.new(input, !value, rule)
       end
 
-      def >(other)
+      def then(other)
         if success?
           other.(input)
         else

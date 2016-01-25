@@ -1,5 +1,7 @@
 RSpec.describe Rule::Check do
-  subject(:rule) { Rule::Check.new(:name, other.(input).curry(predicate)) }
+  subject(:rule) do
+    Rule::Check::Unary.new(:name, other.(input).curry(predicate), [:name])
+  end
 
   include_context 'predicates'
 
@@ -8,7 +10,7 @@ RSpec.describe Rule::Check do
   end
 
   describe '#call' do
-    context 'when a given predicate passed' do
+    context 'when then given predicate passed' do
       let(:input) { 'Jane' }
       let(:predicate) { :filled? }
 
@@ -17,7 +19,7 @@ RSpec.describe Rule::Check do
       end
     end
 
-    context 'when a given predicate did not pass' do
+    context 'when the given predicate did not pass' do
       let(:input) { nil }
       let(:predicate) { :filled? }
 
