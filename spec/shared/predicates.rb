@@ -5,6 +5,8 @@ RSpec.shared_examples 'predicates' do
 
   let(:str?) { Dry::Logic::Predicates[:str?] }
 
+  let(:hash?) { Dry::Logic::Predicates[:hash?] }
+
   let(:int?) { Dry::Logic::Predicates[:int?] }
 
   let(:filled?) { Dry::Logic::Predicates[:filled?] }

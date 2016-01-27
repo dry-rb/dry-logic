@@ -6,6 +6,7 @@ RSpec.describe Dry::Logic::Rule::Result do
   include_context 'predicates'
 
   let(:is_str) { Dry::Logic::Rule::Value.new(:name, str?) }
+  let(:is_hash) { Dry::Logic::Rule::Value.new(:name, hash?) }
   let(:is_jane) { Dry::Logic::Rule::Result.new(:name, eql?.curry('jane')) }
   let(:is_john) { Dry::Logic::Rule::Result.new(:name, eql?.curry('john')) }
 
@@ -30,6 +31,16 @@ RSpec.describe Dry::Logic::Rule::Result do
           :name, :john, [[:val, [:name, [:predicate, [:str?, []]]]]]
         ]
       ])
+    end
+  end
+
+  describe '#call with nested result' do
+    subject(:rule) do
+      Dry::Logic::Rule::Result.new({ user: :address }, str?)
+    end
+
+    it 'evaluates the input' do
+      expect(rule.(user: is_hash.(address: 'Earth'))).to be_success
     end
   end
 

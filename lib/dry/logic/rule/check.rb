@@ -11,7 +11,14 @@ module Dry
 
       class Binary < Rule::Check
         def evaluate_input(result)
-          keys.map { |key| result[key].input }
+          keys.map do |key|
+            if key.is_a?(Hash)
+              parent, child = key.to_a.flatten
+              result[parent].input[child]
+            else
+              result[key].input
+            end
+          end
         end
       end
 
