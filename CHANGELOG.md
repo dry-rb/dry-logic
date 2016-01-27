@@ -1,8 +1,22 @@
+# v0.1.2 2016-01-27
+
+### Added
+
+* Support for resolving input from `Rule::Result` (solnic)
+
+### Changed
+
+* `Check` and `Result` carry original input(s) (solnic)
+
+[Compare v0.1.2...v0.1.3](https://github.com/dryrb/dry-logic/compare/v0.1.2...v0.1.3)
+
 # v0.1.2 2016-01-19
 
 ### Fixed
 
 * `xor` returns wrapped results when used against another result-rule (solnic)
+
+[Compare v0.1.1...v0.1.2](https://github.com/dryrb/dry-logic/compare/v0.1.1...v0.1.2)
 
 # v0.1.1 2016-01-18
 
