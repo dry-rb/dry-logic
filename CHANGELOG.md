@@ -1,4 +1,13 @@
-# v0.1.2 2016-01-27
+# v0.1.4 2016-01-27
+
+### Added
+
+* Support for hash-names in `Check` and `Result` which can properly resolve input
+  from nested results (solnic)
+
+[Compare v0.1.3...v0.1.4](https://github.com/dryrb/dry-logic/compare/v0.1.3...v0.1.4)
+
+# v0.1.3 2016-01-27
 
 ### Added
 
