@@ -35,7 +35,7 @@ module Dry
       end
 
       def visit_res_arg(name)
-        predicates[name].input
+        Array(name).reduce(predicates) { |a, e| a[e] }
       end
 
       def visit_arg(value)

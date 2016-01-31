@@ -31,7 +31,7 @@ RSpec.describe Rule::Check do
 
   describe '#call with a nested result' do
     subject(:rule) do
-      Rule::Check::Binary.new(:address, result, [:user, { user: :address }])
+      Rule::Check::Binary.new(:address, result, [:user, [:user, :address]])
     end
 
     let(:other) { Rule::Value.new(:user, hash?) }

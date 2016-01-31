@@ -2,8 +2,8 @@ module Dry
   module Logic
     class Rule::Result < Rule
       def call(input)
-        result = if name.is_a?(Hash)
-                   parent, _ = name.to_a.flatten
+        result = if name.is_a?(Array)
+                   parent, _ = name
                    input[parent]
                  else
                    input[name]
@@ -17,8 +17,8 @@ module Dry
       end
 
       def evaluate_input(result)
-        if name.is_a?(Hash)
-          parent, child = name.to_a.flatten
+        if name.is_a?(Array)
+          parent, child = name
           result[parent].input[child]
         else
           result[name].input

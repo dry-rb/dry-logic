@@ -36,7 +36,7 @@ RSpec.describe Dry::Logic::Rule::Result do
 
   describe '#call with nested result' do
     subject(:rule) do
-      Dry::Logic::Rule::Result.new({ user: :address }, str?)
+      Dry::Logic::Rule::Result.new([:user, :address], str?)
     end
 
     it 'evaluates the input' do

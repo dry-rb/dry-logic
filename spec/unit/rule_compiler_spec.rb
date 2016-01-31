@@ -55,7 +55,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   it 'compiles result rules with res args' do
     ast = [[:res, [:left, [:predicate, [:gt?, [:args, [[:res_arg, :right]]]]]]]]
 
-    expect(predicate).to receive(:curry).with(312)
+    expect(predicate).to receive(:curry).with(predicates[:right])
 
     rules = compiler.(ast)
 

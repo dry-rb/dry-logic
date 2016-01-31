@@ -25,6 +25,10 @@ module Dry
           indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
           [:input, [name, input, value.values_at(*indices).map(&:to_ary)]]
         end
+
+        def [](name)
+          input[name]
+        end
       end
 
       class Result::Value < Result
@@ -57,9 +61,10 @@ module Dry
       end
 
       class Result::Verified < Result
-        attr_reader :predicate_id
+        attr_reader :result, :predicate_id
 
         def initialize(result, predicate_id)
+          @result = result
           @input = result.input
           @value = result.value
           @rule = result.rule
@@ -78,6 +83,10 @@ module Dry
 
         def success?
           rule.predicate_id == predicate_id
+        end
+
+        def [](name)
+          input[name]
         end
       end
 
