@@ -35,7 +35,13 @@ module Dry
       end
 
       def visit_res_arg(name)
-        Array(name).reduce(predicates) { |a, e| a[e] }
+        result = Array(name).reduce(predicates) { |a, e| a[e] }
+
+        if result.is_a?(Result)
+          result.input
+        else
+          result
+        end
       end
 
       def visit_arg(value)

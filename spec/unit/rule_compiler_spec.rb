@@ -10,7 +10,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       gt?: predicate,
       email: val_rule.('email').curry(:filled?),
       left: res_left_rule,
-      right: double(input: 312) }
+      right: double(input: 312),
+      one: predicate }
   }
 
   let(:predicate) { double(:predicate).as_null_object }
@@ -60,6 +61,29 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     rules = compiler.(ast)
 
     expect(rules).to eql([res_left_rule])
+  end
+
+  it 'compiles result rules with res args with deep nesting' do
+    ast = [
+      [
+        :res, [
+          :foo, [:predicate, [:gt?, [:args, [[:res_arg, [:one, :two, :three]]]]]]
+        ]
+      ]
+    ]
+
+    result = Result::Value.new('foo', true, double(name: :foo))
+
+    expect(predicate).to receive(:[]).with(:two).and_return(predicate)
+    expect(predicate).to receive(:[]).with(:three).and_return(result)
+
+    expect(predicate).to receive(:curry).with('foo')
+
+    rules = compiler.(ast)
+
+    res_rule = Rule::Result.new(:foo, predicate)
+
+    expect(rules).to eql([res_rule])
   end
 
   it 'compiles attr rules' do
