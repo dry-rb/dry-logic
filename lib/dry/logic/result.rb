@@ -23,11 +23,24 @@ module Dry
 
         def to_ary
           indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
-          [:input, [name, input, value.values_at(*indices).map(&:to_ary)]]
+          values = value.values_at(*indices)
+
+          failures =
+            if each?
+              values.map { |el| [:el, [value.index(el), el.to_ary]] }
+            else
+              values.map { |el| el.to_ary }
+            end
+
+          [:input, [name, input, failures]]
         end
 
         def [](name)
           input[name]
+        end
+
+        def each?
+          rule.type == :each
         end
       end
 
@@ -40,7 +53,7 @@ module Dry
 
       class Result::LazyValue < Result
         def to_ary
-          [:input, [rule.name, input, [rule.to_ary]]]
+          [:input, [name, input, [rule.to_ary]]]
         end
         alias_method :to_a, :to_ary
 
