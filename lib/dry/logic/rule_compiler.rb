@@ -20,32 +20,7 @@ module Dry
 
       def visit_check(node)
         name, predicate, keys = node
-        check_keys = keys ? keys : [name]
-        klass = check_keys.size == 1 ? Rule::Check::Unary : Rule::Check::Binary
-        klass.new(name, visit(predicate), check_keys)
-      end
-
-      def visit_res(node)
-        name, predicate = node
-        Rule::Result.new(name, visit(predicate))
-      end
-
-      def visit_args(nodes)
-        nodes.map { |node| visit(node) }
-      end
-
-      def visit_res_arg(name)
-        result = Array(name).reduce(predicates) { |a, e| a[e] }
-
-        if result.is_a?(Result)
-          result.input
-        else
-          result
-        end
-      end
-
-      def visit_arg(value)
-        value
+        Rule::Check.new(name, visit(predicate), keys || [name])
       end
 
       def visit_not(node)
@@ -79,12 +54,7 @@ module Dry
 
       def visit_predicate(node)
         name, args = node
-
-        if args[0] == :args
-          predicates[name].curry(*visit(args))
-        else
-          predicates[name].curry(*args)
-        end
+        predicates[name].curry(*args)
       end
 
       def visit_and(node)
@@ -105,11 +75,6 @@ module Dry
       def visit_implication(node)
         left, right = node
         visit(left) > visit(right)
-      end
-
-      def visit_group(node)
-        identifier, predicate = node
-        Rule::Group.new(identifier, visit(predicate))
       end
     end
   end

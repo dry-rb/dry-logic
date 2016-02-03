@@ -1,9 +1,11 @@
 module Dry
   module Logic
     class Rule
-      include Dry::Equalizer(:name, :predicate)
+      include Dry::Equalizer(:name, :evaluator, :predicate)
 
-      attr_reader :name, :predicate
+      attr_reader :name, :evaluator, :predicate
+
+      DEFAULT_EVALUATOR = -> input { input }
 
       class Negation < Rule
         include Dry::Equalizer(:rule)
@@ -23,8 +25,9 @@ module Dry
         end
       end
 
-      def initialize(name, predicate)
+      def initialize(name, predicate, evaluator = DEFAULT_EVALUATOR)
         @name = name
+        @evaluator = evaluator
         @predicate = predicate
       end
 
@@ -36,8 +39,8 @@ module Dry
         :rule
       end
 
-      def call(*args)
-        Logic.Result(args, predicate.call, self)
+      def call(input)
+        Logic.Result(input, predicate.(evaluator[input]), self)
       end
 
       def to_ary
@@ -80,14 +83,14 @@ module Dry
   end
 end
 
+require 'dry/logic/evaluator'
+
+require 'dry/logic/rule/value'
 require 'dry/logic/rule/key'
 require 'dry/logic/rule/attr'
-require 'dry/logic/rule/value'
 require 'dry/logic/rule/each'
 require 'dry/logic/rule/set'
 require 'dry/logic/rule/composite'
 require 'dry/logic/rule/check'
-require 'dry/logic/rule/result'
-require 'dry/logic/rule/group'
 
 require 'dry/logic/result'

@@ -8,9 +8,6 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       attr?: predicate,
       filled?: predicate,
       gt?: predicate,
-      email: val_rule.('email').curry(:filled?),
-      left: res_left_rule,
-      right: double(input: 312),
       one: predicate }
   }
 
@@ -20,9 +17,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:not_key_rule) { Rule::Key.new(:email, predicate).negation }
   let(:attr_rule) { Rule::Attr.new(:email, predicate) }
   let(:val_rule) { Rule::Value.new(:email, predicate) }
-  let(:check_rule) { Rule::Check::Unary.new(:email, predicates[:email], [:email]) }
-  let(:res_rule) { Rule::Result.new(:email, predicates[:email]) }
-  let(:res_left_rule) { Rule::Result.new(:left, predicate) }
+  let(:check_rule) { Rule::Check.new(:email, predicate, [:email]) }
   let(:and_rule) { key_rule & val_rule }
   let(:or_rule) { key_rule | val_rule }
   let(:xor_rule) { key_rule ^ val_rule }
@@ -38,52 +33,11 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles check rules' do
-    ast = [[:check, [:email, [:predicate, [:email, [:filled?]]]]]]
+    ast = [[:check, [:email, [:predicate, [:filled?, []]]]]]
 
     rules = compiler.(ast)
 
     expect(rules).to eql([check_rule])
-  end
-
-  it 'compiles result rules' do
-    ast = [[:res, [:email, [:predicate, [:email, [:filled?]]]]]]
-
-    rules = compiler.(ast)
-
-    expect(rules).to eql([res_rule])
-  end
-
-  it 'compiles result rules with res args' do
-    ast = [[:res, [:left, [:predicate, [:gt?, [:args, [[:res_arg, :right]]]]]]]]
-
-    expect(predicate).to receive(:curry).with(predicates[:right])
-
-    rules = compiler.(ast)
-
-    expect(rules).to eql([res_left_rule])
-  end
-
-  it 'compiles result rules with res args with deep nesting' do
-    ast = [
-      [
-        :res, [
-          :foo, [:predicate, [:gt?, [:args, [[:res_arg, [:one, :two, :three]]]]]]
-        ]
-      ]
-    ]
-
-    result = Result::Value.new('foo', true, double(name: :foo))
-
-    expect(predicate).to receive(:[]).with(:two).and_return(predicate)
-    expect(predicate).to receive(:[]).with(:three).and_return(result)
-
-    expect(predicate).to receive(:curry).with('foo')
-
-    rules = compiler.(ast)
-
-    res_rule = Rule::Result.new(:foo, predicate)
-
-    expect(rules).to eql([res_rule])
   end
 
   it 'compiles attr rules' do
