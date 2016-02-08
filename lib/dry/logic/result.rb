@@ -12,7 +12,7 @@ module Dry
     class Result
       include Dry::Equalizer(:success?, :input, :rule)
 
-      attr_reader :input, :rule, :name, :success
+      attr_reader :input, :rule, :success
 
       def self.[](type)
         case type
@@ -25,7 +25,6 @@ module Dry
       def initialize(response, rule, input)
         @success = response
         @rule = rule
-        @name = rule.respond_to?(:name) ? rule.name : nil
         @input = input
       end
 

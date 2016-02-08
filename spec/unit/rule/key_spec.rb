@@ -35,28 +35,21 @@ RSpec.describe Rule::Key do
 
         expect(success).to be_success
 
-        expect(success.to_ary).to eql(
-          [:input, [:nums, { nums: %w(1 2 3) }, []]]
-        )
+        expect(success.to_ary).to eql([:result, [%w(1 2 3), []]])
 
         failure = rule.(nums: [1, '3', 3])
 
         expect(failure).to be_failure
 
-        expect(failure.to_ary).to eql(
-          [
-            :input, [
-              :nums, { nums: [1, '3', 3] }, [
-                [:el, [0, [
-                  :input, [1, [[:val, [:predicate, [:str?, []]]]]]
-                ]]],
-                [:el, [2, [
-                  :input, [3, [[:val, [:predicate, [:str?, []]]]]]
-                ]]]
-              ]
+        expect(failure.to_ary).to eql([
+          :result, [
+            [1, '3', 3],
+            [
+              [:el, [0, [:result, [1, [[:val, [:predicate, [:str?, []]]]]]]]],
+              [:el, [2, [:result, [3, [[:val, [:predicate, [:str?, []]]]]]]]]
             ]
           ]
-        )
+        ])
       end
     end
   end
