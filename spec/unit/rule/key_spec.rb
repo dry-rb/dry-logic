@@ -4,7 +4,7 @@ RSpec.describe Rule::Key do
   include_context 'predicates'
 
   subject(:rule) do
-    Rule::Key.new(:user, predicate)
+    Rule::Key.new(predicate, name: :user)
   end
 
   let(:predicate) do
@@ -12,7 +12,7 @@ RSpec.describe Rule::Key do
   end
 
   let(:other) do
-    Rule::Key.new([:user, :name], str?)
+    Rule::Key.new(str?, name: [:user, :name])
   end
 
   describe '#call' do
@@ -25,10 +25,10 @@ RSpec.describe Rule::Key do
 
     context 'with an each rule' do
       subject(:rule) do
-        Rule::Key.new(:nums, predicate)
+        Rule::Key.new(predicate, name: :nums)
       end
 
-      let(:predicate) { Rule::Each.new(Rule::Value.new(:num, str?)) }
+      let(:predicate) { Rule::Each.new(Rule::Value.new(str?)) }
 
       it 'applies each rule to the value' do
         success = rule.(nums: %w(1 2 3))
@@ -48,10 +48,10 @@ RSpec.describe Rule::Key do
             :input, [
               :nums, { nums: [1, '3', 3] }, [
                 [:el, [0, [
-                  :input, [:num, 1, [[:val, [:num, [:predicate, [:str?, []]]]]]]
+                  :input, [1, [[:val, [:predicate, [:str?, []]]]]]
                 ]]],
                 [:el, [2, [
-                  :input, [:num, 3, [[:val, [:num, [:predicate, [:str?, []]]]]]]
+                  :input, [3, [[:val, [:predicate, [:str?, []]]]]]
                 ]]]
               ]
             ]

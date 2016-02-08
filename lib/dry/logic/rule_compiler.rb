@@ -20,7 +20,7 @@ module Dry
 
       def visit_check(node)
         name, predicate, keys = node
-        Rule::Check.new(name, visit(predicate), keys || [name])
+        Rule::Check.new(visit(predicate), name: name, keys: keys || [name])
       end
 
       def visit_not(node)
@@ -38,8 +38,7 @@ module Dry
       end
 
       def visit_val(node)
-        name, predicate = node
-        Rule::Value.new(name, visit(predicate))
+        Rule::Value.new(visit(node))
       end
 
       def visit_set(node)

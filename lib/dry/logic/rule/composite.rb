@@ -3,7 +3,7 @@ module Dry
     class Rule::Composite < Rule
       include Dry::Equalizer(:left, :right)
 
-      attr_reader :name, :left, :right
+      attr_reader :left, :right
 
       def initialize(left, right)
         @left = left

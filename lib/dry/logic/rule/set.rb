@@ -1,28 +1,23 @@
 module Dry
   module Logic
-    class Rule::Set < Rule
-      attr_reader :rules
+    class Rule::Set < Rule::Value
+      alias_method :rules, :predicate
 
-      def initialize(rules)
-        @rules = rules
+      def type
+        :set
       end
 
       def call(input)
         Logic.Result(input, rules.map { |rule| rule.(input) }, self)
       end
 
-      def type
-        :set
-      end
-
       def at(*args)
-        self.class.new(name, rules.values_at(*args))
+        new(rules.values_at(*args))
       end
 
       def to_ary
-        [type, rules.map(&:to_ary)]
+        [type, rules.map { |rule| rule.to_ary }]
       end
-      alias_method :to_a, :to_ary
     end
   end
 end

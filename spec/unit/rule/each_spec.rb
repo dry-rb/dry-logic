@@ -7,7 +7,7 @@ RSpec.describe Dry::Logic::Rule::Each do
     Dry::Logic::Rule::Each.new(is_string)
   end
 
-  let(:is_string) { Dry::Logic::Rule::Value.new(:name, str?) }
+  let(:is_string) { Dry::Logic::Rule::Value.new(str?) }
 
   describe '#call' do
     it 'applies its rules to all elements in the input' do

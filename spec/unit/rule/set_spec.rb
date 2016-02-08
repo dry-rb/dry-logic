@@ -7,8 +7,8 @@ RSpec.describe Dry::Logic::Rule::Set do
     Dry::Logic::Rule::Set.new([is_string, min_size.curry(6)])
   end
 
-  let(:is_string) { Dry::Logic::Rule::Value.new(:name, str?) }
-  let(:min_size) { Dry::Logic::Rule::Value.new(:name, min_size?) }
+  let(:is_string) { Dry::Logic::Rule::Value.new(str?) }
+  let(:min_size) { Dry::Logic::Rule::Value.new(min_size?) }
 
   describe '#call' do
     it 'applies its rules to the input' do
@@ -21,8 +21,8 @@ RSpec.describe Dry::Logic::Rule::Set do
     it 'returns an array representation' do
       expect(rule).to match_array([
         :set, [
-          [:val, [:name, [:predicate, [:str?, []]]]],
-          [:val, [:name, [:predicate, [:min_size?, [6]]]]]
+          [:val, [:predicate, [:str?, []]]],
+          [:val, [:predicate, [:min_size?, [6]]]]
         ]
       ])
     end

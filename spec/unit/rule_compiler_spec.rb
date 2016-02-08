@@ -13,11 +13,11 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
 
   let(:predicate) { double(:predicate).as_null_object }
 
+  let(:val_rule) { Rule::Value.new(predicate) }
   let(:key_rule) { Rule::Key.new(:email, predicate) }
   let(:not_key_rule) { Rule::Key.new(:email, predicate).negation }
   let(:attr_rule) { Rule::Attr.new(:email, predicate) }
-  let(:val_rule) { Rule::Value.new(:email, predicate) }
-  let(:check_rule) { Rule::Check.new(:email, predicate, [:email]) }
+  let(:check_rule) { Rule::Check.new(predicate, name: :email, keys: [:email]) }
   let(:and_rule) { key_rule & val_rule }
   let(:or_rule) { key_rule | val_rule }
   let(:xor_rule) { key_rule ^ val_rule }
@@ -61,7 +61,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       [
         :and, [
           [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:email, [:predicate, [:filled?, []]]]]
+          [:val, [:predicate, [:filled?, []]]]
         ]
       ]
     ]
@@ -76,7 +76,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       [
         :or, [
           [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:email, [:predicate, [:filled?, []]]]]
+          [:val, [:predicate, [:filled?, []]]]
         ]
       ]
     ]
@@ -91,7 +91,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       [
         :xor, [
           [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:email, [:predicate, [:filled?, []]]]]
+          [:val, [:predicate, [:filled?, []]]]
         ]
       ]
     ]
@@ -102,7 +102,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles set rules' do
-    ast = [[:set, [[:val, [:email, [:predicate, [:filled?, []]]]]]]]
+    ast = [[:set, [[:val, [:predicate, [:filled?, []]]]]]]
 
     rules = compiler.(ast)
 
@@ -110,7 +110,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles each rules' do
-    ast = [[:each, [:val, [:email, [:predicate, [:filled?, []]]]]]]
+    ast = [[:each, [:val, [:predicate, [:filled?, []]]]]]
 
     rules = compiler.(ast)
 

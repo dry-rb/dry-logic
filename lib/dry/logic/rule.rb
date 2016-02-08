@@ -1,16 +1,15 @@
 module Dry
   module Logic
     class Rule
-      include Dry::Equalizer(:name, :evaluator, :predicate)
+      include Dry::Equalizer(:predicate, :options)
 
-      attr_reader :name, :evaluator, :predicate
+      attr_reader :predicate
 
-      DEFAULT_EVALUATOR = -> input { input }
+      attr_reader :options
 
-      def initialize(name, predicate, evaluator = DEFAULT_EVALUATOR)
-        @name = name
-        @evaluator = evaluator
+      def initialize(predicate, options = {})
         @predicate = predicate
+        @options = options
       end
 
       def predicate_id
@@ -18,17 +17,8 @@ module Dry
       end
 
       def type
-        :rule
+        raise NotImplementedError
       end
-
-      def call(input)
-        Logic.Result(input, predicate.(evaluator[input]), self)
-      end
-
-      def to_ary
-        [type, [name, predicate.to_ary]]
-      end
-      alias_method :to_a, :to_ary
 
       def and(other)
         Conjunction.new(self, other)
@@ -55,11 +45,11 @@ module Dry
       end
 
       def new(predicate)
-        self.class.new(name, predicate)
+        self.class.new(predicate, options)
       end
 
       def curry(*args)
-        self.class.new(name, predicate.curry(*args))
+        self.class.new(predicate.curry(*args), options)
       end
 
       def each?
@@ -68,8 +58,6 @@ module Dry
     end
   end
 end
-
-require 'dry/logic/evaluator'
 
 require 'dry/logic/rule/value'
 require 'dry/logic/rule/key'

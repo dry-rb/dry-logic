@@ -1,8 +1,8 @@
 module Dry
   module Logic
-    class Rule::Attr < Rule
-      def self.new(name, predicate)
-        super(name, predicate, Evaluator::Attr.new(name))
+    class Rule::Attr < Rule::Key
+      def self.evaluator(options)
+        Evaluator::Attr.new(options.fetch(:name))
       end
 
       def type

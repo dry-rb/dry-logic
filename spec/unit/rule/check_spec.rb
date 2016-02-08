@@ -4,7 +4,7 @@ RSpec.describe Rule::Check do
   describe '#call' do
     context 'with 1-level nesting' do
       subject(:rule) do
-        Rule::Check.new(:compare, eql?, [:left, :right])
+        Rule::Check.new(eql?, name: :compare, keys: [:left, :right])
       end
 
       it 'applies predicate to args extracted from the input' do
@@ -15,7 +15,7 @@ RSpec.describe Rule::Check do
 
     context 'with 2-levels nesting' do
       subject(:rule) do
-        Rule::Check.new(:compare, eql?, [[:nums, :left], [:nums, :right]])
+        Rule::Check.new(eql?, name: :compare, keys: [[:nums, :left], [:nums, :right]])
       end
 
       it 'applies predicate to args extracted from the input' do

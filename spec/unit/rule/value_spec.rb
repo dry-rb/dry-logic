@@ -3,11 +3,11 @@ require 'dry/logic/rule'
 RSpec.describe Dry::Logic::Rule::Value do
   include_context 'predicates'
 
-  let(:is_nil) { Dry::Logic::Rule::Value.new(:name, none?) }
+  let(:is_nil) { Dry::Logic::Rule::Value.new(none?) }
 
-  let(:is_string) { Dry::Logic::Rule::Value.new(:name, str?) }
+  let(:is_string) { Dry::Logic::Rule::Value.new(str?) }
 
-  let(:min_size) { Dry::Logic::Rule::Value.new(:name, min_size?) }
+  let(:min_size) { Dry::Logic::Rule::Value.new(min_size?) }
 
   describe '#call' do
     it 'returns result of a predicate' do

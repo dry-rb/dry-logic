@@ -5,7 +5,7 @@ RSpec.describe Dry::Logic::Rule::Attr do
 
   let(:model) { Struct.new(:name) }
 
-  subject(:rule) { described_class.new(:name, str?) }
+  subject(:rule) { described_class.new(str?, name: :name) }
 
   describe '#call' do
     it 'applies predicate to the value' do
@@ -15,7 +15,7 @@ RSpec.describe Dry::Logic::Rule::Attr do
   end
 
   describe '#and' do
-    let(:other) { Dry::Logic::Rule::Attr.new(:name, min_size?.curry(3)) }
+    let(:other) { Dry::Logic::Rule::Attr.new(min_size?.curry(3), name: :name) }
 
     it 'returns conjunction rule where value is passed to the right' do
       present_and_string = rule.and(other)

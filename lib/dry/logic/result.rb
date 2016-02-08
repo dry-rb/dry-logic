@@ -32,7 +32,11 @@ module Dry
               values.map { |el| el.to_ary }
             end
 
-          [:input, [name, input, failures]]
+          if name
+            [:input, [name, input, failures]]
+          else
+            [:input, [input, failures]]
+          end
         end
 
         def each?
@@ -42,16 +46,20 @@ module Dry
 
       class Result::Value < Result
         def to_ary
-          [:input, [name, rule.evaluator[input], [rule.to_ary]]]
+          if name
+            [:input, [name, rule.evaluate(input), [rule.to_ary]]]
+          else
+            [:input, [rule.evaluate(input), [rule.to_ary]]]
+          end
         end
         alias_method :to_a, :to_ary
       end
 
-      def initialize(input, value, rule, name = rule.name)
+      def initialize(input, value, rule, name = nil)
         @input = input
         @value = value
         @rule = rule
-        @name = name
+        @name = name || rule.respond_to?(:name) ? rule.name : nil
       end
 
       def for(input, rule)
