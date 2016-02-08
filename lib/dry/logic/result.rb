@@ -4,10 +4,8 @@ module Dry
       case response
       when Result
         response.for(rule, input)
-      when Array
-        Result::Set.new(response, rule, input)
       else
-        Result::Value.new(response, rule, input)
+        Result[rule.type].new(response, rule, input)
       end
     end
 
@@ -15,6 +13,14 @@ module Dry
       include Dry::Equalizer(:success?, :input, :rule)
 
       attr_reader :input, :rule, :name, :success
+
+      def self.[](type)
+        case type
+        when :each then Result::Each
+        when :set then Result::Set
+        else Result::Value
+        end
+      end
 
       def initialize(response, rule, input)
         @success = response
@@ -74,4 +80,6 @@ module Dry
 end
 
 require 'dry/logic/result/value'
+require 'dry/logic/result/multi'
+require 'dry/logic/result/each'
 require 'dry/logic/result/set'
