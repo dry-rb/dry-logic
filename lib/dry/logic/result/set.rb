@@ -2,16 +2,16 @@ module Dry
   module Logic
     class Result::Set < Result
       def success?
-        value.all?(&:success?)
+        success.all?(&:success?)
       end
 
       def to_ary
-        indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
-        values = value.values_at(*indices)
+        indices = success.map { |v| v.failure? ? success.index(v) : nil }.compact
+        values = success.values_at(*indices)
 
         failures =
           if rule.each?
-            values.map { |el| [:el, [value.index(el), el.to_ary]] }
+            values.map { |el| [:el, [success.index(el), el.to_ary]] }
           else
             values.map { |el| el.to_ary }
           end
