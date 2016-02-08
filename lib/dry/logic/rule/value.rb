@@ -6,7 +6,11 @@ module Dry
       end
 
       def call(input)
-        Logic.Result(input, predicate.(evaluate(input)), self)
+        Logic.Result(apply(input), self, input)
+      end
+
+      def apply(input)
+        predicate.(evaluate(input))
       end
 
       def evaluate(input)

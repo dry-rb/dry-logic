@@ -1,8 +1,8 @@
 module Dry
   module Logic
     class Rule::Each < Rule::Value
-      def call(input)
-        Logic.Result(input, input.map { |element| predicate.(element) }, self)
+      def apply(input)
+        input.map { |element| predicate.(element) }
       end
 
       def type

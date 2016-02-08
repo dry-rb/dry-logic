@@ -7,8 +7,8 @@ module Dry
         :set
       end
 
-      def call(input)
-        Logic.Result(input, rules.map { |rule| rule.(input) }, self)
+      def apply(input)
+        rules.map { |rule| rule.(input) }
       end
 
       def at(*args)

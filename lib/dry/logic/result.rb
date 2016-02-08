@@ -1,41 +1,41 @@
 module Dry
   module Logic
-    def self.Result(input, success, rule)
-      case success
+    def self.Result(response, rule, input)
+      case response
       when Result
-        success.for(input, rule)
+        response.for(rule, input)
       when Array
-        Result::Set.new(input, success, rule)
+        Result::Set.new(response, rule, input)
       else
-        Result::Value.new(input, success, rule)
+        Result::Value.new(response, rule, input)
       end
     end
 
     class Result
       include Dry::Equalizer(:success?, :input, :rule)
 
-      attr_reader :input, :success, :rule, :name
+      attr_reader :input, :rule, :name, :success
 
-      def initialize(input, success, rule, name = nil)
-        @input = input
-        @success = success
+      def initialize(response, rule, input)
+        @success = response
         @rule = rule
-        @name = name || rule.respond_to?(:name) ? rule.name : nil
+        @name = rule.respond_to?(:name) ? rule.name : nil
+        @input = input
       end
 
-      def for(input, rule)
-        self.class.new(input, success, rule)
+      def for(rule, input)
+        self.class.new(success, rule, input)
       end
 
       def negated
-        self.class.new(input, !success, rule)
+        self.class.new(!success, rule, input)
       end
 
       def then(other)
         if success?
           other.(input)
         else
-          Logic.Result(input, true, rule)
+          Logic.Result(true, rule, input)
         end
       end
 
