@@ -16,45 +16,6 @@ module Dry
 
       attr_reader :input, :value, :rule, :name
 
-      class Result::Set < Result
-        def success?
-          value.all?(&:success?)
-        end
-
-        def to_ary
-          indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
-          values = value.values_at(*indices)
-
-          failures =
-            if rule.each?
-              values.map { |el| [:el, [value.index(el), el.to_ary]] }
-            else
-              values.map { |el| el.to_ary }
-            end
-
-          if name
-            [:input, [name, input, failures]]
-          else
-            [:input, [input, failures]]
-          end
-        end
-
-        def each?
-          rule.type == :each
-        end
-      end
-
-      class Result::Value < Result
-        def to_ary
-          if name
-            [:input, [name, rule.evaluate(input), [rule.to_ary]]]
-          else
-            [:input, [rule.evaluate(input), [rule.to_ary]]]
-          end
-        end
-        alias_method :to_a, :to_ary
-      end
-
       def initialize(input, value, rule, name = nil)
         @input = input
         @value = value
@@ -111,3 +72,6 @@ module Dry
     end
   end
 end
+
+require 'dry/logic/result/value'
+require 'dry/logic/result/set'
