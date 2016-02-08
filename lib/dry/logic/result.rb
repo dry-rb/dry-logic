@@ -2,6 +2,8 @@ module Dry
   module Logic
     def self.Result(input, value, rule)
       case value
+      when Result
+        value.for(input, rule)
       when Array
         Result::Set.new(input, value, rule)
       else
@@ -24,17 +26,13 @@ module Dry
           values = value.values_at(*indices)
 
           failures =
-            if each?
+            if rule.each?
               values.map { |el| [:el, [value.index(el), el.to_ary]] }
             else
               values.map { |el| el.to_ary }
             end
 
           [:input, [name, input, failures]]
-        end
-
-        def [](name)
-          input[name]
         end
 
         def each?
@@ -44,27 +42,20 @@ module Dry
 
       class Result::Value < Result
         def to_ary
-          [:input, [name, input, [rule.to_ary]]]
+          [:input, [name, rule.evaluator[input], [rule.to_ary]]]
         end
         alias_method :to_a, :to_ary
       end
 
-      class Result::LazyValue < Result
-        def to_ary
-          [:input, [name, input, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def input
-          success? ? rule.evaluate_input(@input) : @input
-        end
-      end
-
-      def initialize(input, value, rule)
+      def initialize(input, value, rule, name = rule.name)
         @input = input
         @value = value
         @rule = rule
-        @name = rule.name
+        @name = name
+      end
+
+      def for(input, rule)
+        self.class.new(input, value, rule)
       end
 
       def negated

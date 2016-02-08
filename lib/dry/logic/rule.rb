@@ -79,6 +79,10 @@ module Dry
       def curry(*args)
         self.class.new(name, predicate.curry(*args))
       end
+
+      def each?
+        predicate.is_a?(Rule::Each)
+      end
     end
   end
 end

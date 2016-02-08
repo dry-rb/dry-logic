@@ -43,13 +43,11 @@ module Dry
       end
 
       def visit_set(node)
-        name, rules = node
-        Rule::Set.new(name, call(rules))
+        Rule::Set.new(call(node))
       end
 
       def visit_each(node)
-        name, rule = node
-        Rule::Each.new(name, visit(rule))
+        Rule::Each.new(visit(node))
       end
 
       def visit_predicate(node)

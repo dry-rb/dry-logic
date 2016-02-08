@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Rule::Set do
   include_context 'predicates'
 
   subject(:rule) do
-    Dry::Logic::Rule::Set.new(:address, [is_string, min_size.curry(6)])
+    Dry::Logic::Rule::Set.new([is_string, min_size.curry(6)])
   end
 
   let(:is_string) { Dry::Logic::Rule::Value.new(:name, str?) }
@@ -21,10 +21,8 @@ RSpec.describe Dry::Logic::Rule::Set do
     it 'returns an array representation' do
       expect(rule).to match_array([
         :set, [
-          :address, [
-            [:val, [:name, [:predicate, [:str?, []]]]],
-            [:val, [:name, [:predicate, [:min_size?, [6]]]]]
-          ]
+          [:val, [:name, [:predicate, [:str?, []]]]],
+          [:val, [:name, [:predicate, [:min_size?, [6]]]]]
         ]
       ])
     end

@@ -1,8 +1,14 @@
 module Dry
   module Logic
     class Rule::Set < Rule
+      attr_reader :rules
+
+      def initialize(rules)
+        @rules = rules
+      end
+
       def call(input)
-        Logic.Result(input, predicate.map { |rule| rule.(input) }, self)
+        Logic.Result(input, rules.map { |rule| rule.(input) }, self)
       end
 
       def type
@@ -10,11 +16,11 @@ module Dry
       end
 
       def at(*args)
-        self.class.new(name, predicate.values_at(*args))
+        self.class.new(name, rules.values_at(*args))
       end
 
       def to_ary
-        [type, [name, predicate.map(&:to_ary)]]
+        [type, rules.map(&:to_ary)]
       end
       alias_method :to_a, :to_ary
     end

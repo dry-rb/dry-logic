@@ -21,8 +21,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:and_rule) { key_rule & val_rule }
   let(:or_rule) { key_rule | val_rule }
   let(:xor_rule) { key_rule ^ val_rule }
-  let(:set_rule) { Rule::Set.new(:email, [val_rule]) }
-  let(:each_rule) { Rule::Each.new(:email, val_rule) }
+  let(:set_rule) { Rule::Set.new([val_rule]) }
+  let(:each_rule) { Rule::Each.new(val_rule) }
 
   it 'compiles key rules' do
     ast = [[:key, [:email, [:predicate, [:key?, predicate]]]]]
@@ -102,15 +102,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles set rules' do
-    ast = [
-      [
-        :set, [
-          :email, [
-            [:val, [:email, [:predicate, [:filled?, []]]]]
-          ]
-        ]
-      ]
-    ]
+    ast = [[:set, [[:val, [:email, [:predicate, [:filled?, []]]]]]]]
 
     rules = compiler.(ast)
 
@@ -118,13 +110,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles each rules' do
-    ast = [
-      [
-        :each, [
-          :email, [:val, [:email, [:predicate, [:filled?, []]]]]
-        ]
-      ]
-    ]
+    ast = [[:each, [:val, [:email, [:predicate, [:filled?, []]]]]]]
 
     rules = compiler.(ast)
 
