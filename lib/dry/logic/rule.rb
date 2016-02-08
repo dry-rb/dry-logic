@@ -7,24 +7,6 @@ module Dry
 
       DEFAULT_EVALUATOR = -> input { input }
 
-      class Negation < Rule
-        include Dry::Equalizer(:rule)
-
-        attr_reader :rule
-
-        def initialize(rule)
-          @rule = rule
-        end
-
-        def call(*args)
-          rule.(*args).negated
-        end
-
-        def to_ary
-          [:not, rule.to_ary]
-        end
-      end
-
       def initialize(name, predicate, evaluator = DEFAULT_EVALUATOR)
         @name = name
         @evaluator = evaluator
@@ -95,6 +77,7 @@ require 'dry/logic/rule/attr'
 require 'dry/logic/rule/each'
 require 'dry/logic/rule/set'
 require 'dry/logic/rule/composite'
+require 'dry/logic/rule/negation'
 require 'dry/logic/rule/check'
 
 require 'dry/logic/result'
