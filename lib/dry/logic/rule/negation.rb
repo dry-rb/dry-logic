@@ -6,8 +6,8 @@ module Dry
           :not
         end
 
-        def call(*args)
-          predicate.(*args).negated
+        def call(input)
+          predicate.(input).negated
         end
       end
     end
