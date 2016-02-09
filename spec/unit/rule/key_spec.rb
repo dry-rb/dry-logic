@@ -11,42 +11,50 @@ RSpec.describe Rule::Key do
     key?.curry(:name)
   end
 
-  let(:other) do
-    Rule::Key.new(str?, name: [:user, :name])
-  end
-
   describe '#call' do
-    context 'with a predicate' do
+    context 'with a plain predicate' do
       it 'applies predicate to the value' do
         expect(rule.(user: { name: 'Jane' })).to be_success
         expect(rule.(user: {})).to be_failure
       end
     end
 
-    context 'with an each rule' do
+    context 'with an each rule as predicate' do
       subject(:rule) do
         Rule::Key.new(predicate, name: :nums)
       end
 
-      let(:predicate) { Rule::Each.new(Rule::Value.new(str?)) }
+      let(:predicate) do
+        Rule::Each.new(Rule::Value.new(str?))
+      end
 
-      it 'applies each rule to the value' do
+      it 'applies each rule to the value that passses' do
         success = rule.(nums: %w(1 2 3))
 
         expect(success).to be_success
 
-        expect(success.to_ary).to eql([:result, [%w(1 2 3), []]])
+        expect(success.to_ary).to eql([
+          :input, [:nums, [[:result, [%w(1 2 3), []]]]]
+        ])
+      end
 
+      it 'applies each rule to the value that fails' do
         failure = rule.(nums: [1, '3', 3])
 
         expect(failure).to be_failure
 
         expect(failure.to_ary).to eql([
-          :result, [
-            [1, '3', 3],
-            [
-              [:el, [0, [:result, [1, [[:val, [:predicate, [:str?, []]]]]]]]],
-              [:el, [2, [:result, [3, [[:val, [:predicate, [:str?, []]]]]]]]]
+          :input, [
+            :nums, [
+              [
+                :result, [
+                  [1, '3', 3],
+                  [
+                    [:el, [0, [:result, [1, [[:val, [:predicate, [:str?, []]]]]]]]],
+                    [:el, [2, [:result, [3, [[:val, [:predicate, [:str?, []]]]]]]]]
+                  ]
+                ]
+              ]
             ]
           ]
         ])
@@ -55,6 +63,10 @@ RSpec.describe Rule::Key do
   end
 
   describe '#and' do
+    let(:other) do
+      Rule::Key.new(str?, name: [:user, :name])
+    end
+
     it 'returns conjunction rule where value is passed to the right' do
       present_and_string = rule.and(other)
 

@@ -1,35 +1,28 @@
 module Dry
   module Logic
     def self.Result(response, rule, input)
-      case response
-      when Result
-        response.for(rule, input)
-      else
-        Result[rule.type].new(response, rule, input)
-      end
+      Result[rule].new(response, rule, input)
     end
 
     class Result
       include Dry::Equalizer(:success?, :input, :rule)
 
-      attr_reader :input, :rule, :success
+      attr_reader :input, :rule, :response, :success
 
       def self.[](type)
         case type
-        when :each then Result::Each
-        when :set then Result::Set
+        when Rule::Each then Result::Each
+        when Rule::Set then Result::Set
+        when Rule::Key, Rule::Attr, Rule::Check then Result::Named
         else Result::Value
         end
       end
 
       def initialize(response, rule, input)
-        @success = response
+        @response = response
+        @success = response.is_a?(Result) ? response.success? : response
         @rule = rule
         @input = input
-      end
-
-      def for(rule, input)
-        self.class.new(success, rule, input)
       end
 
       def negated
@@ -48,6 +41,7 @@ module Dry
 end
 
 require 'dry/logic/result/value'
+require 'dry/logic/result/named'
 require 'dry/logic/result/multi'
 require 'dry/logic/result/each'
 require 'dry/logic/result/set'
