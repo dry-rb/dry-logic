@@ -36,37 +36,6 @@ module Dry
         self.class.new(!success, rule, input)
       end
 
-      def then(other)
-        if success?
-          other.(input)
-        else
-          Logic.Result(true, rule, input)
-        end
-      end
-
-      def and(other)
-        if success?
-          other.(input)
-        else
-          self
-        end
-      end
-
-      def or(other)
-        if success?
-          self
-        else
-          other.(input)
-        end
-      end
-
-      def xor(other)
-        other_result = other.(input)
-        success = success? ^ other_result.success?
-
-        Logic.Result(other_result.input, success, rule)
-      end
-
       def success?
         @success
       end

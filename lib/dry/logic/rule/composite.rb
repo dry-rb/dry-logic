@@ -21,8 +21,12 @@ module Dry
     end
 
     class Rule::Implication < Rule::Composite
-      def call(*args)
-        left.(*args).then(right)
+      def call(input)
+        if left.(input).success?
+          right.(input)
+        else
+          Logic.Result(true, left, input)
+        end
       end
 
       def type
@@ -31,8 +35,14 @@ module Dry
     end
 
     class Rule::Conjunction < Rule::Composite
-      def call(*args)
-        left.(*args).and(right)
+      def call(input)
+        result = left.(input)
+
+        if result.success?
+          right.(input)
+        else
+          result
+        end
       end
 
       def type
@@ -41,8 +51,14 @@ module Dry
     end
 
     class Rule::Disjunction < Rule::Composite
-      def call(*args)
-        left.(*args).or(right)
+      def call(input)
+        result = left.(input)
+
+        if result.success?
+          result
+        else
+          right.(input)
+        end
       end
 
       def type
@@ -51,8 +67,8 @@ module Dry
     end
 
     class Rule::ExclusiveDisjunction < Rule::Composite
-      def call(*args)
-        left.(*args).xor(right)
+      def call(input)
+        Logic.Result(left.(input).success? ^ right.(input).success?, rule, input)
       end
 
       def type
