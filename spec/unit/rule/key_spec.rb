@@ -44,14 +44,11 @@ RSpec.describe Rule::Key do
         expect(result.to_ary).to eql([
           :input, [
             :address,
-              [:result, [:set, [
-                [:result, [
-                  { city: "NYC" },
-                  [:val, [:predicate, [:key?, [:zipcode]]]]
-                ]
+              [:result, [
+                { city: "NYC" },
+                [:set, [[:result, [{ city: 'NYC' }, [:val, [:predicate, [:key?, [:zipcode]]]]]]]]
               ]]
-            ]]
-          ]
+            ]
         ])
       end
     end
@@ -71,7 +68,7 @@ RSpec.describe Rule::Key do
         expect(result).to be_success
 
         expect(result.to_ary).to eql([
-          :input, [:nums, [:result, [:each, [%w(1 2 3), []]]]]
+          :input, [:nums, [:result, [%w(1 2 3), [:each, []]]]]
         ])
       end
 
@@ -83,9 +80,9 @@ RSpec.describe Rule::Key do
         expect(failure.to_ary).to eql([
           :input, [
             :nums, [
-              :result, [:each, [
+              :result, [
                 [1, '3', 3],
-                [
+                [:each, [
                   [:el, [0, [:result, [1, [:val, [:predicate, [:str?, []]]]]]]],
                   [:el, [2, [:result, [3, [:val, [:predicate, [:str?, []]]]]]]]
                 ]]
