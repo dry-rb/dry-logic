@@ -29,7 +29,7 @@ module Dry
 
       def visit_key(node)
         name, predicate = node
-        Rule::Key.new(name, visit(predicate))
+        Rule::Key.new(visit(predicate), name: name)
       end
 
       def visit_attr(node)
