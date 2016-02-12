@@ -19,6 +19,43 @@ RSpec.describe Rule::Key do
       end
     end
 
+    context 'with a set rule as predicate' do
+      subject(:rule) do
+        Rule::Key.new(predicate, name: :address)
+      end
+
+      let(:predicate) do
+        Rule::Set.new(
+          [Rule::Value.new(key?.curry(:city)), Rule::Value.new(key?.curry(:zipcode))]
+        )
+      end
+
+      it 'applies set rule to the value that passes' do
+        result = rule.(address: { city: 'NYC', zipcode: '123' })
+
+        expect(result).to be_success
+      end
+
+      it 'applies set rule to the value that fails' do
+        result = rule.(address: { city: 'NYC' })
+
+        expect(result).to be_failure
+
+        expect(result.to_ary).to eql([
+          :input, [
+            :address,
+              [:result, [:set, [
+                [:result, [
+                  { city: "NYC" },
+                  [:val, [:predicate, [:key?, [:zipcode]]]]
+                ]
+              ]]
+            ]]
+          ]
+        ])
+      end
+    end
+
     context 'with an each rule as predicate' do
       subject(:rule) do
         Rule::Key.new(predicate, name: :nums)
@@ -29,12 +66,12 @@ RSpec.describe Rule::Key do
       end
 
       it 'applies each rule to the value that passses' do
-        success = rule.(nums: %w(1 2 3))
+        result = rule.(nums: %w(1 2 3))
 
-        expect(success).to be_success
+        expect(result).to be_success
 
-        expect(success.to_ary).to eql([
-          :input, [:nums, [[:result, [%w(1 2 3), []]]]]
+        expect(result.to_ary).to eql([
+          :input, [:nums, [:result, [:each, [%w(1 2 3), []]]]]
         ])
       end
 
@@ -46,14 +83,12 @@ RSpec.describe Rule::Key do
         expect(failure.to_ary).to eql([
           :input, [
             :nums, [
-              [
-                :result, [
-                  [1, '3', 3],
-                  [
-                    [:el, [0, [:result, [1, [[:val, [:predicate, [:str?, []]]]]]]]],
-                    [:el, [2, [:result, [3, [[:val, [:predicate, [:str?, []]]]]]]]]
-                  ]
-                ]
+              :result, [:each, [
+                [1, '3', 3],
+                [
+                  [:el, [0, [:result, [1, [:val, [:predicate, [:str?, []]]]]]]],
+                  [:el, [2, [:result, [3, [:val, [:predicate, [:str?, []]]]]]]]
+                ]]
               ]
             ]
           ]

@@ -5,7 +5,7 @@ module Dry
         if response.is_a?(Result)
           response.to_ary
         else
-          [:result, [rule.evaluate(input), [rule.to_ary]]]
+          [:result, [rule.evaluate(input), rule.to_ary]]
         end
       end
     end

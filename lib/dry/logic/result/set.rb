@@ -3,7 +3,7 @@ module Dry
     class Result::Set < Result::Multi
       def to_ary
         failed_rules = failures.map { |el| el.to_ary }
-        [:result, [rule.evaluate(input), failed_rules]]
+        [:result, [:set, failed_rules]]
       end
     end
   end
