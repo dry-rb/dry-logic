@@ -22,6 +22,16 @@ RSpec.describe Rule::Check do
         expect(rule.(nums: { left: 1, right: 1 })).to be_success
         expect(rule.(nums: { left: 1, right: 2 })).to be_failure
       end
+
+      it 'curries args properly' do
+        result = rule.(nums: { left: 1, right: 2 })
+
+        expect(result.to_ary).to eql([
+          :input, [:compare, [
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [2]]]]]]]
+          ]
+        ])
+      end
     end
   end
 end

@@ -18,8 +18,14 @@ module Dry
         @evaluator = options[:evaluator]
       end
 
+      def call(input)
+        args = evaluator[input].reverse
+        *head, tail = args
+        Logic.Result(predicate.curry(*head).(tail), curry(*head), input)
+      end
+
       def evaluate(input)
-        evaluator[input]
+        evaluator[input].first
       end
 
       def type
