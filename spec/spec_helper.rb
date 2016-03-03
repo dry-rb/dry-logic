@@ -3,6 +3,7 @@ begin
 rescue LoadError; end
 
 require 'dry-logic'
+require 'pathname'
 
 SPEC_ROOT = Pathname(__dir__)
 
