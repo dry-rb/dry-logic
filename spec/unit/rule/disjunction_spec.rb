@@ -3,11 +3,11 @@ RSpec.describe Rule::Composite::Disjunction do
 
   subject(:rule) { Rule::Composite::Disjunction.new(left, right) }
 
-  let(:left) { Rule::Value.new(:age, none?) }
-  let(:right) { Rule::Value.new(:age, gt?.curry(18)) }
+  let(:left) { Rule::Value.new(none?) }
+  let(:right) { Rule::Value.new(gt?.curry(18)) }
 
   let(:other) do
-    Rule::Value.new(:age, int?) & Rule::Value.new(:age, lt?.curry(14))
+    Rule::Value.new(int?) & Rule::Value.new(lt?.curry(14))
   end
 
   describe '#call' do

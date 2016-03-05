@@ -3,8 +3,8 @@ RSpec.describe Rule::Composite::Implication do
 
   subject(:rule) { Rule::Composite::Implication.new(left, right) }
 
-  let(:left) { Rule::Value.new(:age, int?) }
-  let(:right) { Rule::Value.new(:age, gt?.curry(18)) }
+  let(:left) { Rule::Value.new(int?) }
+  let(:right) { Rule::Value.new(gt?.curry(18)) }
 
   describe '#call' do
     it 'calls left and right' do

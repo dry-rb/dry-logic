@@ -1,56 +1,37 @@
 RSpec.describe Rule::Check do
   include_context 'predicates'
 
-  let(:other) do
-    Rule::Value.new(:name, none?).or(Rule::Value.new(:name, filled?))
-  end
-
   describe '#call' do
-    subject(:rule) do
-      Rule::Check::Unary.new(:name, other.(input).curry(predicate), [:name])
-    end
+    context 'with 1-level nesting' do
+      subject(:rule) do
+        Rule::Check.new(eql?, name: :compare, keys: [:left, :right])
+      end
 
-    context 'when the given predicate passed' do
-      let(:input) { 'Jane' }
-      let(:predicate) { :filled? }
-
-      it 'returns a success' do
-        expect(rule.('Jane')).to be_success
+      it 'applies predicate to args extracted from the input' do
+        expect(rule.(left: 1, right: 1)).to be_success
+        expect(rule.(left: 1, right: 2)).to be_failure
       end
     end
 
-    context 'when the given predicate did not pass' do
-      let(:input) { nil }
-      let(:predicate) { :filled? }
-
-      it 'returns a failure' do
-        expect(rule.(nil)).to be_failure
+    context 'with 2-levels nesting' do
+      subject(:rule) do
+        Rule::Check.new(eql?, name: :compare, keys: [[:nums, :left], [:nums, :right]])
       end
-    end
-  end
 
-  describe '#call with a nested result' do
-    subject(:rule) do
-      Rule::Check::Binary.new(:address, result, [:user, [:user, :address]])
-    end
+      it 'applies predicate to args extracted from the input' do
+        expect(rule.(nums: { left: 1, right: 1 })).to be_success
+        expect(rule.(nums: { left: 1, right: 2 })).to be_failure
+      end
 
-    let(:other) { Rule::Value.new(:user, hash?) }
-    let(:result) { other.(input).curry(:hash?) }
-    let(:input) { { address: 'Earth' } }
+      it 'curries args properly' do
+        result = rule.(nums: { left: 1, right: 2 })
 
-    it 'evaluates the input' do
-      expect(rule.(user: result).to_ary).to eql([
-        :input, [
-          :address, { address: 'Earth' },
-          [
-            [:check, [
-              :address, [
-                :input, [:user, { address: 'Earth' }, [
-                  [:val, [:user, [:predicate, [:hash?, []]]]]]]]
-            ]]
+        expect(result.to_ary).to eql([
+          :input, [:compare, [
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [2]]]]]]]
           ]
-        ]
-      ])
+        ])
+      end
     end
   end
 end

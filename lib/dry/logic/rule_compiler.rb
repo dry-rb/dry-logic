@@ -20,32 +20,7 @@ module Dry
 
       def visit_check(node)
         name, predicate, keys = node
-        check_keys = keys ? keys : [name]
-        klass = check_keys.size == 1 ? Rule::Check::Unary : Rule::Check::Binary
-        klass.new(name, visit(predicate), check_keys)
-      end
-
-      def visit_res(node)
-        name, predicate = node
-        Rule::Result.new(name, visit(predicate))
-      end
-
-      def visit_args(nodes)
-        nodes.map { |node| visit(node) }
-      end
-
-      def visit_res_arg(name)
-        result = Array(name).reduce(predicates) { |a, e| a[e] }
-
-        if result.is_a?(Result)
-          result.input
-        else
-          result
-        end
-      end
-
-      def visit_arg(value)
-        value
+        Rule::Check.new(visit(predicate), name: name, keys: keys || [name])
       end
 
       def visit_not(node)
@@ -54,37 +29,29 @@ module Dry
 
       def visit_key(node)
         name, predicate = node
-        Rule::Key.new(name, visit(predicate))
+        Rule::Key.new(visit(predicate), name: name)
       end
 
       def visit_attr(node)
         name, predicate = node
-        Rule::Attr.new(name, visit(predicate))
+        Rule::Attr.new(visit(predicate), name: name)
       end
 
       def visit_val(node)
-        name, predicate = node
-        Rule::Value.new(name, visit(predicate))
+        Rule::Value.new(visit(node))
       end
 
       def visit_set(node)
-        name, rules = node
-        Rule::Set.new(name, call(rules))
+        Rule::Set.new(call(node))
       end
 
       def visit_each(node)
-        name, rule = node
-        Rule::Each.new(name, visit(rule))
+        Rule::Each.new(visit(node))
       end
 
       def visit_predicate(node)
         name, args = node
-
-        if args[0] == :args
-          predicates[name].curry(*visit(args))
-        else
-          predicates[name].curry(*args)
-        end
+        predicates[name].curry(*args)
       end
 
       def visit_and(node)
@@ -105,11 +72,6 @@ module Dry
       def visit_implication(node)
         left, right = node
         visit(left) > visit(right)
-      end
-
-      def visit_group(node)
-        identifier, predicate = node
-        Rule::Group.new(identifier, visit(predicate))
       end
     end
   end

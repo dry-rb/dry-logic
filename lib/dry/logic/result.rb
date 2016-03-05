@@ -1,177 +1,47 @@
 module Dry
   module Logic
-    def self.Result(input, value, rule)
-      case value
-      when Result
-        value.class.new(value.input, value.success?, rule)
-      when Array
-        Result::Set.new(input, value, rule)
-      else
-        Result::Value.new(input, value, rule)
-      end
+    def self.Result(response, rule, input)
+      Result[rule].new(response, rule, input)
     end
 
     class Result
       include Dry::Equalizer(:success?, :input, :rule)
 
-      attr_reader :input, :value, :rule, :name
+      attr_reader :input, :rule, :response, :success
 
-      class Result::Set < Result
-        def success?
-          value.all?(&:success?)
-        end
-
-        def to_ary
-          indices = value.map { |v| v.failure? ? value.index(v) : nil }.compact
-          values = value.values_at(*indices)
-
-          failures =
-            if each?
-              values.map { |el| [:el, [value.index(el), el.to_ary]] }
-            else
-              values.map { |el| el.to_ary }
-            end
-
-          [:input, [name, input, failures]]
-        end
-
-        def [](name)
-          input[name]
-        end
-
-        def each?
-          rule.type == :each
+      def self.[](type)
+        case type
+        when Rule::Each then Result::Each
+        when Rule::Set then Result::Set
+        when Rule::Key, Rule::Attr, Rule::Check then Result::Named
+        else Result::Value
         end
       end
 
-      class Result::Value < Result
-        def to_ary
-          [:input, [name, input, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-      end
-
-      class Result::LazyValue < Result
-        def to_ary
-          [:input, [name, input, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def input
-          success? ? rule.evaluate_input(@input) : @input
-        end
-      end
-
-      class Result::Wrapped < Result::Value
-        def to_ary
-          [:input, [rule.name, rule.evaluate_input(input), [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def wrapped?
-          true
-        end
-      end
-
-      class Result::Verified < Result
-        attr_reader :result, :predicate_id
-
-        def initialize(result, predicate_id)
-          @result = result
-          @input = result.input
-          @value = result.value
-          @rule = result.rule
-          @name = result.name
-          @predicate_id = predicate_id
-        end
-
-        def call(*)
-          Logic.Result(input, success?, rule)
-        end
-
-        def to_ary
-          [:input, [name, input, [rule.to_ary]]]
-        end
-        alias_method :to_a, :to_ary
-
-        def success?
-          rule.predicate_id == predicate_id
-        end
-
-        def [](name)
-          input[name]
-        end
-      end
-
-      def initialize(input, value, rule)
-        @input = input
-        @value = value
+      def initialize(response, rule, input)
+        @response = response
+        @success = response.is_a?(Result) ? response.success? : response
         @rule = rule
-        @name = rule.name
-      end
-
-      def call(*)
-        self
-      end
-
-      def curry(predicate_id = nil)
-        if predicate_id
-          Result::Verified.new(self, predicate_id)
-        else
-          self
-        end
+        @input = input
       end
 
       def negated
-        self.class.new(input, !value, rule)
-      end
-
-      def then(other)
-        if success?
-          other.(input)
-        else
-          Logic.Result(input, true, rule)
-        end
-      end
-
-      def and(other)
-        if success?
-          other.(input)
-        else
-          self
-        end
-      end
-
-      def or(other)
-        if success?
-          self
-        else
-          other.(input)
-        end
-      end
-
-      def xor(other)
-        other_result = other.(input)
-        value = success? ^ other_result.success?
-
-        if other_result.wrapped?
-          Result::Wrapped.new(input, value, rule)
-        else
-          Logic.Result(other_result.input, value, rule)
-        end
+        self.class.new(!success, rule, input)
       end
 
       def success?
-        @value
+        @success
       end
 
       def failure?
-        ! success?
-      end
-
-      def wrapped?
-        false
+        !success?
       end
     end
   end
 end
+
+require 'dry/logic/result/value'
+require 'dry/logic/result/named'
+require 'dry/logic/result/multi'
+require 'dry/logic/result/each'
+require 'dry/logic/result/set'

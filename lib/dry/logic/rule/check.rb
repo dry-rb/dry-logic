@@ -1,37 +1,39 @@
+require 'dry/logic/evaluator'
+
 module Dry
   module Logic
-    class Rule::Check < Rule
-      attr_reader :keys
+    class Rule::Check < Rule::Value
+      attr_reader :name, :evaluator
 
-      class Unary < Rule::Check
-        def evaluate_input(*)
-          predicate.input
-        end
+      def self.new(predicate, options)
+        keys = options.fetch(:keys)
+        evaluator = Evaluator::Set.new(keys)
+
+        super(predicate, options.merge(evaluator: evaluator))
       end
 
-      class Binary < Rule::Check
-        def evaluate_input(result)
-          keys.map do |key|
-            if key.is_a?(Array)
-              key.reduce(result) { |a, e| a[e] }
-            else
-              result[key].input
-            end
-          end
-        end
+      def initialize(predicate, options)
+        super
+        @name = options.fetch(:name)
+        @evaluator = options[:evaluator]
       end
 
-      def initialize(name, predicate, keys)
-        super(name, predicate)
-        @keys = keys
+      def call(input)
+        args = evaluator[input].reverse
+        *head, tail = args
+        Logic.Result(predicate.curry(*head).(tail), curry(*head), input)
       end
 
-      def call(result)
-        Logic.Result(evaluate_input(result), predicate.(result), self)
+      def evaluate(input)
+        evaluator[input].first
       end
 
       def type
         :check
+      end
+
+      def to_ary
+        [type, [name, predicate.to_ary]]
       end
     end
   end

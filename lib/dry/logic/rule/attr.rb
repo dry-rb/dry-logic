@@ -1,20 +1,12 @@
 module Dry
   module Logic
-    class Rule::Attr < Rule
-      def self.new(name, predicate)
-        super(name, predicate.curry(name))
+    class Rule::Attr < Rule::Key
+      def self.evaluator(options)
+        Evaluator::Attr.new(options.fetch(:name))
       end
 
       def type
         :attr
-      end
-
-      def evaluate_input(input)
-        input.public_send(name)
-      end
-
-      def call(input)
-        Logic::Result::LazyValue.new(input, predicate.(input), self)
       end
     end
   end
