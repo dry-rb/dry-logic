@@ -28,8 +28,12 @@ require 'dry/logic/predicates'
 
 include Dry::Logic
 
-user_present = Rule::Key.new(:user, Predicates[:key?])
-has_min_age = Rule::Key.new(:age, Predicates[:key?]) & Rule::Value.new(:age, Predicates[:gt?].curry(18))
+user_present = Rule::Key.new(Predicates[:key?], name: :user)
+
+has_min_age = Rule::Key.new(
+  Predicates[:key?]) & Rule::Value.new(:age, Predicates[:gt?].curry(18),
+  name: :age
+)
 
 user_rule = user_present & has_min_age
 
