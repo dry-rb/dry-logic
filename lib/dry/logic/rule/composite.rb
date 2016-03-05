@@ -68,7 +68,11 @@ module Dry
 
     class Rule::ExclusiveDisjunction < Rule::Composite
       def call(input)
-        Logic.Result(left.(input).success? ^ right.(input).success?, rule, input)
+        Logic.Result(left.(input).success? ^ right.(input).success?, self, input)
+      end
+
+      def evaluate(input)
+        [left.evaluate(input), right.evaluate(input)]
       end
 
       def type
