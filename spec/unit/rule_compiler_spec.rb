@@ -15,8 +15,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
 
   let(:val_rule) { Rule::Value.new(predicate) }
   let(:key_rule) { Rule::Key.new(predicate, name: :email) }
+  let(:attr_rule) { Rule::Attr.new(predicate, name: :email) }
   let(:not_key_rule) { Rule::Key.new(predicate, name: :email).negation }
-  let(:attr_rule) { Rule::Attr.new(:email, predicate) }
   let(:check_rule) { Rule::Check.new(predicate, name: :email, keys: [:email]) }
   let(:and_rule) { key_rule & val_rule }
   let(:or_rule) { key_rule | val_rule }
@@ -30,6 +30,14 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     rules = compiler.(ast)
 
     expect(rules).to eql([key_rule])
+  end
+
+  it 'compiles attr rules' do
+    ast = [[:attr, [:email, [:predicate, [:filled?, []]]]]]
+
+    rules = compiler.(ast)
+
+    expect(rules).to eql([attr_rule])
   end
 
   it 'compiles check rules' do

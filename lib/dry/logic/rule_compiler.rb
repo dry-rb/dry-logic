@@ -34,7 +34,7 @@ module Dry
 
       def visit_attr(node)
         name, predicate = node
-        Rule::Attr.new(name, visit(predicate))
+        Rule::Attr.new(visit(predicate), name: name)
       end
 
       def visit_val(node)
