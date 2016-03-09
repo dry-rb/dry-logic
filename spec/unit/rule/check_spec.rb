@@ -4,12 +4,18 @@ RSpec.describe Rule::Check do
   describe '#call' do
     context 'with 1-level nesting' do
       subject(:rule) do
-        Rule::Check.new(eql?, name: :compare, keys: [:left, :right])
+        Rule::Check.new(eql?.curry(1), name: :compare, keys: [:num])
       end
 
       it 'applies predicate to args extracted from the input' do
-        expect(rule.(left: 1, right: 1)).to be_success
-        expect(rule.(left: 1, right: 2)).to be_failure
+        expect(rule.(num: 1)).to be_success
+        expect(rule.(num: 2)).to be_failure
+
+        expect(rule.(num: 1).to_ast).to eql(
+          [:input, [:compare, [
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [1]]]]]]]]
+          ]
+        )
       end
     end
 

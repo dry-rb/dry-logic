@@ -21,7 +21,7 @@ module Dry
       def call(input)
         args = evaluator[input].reverse
         *head, tail = args
-        Logic.Result(predicate.curry(*head).(tail), curry(*head), input)
+        Logic.Result(predicate.curry(*head).(tail), head.size > 0 ? curry(*head) : self, input)
       end
 
       def evaluate(input)
