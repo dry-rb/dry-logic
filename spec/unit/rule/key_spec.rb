@@ -17,6 +17,16 @@ RSpec.describe Rule::Key do
         expect(rule.(user: { name: 'Jane' })).to be_success
         expect(rule.(user: {})).to be_failure
       end
+
+      context 'with a custom predicate' do
+        let(:predicate) { -> input { double(success?: true, to_ast: [:foo]) } }
+
+        let(:result) { rule.(test: true) }
+
+        it 'delegates to_ast to response' do
+          expect(result.to_ast).to eql([:foo])
+        end
+      end
     end
 
     context 'with a set rule as predicate' do
@@ -41,7 +51,7 @@ RSpec.describe Rule::Key do
 
         expect(result).to be_failure
 
-        expect(result.to_ary).to eql([
+        expect(result.to_ast).to eql([
           :input, [
             :address,
               [:result, [
@@ -67,7 +77,7 @@ RSpec.describe Rule::Key do
 
         expect(result).to be_success
 
-        expect(result.to_ary).to eql([
+        expect(result.to_ast).to eql([
           :input, [:nums, [:result, [%w(1 2 3), [:each, []]]]]
         ])
       end
@@ -77,7 +87,7 @@ RSpec.describe Rule::Key do
 
         expect(failure).to be_failure
 
-        expect(failure.to_ary).to eql([
+        expect(failure.to_ast).to eql([
           :input, [
             :nums, [
               :result, [

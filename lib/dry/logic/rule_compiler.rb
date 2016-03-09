@@ -10,7 +10,7 @@ module Dry
       end
 
       def call(ast)
-        ast.to_ary.map { |node| visit(node) }
+        ast.map { |node| visit(node) }
       end
 
       def visit(node)

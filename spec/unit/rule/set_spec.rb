@@ -17,9 +17,9 @@ RSpec.describe Dry::Logic::Rule::Set do
     end
   end
 
-  describe '#to_ary' do
+  describe '#to_ast' do
     it 'returns an array representation' do
-      expect(rule).to match_array([
+      expect(rule.to_ast).to eql([
         :set, [
           [:val, [:predicate, [:str?, []]]],
           [:val, [:predicate, [:min_size?, [6]]]]

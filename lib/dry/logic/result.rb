@@ -20,9 +20,17 @@ module Dry
 
       def initialize(response, rule, input)
         @response = response
-        @success = response.is_a?(Result) ? response.success? : response
+        @success = response.respond_to?(:success?) ? response.success? : response
         @rule = rule
         @input = input
+      end
+
+      def [](name)
+        response[name]
+      end
+
+      def name
+        nil
       end
 
       def negated

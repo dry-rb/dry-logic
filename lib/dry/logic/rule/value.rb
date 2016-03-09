@@ -17,8 +17,8 @@ module Dry
         input
       end
 
-      def to_ary
-        [type, predicate.to_ary]
+      def to_ast
+        [type, predicate.to_ast]
       end
     end
   end

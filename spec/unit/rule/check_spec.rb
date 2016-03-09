@@ -26,7 +26,7 @@ RSpec.describe Rule::Check do
       it 'curries args properly' do
         result = rule.(nums: { left: 1, right: 2 })
 
-        expect(result.to_ary).to eql([
+        expect(result.to_ast).to eql([
           :input, [:compare, [
             :result, [1, [:check, [:compare, [:predicate, [:eql?, [2]]]]]]]
           ]

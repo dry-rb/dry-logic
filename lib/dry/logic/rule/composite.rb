@@ -14,10 +14,10 @@ module Dry
         :"#{left.name}_#{type}_#{right.name}"
       end
 
-      def to_ary
-        [type, [left.to_ary, right.to_ary]]
+      def to_ast
+        [type, [left.to_ast, right.to_ast]]
       end
-      alias_method :to_a, :to_ary
+      alias_method :to_a, :to_ast
     end
 
     class Rule::Implication < Rule::Composite

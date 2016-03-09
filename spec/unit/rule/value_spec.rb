@@ -14,6 +14,28 @@ RSpec.describe Dry::Logic::Rule::Value do
       expect(is_string.(1)).to be_failure
       expect(is_string.('1')).to be_success
     end
+
+    context 'with a custom predicate' do
+      subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
+
+      let(:response) { double(success?: true) }
+      let(:predicate) { -> input { Result.new(response, double, input) } }
+
+      let(:result) { rule.(test: true) }
+
+      it 'calls its predicate returning custom result' do
+        expect(result).to be_success
+      end
+
+      it 'exposes access to nested result' do
+        expect(response).to receive(:[]).with(:foo).and_return(:bar)
+        expect(result[:foo]).to be(:bar)
+      end
+
+      it 'has no name by default' do
+        expect(result.name).to be(nil)
+      end
+    end
   end
 
   describe '#and' do

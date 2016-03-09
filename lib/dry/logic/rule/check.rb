@@ -32,8 +32,8 @@ module Dry
         :check
       end
 
-      def to_ary
-        [type, [name, predicate.to_ary]]
+      def to_ast
+        [type, [name, predicate.to_ast]]
       end
     end
   end

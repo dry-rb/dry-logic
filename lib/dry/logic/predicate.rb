@@ -26,10 +26,10 @@ module Dry
         self.class.new(id, *args, &fn.curry.(*args))
       end
 
-      def to_ary
+      def to_ast
         [:predicate, [id, args]]
       end
-      alias_method :to_a, :to_ary
+      alias_method :to_a, :to_ast
     end
   end
 end
