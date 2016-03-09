@@ -32,6 +32,10 @@ RSpec.describe Dry::Logic::Rule::Value do
         expect(result[:foo]).to be(:bar)
       end
 
+      it 'returns nil from [] when response does not respond to it' do
+        expect(result[:foo]).to be(nil)
+      end
+
       it 'has no name by default' do
         expect(result.name).to be(nil)
       end

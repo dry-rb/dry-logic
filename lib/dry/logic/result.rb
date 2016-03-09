@@ -26,7 +26,7 @@ module Dry
       end
 
       def [](name)
-        response[name]
+        response[name] if response.respond_to?(:[])
       end
 
       def name
