@@ -16,7 +16,7 @@
 
 Predicate logic and rule composition used by:
 
-* [dry-data](https://github.com/dry-rb/dry-data) for constrained types
+* [dry-types](https://github.com/dry-rb/dry-types) for constrained types
 * [dry-validation](https://github.com/dry-rb/dry-validation) for composing validation rules
 * your project...?
 
