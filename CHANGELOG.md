@@ -1,3 +1,17 @@
+# v0.2.1 2016-03-20
+
+### Fixed
+
+* Result AST for `Rule::Each` correctly maps elements with eql inputs (solnic)
+
+# v0.2.0 2016-03-11
+
+### Changed
+
+* Entire AST has been redefined (solnic)
+
+[Compare v0.1.4...v0.2.0](https://github.com/dryrb/dry-logic/compare/v0.1.4...v0.2.0)
+
 # v0.1.4 2016-01-27
 
 ### Added
