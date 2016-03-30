@@ -56,6 +56,14 @@ module Dry
         input.is_a?(Time)
       end
 
+      predicate(:number?) do |input|
+        begin
+          true if Float(input)
+        rescue ArgumentError, TypeError
+          false
+        end
+      end
+
       predicate(:int?) do |input|
         input.is_a?(Fixnum)
       end
@@ -78,6 +86,14 @@ module Dry
 
       predicate(:array?) do |input|
         input.is_a?(Array)
+      end
+
+      predicate(:odd?) do |input|
+        input.odd?
+      end
+
+      predicate(:even?) do |input|
+        input.even?
       end
 
       predicate(:lt?) do |num, input|
