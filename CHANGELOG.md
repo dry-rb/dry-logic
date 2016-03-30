@@ -1,3 +1,11 @@
+# v0.2.2 2016-03-30
+
+### Added
+
+* `number?` predicate (fran-worley)
+
+[Compare v0.2.1...v0.2.2](https://github.com/dryrb/dry-logic/compare/v0.2.1...v0.2.2)
+
 # v0.2.1 2016-03-20
 
 ### Fixed
