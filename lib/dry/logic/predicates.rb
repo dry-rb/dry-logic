@@ -141,6 +141,10 @@ module Dry
         left.eql?(right)
       end
 
+      predicate(:not_eql?) do |left, right|
+        !left.eql?(right)
+      end
+
       predicate(:true?) do |value|
         value === true
       end
