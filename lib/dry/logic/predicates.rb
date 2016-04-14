@@ -142,7 +142,7 @@ module Dry
       end
 
       predicate(:not_eql?) do |left, right|
-        !self[:eql?].(left, right)
+        !left.eql?(right)
       end
 
       predicate(:true?) do |value|
