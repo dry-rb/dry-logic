@@ -134,7 +134,15 @@ module Dry
       end
 
       predicate(:exclusion?) do |list, input|
-        !self[:inclusion?].(list, input)
+        !list.include?(input)
+      end
+
+      predicate(:includes?) do |value, input|
+        input.include?(value)
+      end
+
+      predicate(:excludes?) do |value, input|
+        !input.include?(value)
       end
 
       predicate(:eql?) do |left, right|
