@@ -1,8 +1,8 @@
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#exclusion?' do
-    let(:predicate_name) { :exclusion? }
+  describe '#excluded_from?' do
+    let(:predicate_name) { :excluded_from? }
 
     context 'when value is not present in list' do
       let(:arguments_list) do

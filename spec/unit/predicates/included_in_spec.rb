@@ -1,8 +1,8 @@
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#inclusion?' do
-    let(:predicate_name) { :inclusion? }
+  describe '#included_in?' do
+    let(:predicate_name) { :included_in? }
 
     context 'when value is present in list' do
       let(:arguments_list) do

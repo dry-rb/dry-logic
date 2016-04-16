@@ -130,10 +130,20 @@ module Dry
       end
 
       predicate(:inclusion?) do |list, input|
-        list.include?(input)
+        ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
+        self[:included_in?].(list, input)
       end
 
       predicate(:exclusion?) do |list, input|
+        ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
+        self[:excluded_from?].(list, input)
+      end
+
+      predicate(:included_in?) do |list, input|
+        list.include?(input)
+      end
+
+      predicate(:excluded_from?) do |list, input|
         !list.include?(input)
       end
 
