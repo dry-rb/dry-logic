@@ -148,11 +148,19 @@ module Dry
       end
 
       predicate(:includes?) do |value, input|
-        input.include?(value)
+        begin
+          case input
+          when String, Range, Array, Hash then input.include?(value)
+          else
+            false
+          end
+        rescue TypeError
+          false
+        end
       end
 
       predicate(:excludes?) do |value, input|
-        !input.include?(value)
+        !self[:includes?].(value, input)
       end
 
       predicate(:eql?) do |left, right|
