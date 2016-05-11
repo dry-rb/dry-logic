@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 cache: bundler
-bundler_args: --without console benchmarks
+bundler_args: --without console tools
 script:
   - bundle exec rake spec
 rvm:
