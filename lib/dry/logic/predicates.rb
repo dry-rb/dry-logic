@@ -149,8 +149,8 @@ module Dry
 
       predicate(:includes?) do |value, input|
         begin
-          case input
-          when String, Range, Array, Hash then input.include?(value)
+          if input.respond_to?(:include?)
+            input.include?(value)
           else
             false
           end
