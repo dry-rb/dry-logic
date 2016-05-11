@@ -1,8 +1,22 @@
+# v0.2.3 2016-05-11
+
+### Added
+
+* `not_eql?`, `includes?`, `excludes?` predicates (fran-worley)
+
+### Changed
+
+* Renamed `inclusion?` to `included_in?` and deprecated `inclusion?` (fran-worley)
+* Renamed `exclusion?` to `excluded_from?` and deprecated `exclusion?` (fran-worley)
+
+[Compare v0.2.2...v0.2.3](https://github.com/dryrb/dry-logic/compare/v0.2.2...v0.2.3)
+
+
 # v0.2.2 2016-03-30
 
 ### Added
 
-* `number?` predicate (fran-worley)
+* `number?`, `odd?`, `even?` predicates (fran-worley)
 
 [Compare v0.2.1...v0.2.2](https://github.com/dryrb/dry-logic/compare/v0.2.1...v0.2.2)
 
