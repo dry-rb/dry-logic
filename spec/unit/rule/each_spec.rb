@@ -21,8 +21,8 @@ RSpec.describe Dry::Logic::Rule::Each do
       expect(address_rule.([nil, nil]).to_ast).to eql([
         :result, [[nil, nil], [
           :each, [
-            [:el, [0, [:result, [nil, [:val, [:predicate, [:str?, []]]]]]]],
-            [:el, [1, [:result, [nil, [:val, [:predicate, [:str?, []]]]]]]]
+            [:el, [0, [:result, [nil, [:val, [:predicate, [:str?, [[:input, nil]]]]]]]]],
+            [:el, [1, [:result, [nil, [:val, [:predicate, [:str?, [[:input, nil]]]]]]]]]
           ]
         ]]
       ])
