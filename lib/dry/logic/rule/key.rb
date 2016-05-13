@@ -28,8 +28,9 @@ module Dry
         :key
       end
 
-      def to_ast
-        [type, [name, predicate.to_ast]]
+      def to_ast(response = nil)
+        predicate_ast = response.is_a?(Dry::Logic::Predicate::Result) ? response.to_ast : predicate.to_ast
+        [type, [name, predicate_ast]]
       end
     end
   end

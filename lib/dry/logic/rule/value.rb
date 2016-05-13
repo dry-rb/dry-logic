@@ -17,8 +17,9 @@ module Dry
         input
       end
 
-      def to_ast
-        [type, predicate.to_ast]
+      def to_ast(response = nil)
+        predicate_ast = response.is_a?(Dry::Logic::Predicate::Result) ? response.to_ast : predicate.to_ast
+        [type, predicate_ast]
       end
     end
   end
