@@ -5,35 +5,39 @@ RSpec.describe Dry::Logic::Predicate do
     it 'returns result of the predicate function' do
       is_empty = Dry::Logic::Predicate.new(:is_empty) { |str| str.empty? }
 
-      expect(is_empty.('')).to be(true)
+      expect(is_empty.('').result).to be(true)
 
-      expect(is_empty.('filled')).to be(false)
+      expect(is_empty.('filled').result).to be(false)
+    end
+
+    it "raises argument error when incorrect number of args provided" do
+      is_empty = Dry::Logic::Predicate.new(:is_empty) { |str| str.empty? }
+      min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
+
+      expect { is_empty.() }.to raise_error(ArgumentError)
+      expect { min_age.curry(10).() }.to raise_error(ArgumentError)
+      expect { min_age.(18) }.to raise_error(ArgumentError)
     end
   end
 
   describe '#curry' do
     it 'returns curried predicate' do
       min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
-      expect(min_age.args).to eql({age: nil, input: nil})
 
       min_age_18 = min_age.curry(18)
-      expect(min_age_18.args).to eql({age: 18, input: nil})
 
-      expect(min_age_18.(18)).to be(true)
-      expect(min_age_18.args).to eql({age: 18, input: 18})
-      expect(min_age_18.(19)).to be(true)
-      expect(min_age_18.args).to eql({age: 18, input: 19})
-      expect(min_age_18.(17)).to be(false)
-      expect(min_age_18.args).to eql({age: 18, input: 17})
+      expect(min_age_18.(18).result).to be(true)
+      expect(min_age_18.(19).result).to be(true)
+      expect(min_age_18.(17).result).to be(false)
     end
   end
 
   describe '#to_ast' do
     it 'returns correct predicate ast' do
       predicate = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
-      curried_predicate = predicate.curry(18)
-      curried_predicate.(21)
-      expect(curried_predicate.to_ast).to eql([:predicate, [:min_age, [[:age, 18], [:input, 21]]]])
+      expect(predicate.curry(18).to_ast).to eql([:predicate, [:min_age, [[:age, 18], [:input, nil]]]])
+
+      expect(predicate.curry(18).(21).to_ast).to eql([:predicate, [:min_age, [[:age, 18], [:input, 21]]]])
     end
   end
 end

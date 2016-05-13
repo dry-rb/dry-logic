@@ -3,7 +3,7 @@ require 'dry/logic/evaluator'
 module Dry
   module Logic
     class Rule::Check < Rule::Value
-      attr_reader :name, :evaluator
+      attr_reader :name, :evaluator, :predicate
 
       def self.new(predicate, options)
         keys = options.fetch(:keys)
@@ -16,12 +16,21 @@ module Dry
         super
         @name = options.fetch(:name)
         @evaluator = options[:evaluator]
+        @predicate = predicate
       end
 
       def call(input)
-        args = evaluator[input].reverse
+        args = evaluator[input]
         *head, tail = args
-        Logic.Result(predicate.curry(*head).(tail), head.size > 0 ? curry(*head) : self, input)
+        if head.size > 0
+          rule = curry(*head)
+          predicate_result = predicate.curry(*head).(tail)
+        else
+          rule = self
+          predicate_result = predicate.(tail)
+        end
+
+        Logic.Result(predicate_result, rule, input)
       end
 
       def evaluate(input)
