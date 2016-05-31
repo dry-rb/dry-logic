@@ -13,7 +13,7 @@ module Dry
         case type
         when Rule::Each then Result::Each
         when Rule::Set then Result::Set
-        when Rule::Key, Rule::Attr, Rule::Check then Result::Named
+        when Rule::Key, Rule::Check, Rule::Attr then Result::Named
         else Result::Value
         end
       end

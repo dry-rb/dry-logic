@@ -13,7 +13,7 @@ RSpec.describe Rule::Check do
 
         expect(rule.(num: 1).to_ast).to eql(
           [:input, [:compare, [
-            :result, [1, [:check, [:compare, [:predicate, [:eql?, [1]]]]]]]]
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]]]]]]
           ]
         )
       end
@@ -34,7 +34,7 @@ RSpec.describe Rule::Check do
 
         expect(result.to_ast).to eql([
           :input, [:compare, [
-            :result, [1, [:check, [:compare, [:predicate, [:eql?, [2]]]]]]]
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [[:left, 1], [:right, 2]]]]]]]]
           ]
         ])
       end

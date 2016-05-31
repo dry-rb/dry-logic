@@ -18,14 +18,15 @@ RSpec.describe Dry::Logic::Rule::Each do
     end
 
     it 'returns result ast' do
-      expect(address_rule.([nil, nil]).to_ast).to eql([
-        :result, [[nil, nil], [
+      expect(address_rule.([1, nil]).to_ast).to eql([
+        :result, [[1, nil], [
           :each, [
-            [:el, [0, [:result, [nil, [:val, [:predicate, [:str?, []]]]]]]],
-            [:el, [1, [:result, [nil, [:val, [:predicate, [:str?, []]]]]]]]
+            [:el, [0, [:result, [1, [:val, [:predicate, [:str?, [[:input, 1]]]]]]]]],
+            [:el, [1, [:result, [nil, [:val, [:predicate, [:str?, [[:input, nil]]]]]]]]]
           ]
         ]]
       ])
     end
   end
 end
+

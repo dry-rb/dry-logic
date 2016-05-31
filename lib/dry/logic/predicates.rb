@@ -37,7 +37,7 @@ module Dry
       end
 
       predicate(:filled?) do |input|
-        !self[:empty?].(input)
+        !self[:empty?].(input).result
       end
 
       predicate(:bool?) do |input|
@@ -105,11 +105,11 @@ module Dry
       end
 
       predicate(:lteq?) do |num, input|
-        !self[:gt?].(num, input)
+        !self[:gt?].(num, input).result
       end
 
       predicate(:gteq?) do |num, input|
-        !self[:lt?].(num, input)
+        !self[:lt?].(num, input).result
       end
 
       predicate(:size?) do |size, input|
@@ -131,12 +131,12 @@ module Dry
 
       predicate(:inclusion?) do |list, input|
         ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
-        self[:included_in?].(list, input)
+        self[:included_in?].(list, input).result
       end
 
       predicate(:exclusion?) do |list, input|
         ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
-        self[:excluded_from?].(list, input)
+        self[:excluded_from?].(list, input).result
       end
 
       predicate(:included_in?) do |list, input|
@@ -160,7 +160,7 @@ module Dry
       end
 
       predicate(:excludes?) do |value, input|
-        !self[:includes?].(value, input)
+        !self[:includes?].(value, input).result
       end
 
       predicate(:eql?) do |left, right|
