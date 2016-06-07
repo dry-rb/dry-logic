@@ -28,14 +28,15 @@ module Dry
         fn.(*args)
       end
 
-      def to_ast
-        [:predicate, [id, args_with_names]]
+      def to_ast(input = nil)
+        [:predicate, [id, args_with_names(input)]]
       end
       alias_method :to_a, :to_ast
 
       private
-      def args_with_names
-        parameters.map(&:last).zip(args)
+      def args_with_names(*input)
+        all_args = input.empty? ? args : args + input
+        parameters.map(&:last).zip(all_args)
       end
     end
   end

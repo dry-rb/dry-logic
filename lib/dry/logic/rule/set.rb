@@ -15,8 +15,8 @@ module Dry
         new(rules.values_at(*args))
       end
 
-      def to_ast
-        [type, rules.map { |rule| rule.to_ast }]
+      def to_ast(input = nil)
+        [type, rules.map { |rule| rule.to_ast(input) }]
       end
     end
   end

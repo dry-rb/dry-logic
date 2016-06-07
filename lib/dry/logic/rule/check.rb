@@ -32,8 +32,9 @@ module Dry
         :check
       end
 
-      def to_ast
-        [type, [name, predicate.to_ast]]
+      def to_ast(input = nil)
+        check_input = input ? evaluate(input) : input
+        [type, [name, predicate.to_ast(check_input)]]
       end
     end
   end

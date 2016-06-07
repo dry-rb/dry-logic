@@ -56,7 +56,7 @@ RSpec.describe Rule::Key do
             :address,
               [:result, [
                 { city: "NYC" },
-                [:set, [[:result, [{ city: 'NYC' }, [:val, [:predicate, [:key?, [[:name, :zipcode], [:input, nil]]]]]]]]]
+                [:set, [[:result, [{ city: 'NYC' }, [:val, [:predicate, [:key?, [[:name, :zipcode], [:input, {:city=>"NYC"}]]]]]]]]]
               ]]
             ]
         ])

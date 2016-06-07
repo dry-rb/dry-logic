@@ -17,8 +17,8 @@ module Dry
         input
       end
 
-      def to_ast
-        [type, predicate.to_ast]
+      def to_ast(input = nil)
+        [type, predicate.to_ast(input)]
       end
     end
   end
