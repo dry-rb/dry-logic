@@ -39,6 +39,16 @@ RSpec.describe Dry::Logic::Rule::Value do
       it 'has no name by default' do
         expect(result.name).to be(nil)
       end
+
+      context "works with predicates.arity == 0" do
+        subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
+        let(:predicate) { Dry::Logic::Predicate.new(:without_args) { true } }
+        let(:result) { rule.("some input...") }
+
+        it "calls its predicate & ignores input arg" do
+          expect(result).to be_success
+        end
+      end
     end
   end
 
