@@ -48,8 +48,10 @@ module Dry
         self.class.new(predicate, options)
       end
 
+      #in some cases, predicate can actually be an array of predicates
       def curry(*args)
-        self.class.new(predicate.curry(*args), options)
+        curried_predicate = predicate.is_a?(Array) ? predicate.map{|p| p.curry(*args)} : predicate.curry(*args)
+        self.class.new(curried_predicate, options)
       end
 
       def each?

@@ -5,7 +5,7 @@ module Dry
         if response.respond_to?(:to_ast)
           response.to_ast
         else
-          [:result, [rule.evaluate(input), rule.to_ast(input)]]
+          [:result, [rule.evaluate(input), rule.to_ast]]
         end
       end
     end

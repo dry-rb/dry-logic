@@ -28,8 +28,8 @@ module Dry
         :key
       end
 
-      def to_ast(input = nil)
-        [type, [name, predicate.to_ast(input)]]
+      def to_ast
+        [type, [name, predicate.to_ast]]
       end
     end
   end

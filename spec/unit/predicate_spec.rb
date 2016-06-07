@@ -39,5 +39,18 @@ RSpec.describe Dry::Logic::Predicate do
       expect(min_age_18.(19)).to be(true)
       expect(min_age_18.(17)).to be(false)
     end
+
+    it 'can curry again & again' do
+      min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
+
+      min_age_18 = min_age.curry(18)
+
+      expect(min_age_18.args).to eql([18])
+
+      actual_age_19 = min_age_18.curry(19)
+
+      expect(actual_age_19.()).to be(true)
+      expect(actual_age_19.args).to eql([18,19])
+    end
   end
 end
