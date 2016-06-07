@@ -18,8 +18,8 @@ RSpec.describe Dry::Logic::Rule::Value do
     context 'with a custom predicate' do
       subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
 
-      let(:response) { double(success?: true) }
-      let(:predicate) { -> input { Result.new(response, double, input) } }
+      let(:response) { double("response", success?: true) }
+      let(:predicate) { -> input { Result.new(response, double("rule"), input) } }
 
       let(:result) { rule.(test: true) }
 
