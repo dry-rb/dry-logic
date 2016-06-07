@@ -18,12 +18,27 @@ module Dry
         @args = args
       end
 
-      def call(*args)
-        fn.(*args)
+      #as long as we keep track of the args, we don't actually need to curry the proc...
+      #if we never curry the proc then fn.arity & fn.parameters stay intact
+      def curry(*args)
+        self.class.new(id, *(@args + args), &fn)
       end
 
-      def curry(*args)
-        self.class.new(id, *args, &fn.curry.(*args))
+      def call(*args)
+        all_args = @args+args
+        if all_args.size == arity
+          fn.(*all_args)
+        else
+          raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
+        end
+      end
+
+      def arity
+        fn.arity
+      end
+
+      def parameters
+        fn.parameters
       end
 
       def to_ast
