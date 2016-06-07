@@ -11,6 +11,22 @@ RSpec.describe Dry::Logic::Predicate do
     end
   end
 
+  describe '#arity' do
+    it 'returns arity of the predicate function' do
+      is_equal = Dry::Logic::Predicate.new(:is_equal) { |left, right| left == right }
+
+      expect(is_equal.arity).to eql(2)
+    end
+  end
+
+  describe '#parameters' do
+    it 'returns arity of the predicate function' do
+      is_equal = Dry::Logic::Predicate.new(:is_equal) { |left, right| left == right }
+
+      expect(is_equal.parameters).to eql([[:opt, :left], [:opt, :right]])
+    end
+  end
+
   describe '#curry' do
     it 'returns curried predicate' do
       min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }

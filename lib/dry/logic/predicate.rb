@@ -10,26 +10,33 @@ module Dry
     class Predicate
       include Dry::Equalizer(:id, :args)
 
-      attr_reader :id, :args, :fn
+      attr_reader :id, :args, :fn, :parameters, :arity
 
-      def initialize(id, *args, &block)
+      def initialize(id, **options, &block)
         @id = id
         @fn = block
-        @args = args
+        @args = options.fetch(:args, [])
+        @arity = options.fetch(:arity, block.arity)
+        @parameters = options.fetch(:parameters, block.parameters)
+      end
+
+      def curry(*args)
+        self.class.new(id, arity: arity, parameters: parameters, args: args, &fn.curry.(*args))
       end
 
       def call(*args)
         fn.(*args)
       end
 
-      def curry(*args)
-        self.class.new(id, *args, &fn.curry.(*args))
-      end
-
       def to_ast
-        [:predicate, [id, args]]
+        [:predicate, [id, args_with_names]]
       end
       alias_method :to_a, :to_ast
+
+      private
+      def args_with_names
+        parameters.map(&:last).zip(args)
+      end
     end
   end
 end
