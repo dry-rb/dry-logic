@@ -6,6 +6,7 @@ module Dry
       end
 
       def call(input)
+        #Logic.Result(apply(input), curry(evaluate(input)), input)
         Logic.Result(apply(input), self, input)
       end
 

@@ -21,15 +21,25 @@ module Dry
       #as long as we keep track of the args, we don't actually need to curry the proc...
       #if we never curry the proc then fn.arity & fn.parameters stay intact
       def curry(*args)
-        self.class.new(id, *(@args + args), &fn)
+        all_args = @args+args
+        if all_args.size <= arity
+          self.class.new(id, *all_args, &fn)
+        else
+          raise_arity_error(all_args.size)
+        end
       end
 
+      #enables a rule to call with its params & have them ignored if the
+      #predicate doesn't need them.
+      #if @args.size == arity then we should ignore called args
       def call(*args)
         all_args = @args+args
-        if all_args.size == arity
+        if @args.size == arity
+          fn.(*@args)
+        elsif all_args.size == arity
           fn.(*all_args)
         else
-          raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
+          raise_arity_error(all_args.size)
         end
       end
 
@@ -49,6 +59,10 @@ module Dry
       private
       def args_with_names
         parameters.map(&:last).zip(args)
+      end
+
+      def raise_arity_error(args_size)
+        raise ArgumentError, "wrong number of arguments (#{args_size} for #{arity})"
       end
     end
   end
