@@ -60,7 +60,13 @@ module Dry
       private
       def curried_predicate(*args)
         curry_args = predicate.respond_to?(:arity) && predicate.arity != 0 ? args : []
-        predicate.is_a?(Proc) ? predicate.curry[*curry_args] : predicate.curry(*curry_args)
+        if predicate.is_a?(Proc)
+          predicate.curry[*curry_args]
+        elsif predicate != nil
+          predicate.curry(*curry_args)
+        else
+          nil
+        end
       end
     end
   end
