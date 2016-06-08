@@ -50,8 +50,15 @@ module Dry
       end
 
       def visit_predicate(node)
-        name, args = node
-        predicates[name].curry(*args)
+        name, params = node
+        predicate = predicates[name]
+
+        if params.size > 1
+          args = params.map(&:last)[0..params.size-2]
+          predicate.curry(*args)
+        else
+          predicate
+        end
       end
 
       def visit_and(node)
