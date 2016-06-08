@@ -47,6 +47,7 @@ module Dry
       def new(predicate)
         self.class.new(predicate, options)
       end
+
       #bit of a hack, essentially genuine proc.curry should be provided it's args via[] whereas ours
       #accepts them as a method param
       def curry(*args)
@@ -58,6 +59,7 @@ module Dry
       end
 
       private
+
       def curried_predicate(*args)
         curry_args = predicate.respond_to?(:arity) && predicate.arity != 0 ? args : []
         if predicate.is_a?(Proc)
