@@ -15,6 +15,25 @@ RSpec.describe Dry::Logic::Rule::Value do
       expect(is_string.('1')).to be_success
     end
 
+    context 'with a composite rule' do
+      subject(:rule) { Dry::Logic::Rule::Value.new(is_nil | is_string) }
+
+      it 'returns a success for valid input' do
+        expect(rule.(nil)).to be_success
+        expect(rule.('foo')).to be_success
+      end
+
+      it 'returns a failure for invalid input' do
+        expect(rule.(312)).to be_failure
+      end
+
+      it 'returns a failure result with curried args' do
+        expect(rule.(312).to_ast).to eql(
+          [:result, [312, [:val, [:predicate, [:str?, [[:input, 312]]]]]]]
+        )
+      end
+    end
+
     context 'with a custom predicate' do
       subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
 
