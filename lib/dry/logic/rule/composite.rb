@@ -10,6 +10,10 @@ module Dry
         @right = right
       end
 
+      def curry(*args)
+        self.class.new(left.curry(*args), right.curry(*args))
+      end
+
       def name
         :"#{left.name}_#{type}_#{right.name}"
       end

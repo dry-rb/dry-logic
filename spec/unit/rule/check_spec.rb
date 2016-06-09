@@ -13,7 +13,7 @@ RSpec.describe Rule::Check do
 
         expect(rule.(num: 1).to_ast).to eql(
           [:input, [:compare, [
-            :result, [1, [:check, [:compare, [:predicate, [:eql?, [1]]]]]]]]
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]]]]]]
           ]
         )
       end
@@ -29,12 +29,13 @@ RSpec.describe Rule::Check do
         expect(rule.(nums: { left: 1, right: 2 })).to be_failure
       end
 
+      #check rules reverse the order of params to enable cases like `left.gt(right)` to work
       it 'curries args properly' do
         result = rule.(nums: { left: 1, right: 2 })
 
         expect(result.to_ast).to eql([
           :input, [:compare, [
-            :result, [1, [:check, [:compare, [:predicate, [:eql?, [2]]]]]]]
+            :result, [1, [:check, [:compare, [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]]]]
           ]
         ])
       end

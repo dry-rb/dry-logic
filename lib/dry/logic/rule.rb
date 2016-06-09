@@ -48,12 +48,25 @@ module Dry
         self.class.new(predicate, options)
       end
 
+      #bit of a hack, essentially genuine proc.curry should be provided it's args via[] whereas ours
+      #accepts them as a method param
       def curry(*args)
-        self.class.new(predicate.curry(*args), options)
+        self.class.new(curried_predicate(*args), options)
       end
 
       def each?
         predicate.is_a?(Rule::Each)
+      end
+
+      private
+
+      def curried_predicate(*args)
+        curry_args = predicate.respond_to?(:arity) && predicate.arity != 0 ? args : []
+        if predicate.is_a?(Proc)
+          predicate.curry[*curry_args]
+        else
+          predicate.curry(*curry_args)
+        end
       end
     end
   end

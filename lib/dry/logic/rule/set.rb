@@ -11,6 +11,10 @@ module Dry
         rules.map { |rule| rule.(input) }
       end
 
+      def curry(*args)
+        self.class.new(rules.map{|r| r.curry(*args)}, options)
+      end
+
       def at(*args)
         new(rules.values_at(*args))
       end

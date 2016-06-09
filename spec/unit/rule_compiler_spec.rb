@@ -25,7 +25,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:each_rule) { Rule::Each.new(val_rule) }
 
   it 'compiles key rules' do
-    ast = [[:key, [:email, [:predicate, [:filled?, []]]]]]
+    ast = [[:key, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
 
     rules = compiler.(ast)
 
@@ -33,7 +33,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles attr rules' do
-    ast = [[:attr, [:email, [:predicate, [:filled?, []]]]]]
+    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
 
     rules = compiler.(ast)
 
@@ -41,7 +41,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles check rules' do
-    ast = [[:check, [:email, [:predicate, [:filled?, []]]]]]
+    ast = [[:check, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
 
     rules = compiler.(ast)
 
@@ -49,7 +49,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles attr rules' do
-    ast = [[:attr, [:email, [:predicate, [:attr?, predicate]]]]]
+    ast = [[:attr, [:email, [:predicate, [:attr?, [[:name, :email]]]]]]]
 
     rules = compiler.(ast)
 
@@ -57,7 +57,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles negated rules' do
-    ast = [[:not, [:key, [:email, [:predicate, [:filled?, []]]]]]]
+    ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]]
 
     rules = compiler.(ast)
 
@@ -68,8 +68,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     ast = [
       [
         :and, [
-          [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:predicate, [:filled?, []]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
+          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
         ]
       ]
     ]
@@ -83,8 +83,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     ast = [
       [
         :or, [
-          [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:predicate, [:filled?, []]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
+          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
         ]
       ]
     ]
@@ -98,8 +98,8 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     ast = [
       [
         :xor, [
-          [:key, [:email, [:predicate, [:key?, []]]]],
-          [:val, [:predicate, [:filled?, []]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
+          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
         ]
       ]
     ]
@@ -110,7 +110,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles set rules' do
-    ast = [[:set, [[:val, [:predicate, [:filled?, []]]]]]]
+    ast = [[:set, [[:val, [:predicate, [:filled?, [[:input, nil]]]]]]]]
 
     rules = compiler.(ast)
 
@@ -118,7 +118,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles each rules' do
-    ast = [[:each, [:val, [:predicate, [:filled?, []]]]]]
+    ast = [[:each, [:val, [:predicate, [:filled?, [[:input, nil]]]]]]]
 
     rules = compiler.(ast)
 
