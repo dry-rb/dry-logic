@@ -1,6 +1,35 @@
 require 'dry/logic/predicate'
 
-RSpec.describe Dry::Logic::Predicate do
+RSpec.describe Predicate do
+  describe '.new' do
+    it 'can be initialized with empty args' do
+      predicate = Predicate.new(:id) { |v| v.is_a?(Integer) }
+
+      expect(predicate.to_ast).to eql([:predicate, [:id, [[:v, nil]]]])
+    end
+
+    it 'can be initialized with args' do
+      predicate = Predicate.new(:id, args: [1]) { |v| v.is_a?(Integer) }
+
+      expect(predicate.to_ast).to eql([:predicate, [:id, [[:v, 1]]]])
+    end
+
+    it 'can be initialized with fn as the last arg' do
+      predicate = Predicate.new(:id, args: [1], fn: -> v { v.is_a?(Integer) })
+
+      expect(predicate.to_ast).to eql([:predicate, [:id, [[:v, 1]]]])
+    end
+  end
+
+  describe '#bind' do
+    it 'returns a predicate bound to a specific object' do
+      fn = String.instance_method(:empty?)
+
+      expect(Dry::Logic.Predicate(fn).bind("").()).to be(true)
+      expect(Dry::Logic.Predicate(fn).bind("foo").()).to be(false)
+    end
+  end
+
   describe '#call' do
     it 'returns result of the predicate function' do
       is_empty = Dry::Logic::Predicate.new(:is_empty) { |str| str.empty? }
