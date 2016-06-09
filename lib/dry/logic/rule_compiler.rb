@@ -54,7 +54,7 @@ module Dry
         predicate = predicates[name]
 
         if params.size > 1
-          args = params.map(&:last)[0..params.size-2]
+          args = params.map(&:last).reject { |val| val == Predicate::Undefined }
           predicate.curry(*args)
         else
           predicate

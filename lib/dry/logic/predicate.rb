@@ -9,6 +9,13 @@ module Dry
     end
 
     class Predicate
+      Undefined = Class.new {
+        def inspect
+          "undefined"
+        end
+        alias_method :to_s, :inspect
+      }.new.freeze
+
       include Dry::Equalizer(:id, :args)
 
       attr_reader :id, :args, :fn
@@ -67,7 +74,7 @@ module Dry
       private
 
       def args_with_names
-        parameters.map(&:last).zip(args)
+        parameters.map(&:last).zip(args + Array.new(arity - args.size, Undefined))
       end
 
       def raise_arity_error(args_size)

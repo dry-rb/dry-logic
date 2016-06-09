@@ -5,7 +5,7 @@ RSpec.describe Predicate do
     it 'can be initialized with empty args' do
       predicate = Predicate.new(:id) { |v| v.is_a?(Integer) }
 
-      expect(predicate.to_ast).to eql([:predicate, [:id, [[:v, nil]]]])
+      expect(predicate.to_ast).to eql([:predicate, [:id, [[:v, Predicate::Undefined]]]])
     end
 
     it 'can be initialized with args' do

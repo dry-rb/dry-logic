@@ -21,8 +21,8 @@ RSpec.describe Dry::Logic::Rule::Set do
     it 'returns an array representation' do
       expect(rule.to_ast).to eql([
         :set, [
-          [:val, [:predicate, [:str?, [[:input, nil]]]]],
-          [:val, [:predicate, [:min_size?, [[:num, 6], [:input, nil]]]]]
+          [:val, [:predicate, [:str?, [[:input, Predicate::Undefined]]]]],
+          [:val, [:predicate, [:min_size?, [[:num, 6], [:input, Predicate::Undefined]]]]]
         ]
       ])
     end
