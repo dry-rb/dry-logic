@@ -2,7 +2,7 @@ module Dry
   module Logic
     class Rule::Each < Rule::Value
       def apply(input)
-        Hash[input.map.with_index { |element, index| [index, predicate.(element)] }]
+        Hash[input.map.with_index { |element, index| [index, predicate.call(element)] }]
       end
 
       def type

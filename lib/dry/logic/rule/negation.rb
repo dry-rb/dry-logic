@@ -7,7 +7,7 @@ module Dry
         end
 
         def call(input)
-          predicate.(input).negated
+          predicate.call(input).negated
         end
       end
     end

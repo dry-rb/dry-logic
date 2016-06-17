@@ -10,7 +10,7 @@ module Dry
       end
 
       def apply(input)
-        predicate.(evaluate(input))
+        predicate.call(evaluate(input))
       end
 
       def evaluate(input)

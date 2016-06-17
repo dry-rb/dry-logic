@@ -11,9 +11,9 @@ module Dry
       end
 
       def failures
-        response.each_with_object({}) { |(idx, res), hash|
+        response.each_with_object({}) do |(idx, res), hash|
           hash[idx] = res if res.failure?
-        }
+        end
       end
     end
   end
