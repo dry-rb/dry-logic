@@ -37,7 +37,7 @@ module Dry
       end
 
       predicate(:filled?) do |input|
-        !self[:empty?].(input)
+        !self[:empty?].call(input)
       end
 
       predicate(:bool?) do |input|
@@ -105,11 +105,11 @@ module Dry
       end
 
       predicate(:lteq?) do |num, input|
-        !self[:gt?].(num, input)
+        !self[:gt?].call(num, input)
       end
 
       predicate(:gteq?) do |num, input|
-        !self[:lt?].(num, input)
+        !self[:lt?].call(num, input)
       end
 
       predicate(:size?) do |size, input|
@@ -117,7 +117,7 @@ module Dry
         when Fixnum then size == input.size
         when Range, Array then size.include?(input.size)
         else
-          raise ArgumentError, "+#{size}+ is not supported type for size? predicate"
+          fail ArgumentError, "+#{size}+ is not supported type for size? predicate"
         end
       end
 
@@ -131,12 +131,12 @@ module Dry
 
       predicate(:inclusion?) do |list, input|
         ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
-        self[:included_in?].(list, input)
+        self[:included_in?].call(list, input)
       end
 
       predicate(:exclusion?) do |list, input|
         ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
-        self[:excluded_from?].(list, input)
+        self[:excluded_from?].call(list, input)
       end
 
       predicate(:included_in?) do |list, input|
@@ -160,7 +160,7 @@ module Dry
       end
 
       predicate(:excludes?) do |value, input|
-        !self[:includes?].(value, input)
+        !self[:includes?].call(value, input)
       end
 
       predicate(:eql?) do |left, right|

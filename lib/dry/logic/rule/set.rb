@@ -8,11 +8,11 @@ module Dry
       end
 
       def apply(input)
-        rules.map { |rule| rule.(input) }
+        rules.map { |rule| rule.call(input) }
       end
 
       def curry(*args)
-        self.class.new(rules.map{|r| r.curry(*args)}, options)
+        self.class.new(rules.map { |r| r.curry(*args) }, options)
       end
 
       def at(*args)
@@ -20,7 +20,7 @@ module Dry
       end
 
       def to_ast
-        [type, rules.map { |rule| rule.to_ast }]
+        [type, rules.map(&:to_ast)]
       end
     end
   end

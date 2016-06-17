@@ -17,7 +17,7 @@ module Dry
       end
 
       def type
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       def and(other)
@@ -48,8 +48,8 @@ module Dry
         self.class.new(predicate, options)
       end
 
-      #bit of a hack, essentially genuine proc.curry should be provided it's args via[] whereas ours
-      #accepts them as a method param
+      # bit of a hack, essentially genuine proc.curry should be provided it's args via[] whereas ours
+      # accepts them as a method param
       def curry(*args)
         self.class.new(curried_predicate(*args), options)
       end

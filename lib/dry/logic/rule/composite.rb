@@ -26,8 +26,8 @@ module Dry
 
     class Rule::Implication < Rule::Composite
       def call(input)
-        if left.(input).success?
-          right.(input)
+        if left.call(input).success?
+          right.call(input)
         else
           Logic.Result(true, left, input)
         end
@@ -40,10 +40,10 @@ module Dry
 
     class Rule::Conjunction < Rule::Composite
       def call(input)
-        result = left.(input)
+        result = left.call(input)
 
         if result.success?
-          right.(input)
+          right.call(input)
         else
           result
         end
@@ -56,12 +56,12 @@ module Dry
 
     class Rule::Disjunction < Rule::Composite
       def call(input)
-        result = left.(input)
+        result = left.call(input)
 
         if result.success?
           result
         else
-          right.(input)
+          right.call(input)
         end
       end
 
@@ -72,7 +72,7 @@ module Dry
 
     class Rule::ExclusiveDisjunction < Rule::Composite
       def call(input)
-        Logic.Result(left.(input).success? ^ right.(input).success?, self, input)
+        Logic.Result(left.call(input).success? ^ right.call(input).success?, self, input)
       end
 
       def evaluate(input)
