@@ -20,6 +20,19 @@ module Dry
 
       attr_reader :id, :args, :fn, :arity
 
+      class Curried < Predicate
+        def call(*args)
+          all_args = @args + args
+
+          if all_args.size == arity
+            super(*args)
+          else
+            curry(*args)
+          end
+        end
+        alias_method :[], :call
+      end
+
       def initialize(id, args: [], fn: nil, arity: nil, &block)
         @id = id
         @args = args
@@ -31,9 +44,10 @@ module Dry
       #if we never curry the proc then fn.arity & fn.parameters stay intact
       def curry(*args)
         all_args = @args + args
+        size = all_args.size
 
-        if all_args.size <= arity
-          self.class.new(id, args: all_args, fn: fn, arity: arity)
+        if size <= arity
+          Curried.new(id, args: all_args, fn: fn, arity: arity)
         else
           raise_arity_error(all_args.size)
         end
@@ -49,15 +63,15 @@ module Dry
       #if @args.size == arity then we should ignore called args
       def call(*args)
         all_args = @args + args
+        size = all_args.size
 
-        if @args.size == arity
-          fn.(*@args)
-        elsif all_args.size == arity
+        if size == arity
           fn.(*all_args)
         else
-          raise_arity_error(all_args.size)
+          raise_arity_error(size)
         end
       end
+      alias_method :[], :call
 
       def parameters
         fn.parameters

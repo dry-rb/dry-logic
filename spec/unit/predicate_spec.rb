@@ -40,20 +40,11 @@ RSpec.describe Predicate do
     end
 
     it "raises argument error when incorrect number of args provided" do
-      is_empty = Dry::Logic::Predicate.new(:is_empty) { |str| str.empty? }
       min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
 
-      expect { is_empty.() }.to raise_error(ArgumentError)
-      expect { min_age.curry(10).() }.to raise_error(ArgumentError)
       expect { min_age.curry(10, 12, 14) }.to raise_error(ArgumentError)
-      expect { min_age.(18) }.to raise_error(ArgumentError)
-      expect { min_age.(18,19,20,30) }.to raise_error(ArgumentError)
-    end
-
-    it "should ignore called args if already curried with all args" do
-      min_age = Dry::Logic::Predicate.new(:min_age) { |age, input| input >= age }
-      min_age_10 = min_age.curry(10)
-      expect(min_age_10.curry(11).(15,16)).to be(true)
+      expect { min_age.(18, 19, 20, 30) }.to raise_error(ArgumentError)
+      expect { min_age.curry(18).(19, 20) }.to raise_error(ArgumentError)
     end
 
     it "predicates should work without any args" do

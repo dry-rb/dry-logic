@@ -7,12 +7,16 @@ module Dry
         :set
       end
 
+      def arity
+        -1
+      end
+
       def apply(input)
         rules.map { |rule| rule.(input) }
       end
 
       def curry(*args)
-        self.class.new(rules.map{|r| r.curry(*args)}, options)
+        new(rules.map { |r| r.curry(*args) })
       end
 
       def at(*args)

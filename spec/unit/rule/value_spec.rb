@@ -38,7 +38,8 @@ RSpec.describe Dry::Logic::Rule::Value do
       subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
 
       let(:response) { double("response", success?: true) }
-      let(:predicate) { -> input { Result.new(response, double("rule"), input) } }
+      let(:predicate) { double("predicate", arity: 1, curry: curried, call: Result.new(response, double("rule"), test: true)) }
+      let(:curried) { double("curried", arity: 1, call: Result.new(response, double("rule"), test: true)) }
 
       let(:result) { rule.(test: true) }
 
@@ -61,10 +62,11 @@ RSpec.describe Dry::Logic::Rule::Value do
 
       context "works with predicates.arity == 0" do
         subject(:rule) { Dry::Logic::Rule::Value.new(predicate) }
-        let(:predicate) { Dry::Logic::Predicate.new(:without_args) { true } }
-        let(:result) { rule.("some input...") }
 
-        it "calls its predicate & ignores input arg" do
+        let(:predicate) { Dry::Logic::Predicate.new(:without_args) { true } }
+        let(:result) { rule.('sutin') }
+
+        it "calls its predicate without any args" do
           expect(result).to be_success
         end
       end

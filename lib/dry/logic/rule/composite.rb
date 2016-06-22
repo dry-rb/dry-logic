@@ -10,6 +10,10 @@ module Dry
         @right = right
       end
 
+      def arity
+        -1
+      end
+
       def curry(*args)
         self.class.new(left.curry(*args), right.curry(*args))
       end
