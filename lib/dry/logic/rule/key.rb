@@ -7,11 +7,12 @@ module Dry
 
       def self.new(predicate, options)
         name = options.fetch(:name)
-        super(predicate, evaluator: evaluator(options), name: name)
+        eval = options.fetch(:evaluator, evaluator(name))
+        super(predicate, evaluator: eval, name: name)
       end
 
-      def self.evaluator(options)
-        Evaluator::Key.new(options.fetch(:name))
+      def self.evaluator(name)
+        Evaluator::Key.new(name)
       end
 
       def initialize(predicate, options)
