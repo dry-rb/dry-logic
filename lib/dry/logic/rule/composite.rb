@@ -83,10 +83,6 @@ module Dry
         Logic.Result(left.(input).success? ^ right.(input).success?, self, input)
       end
 
-      def evaluate(input)
-        [left.evaluate(input), right.evaluate(input)]
-      end
-
       def type
         :xor
       end
