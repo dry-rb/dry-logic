@@ -43,13 +43,17 @@ module Dry
       #as long as we keep track of the args, we don't actually need to curry the proc...
       #if we never curry the proc then fn.arity & fn.parameters stay intact
       def curry(*args)
-        all_args = @args + args
-        size = all_args.size
+        if args.size > 0
+          all_args = @args + args
+          size = all_args.size
 
-        if size <= arity
-          Curried.new(id, args: all_args, fn: fn, arity: arity)
+          if size <= arity
+            Curried.new(id, args: all_args, fn: fn, arity: arity)
+          else
+            raise_arity_error(all_args.size)
+          end
         else
-          raise_arity_error(all_args.size)
+          self
         end
       end
 
