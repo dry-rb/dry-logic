@@ -18,12 +18,13 @@ module Dry
 
       include Dry::Equalizer(:id, :args)
 
-      attr_reader :id, :args, :fn
+      attr_reader :id, :args, :fn, :arity
 
-      def initialize(id, args: [], fn: nil, &block)
+      def initialize(id, args: [], fn: nil, arity: nil, &block)
         @id = id
         @args = args
         @fn = fn || block
+        @arity = arity || @fn.arity
       end
 
       #as long as we keep track of the args, we don't actually need to curry the proc...
@@ -32,7 +33,7 @@ module Dry
         all_args = @args + args
 
         if all_args.size <= arity
-          self.class.new(id, args: all_args, fn: fn)
+          self.class.new(id, args: all_args, fn: fn, arity: arity)
         else
           raise_arity_error(all_args.size)
         end
@@ -56,10 +57,6 @@ module Dry
         else
           raise_arity_error(all_args.size)
         end
-      end
-
-      def arity
-        fn.arity
       end
 
       def parameters
