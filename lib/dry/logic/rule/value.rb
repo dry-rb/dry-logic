@@ -13,16 +13,25 @@ module Dry
         @arity ||= predicate.arity
       end
 
+      def args
+        @args ||= predicate.args
+      end
+
+      def input
+        predicate.args.last
+      end
+
       def call(input)
         if nulary?
           Logic.Result(predicate.(), self, input)
         else
-          Logic.Result(apply(input), curry(evaluate(input)), input)
+          evaled = evaluate(input)
+          Logic.Result(apply(evaled), curry(evaled), input)
         end
       end
 
       def apply(input)
-        predicate.(evaluate(input))
+        predicate.(input)
       end
 
       def evaluate(input)

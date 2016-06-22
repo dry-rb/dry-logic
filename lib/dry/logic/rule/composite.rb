@@ -14,6 +14,10 @@ module Dry
         -1
       end
 
+      def input
+        Predicate::Undefined
+      end
+
       def curry(*args)
         self.class.new(left.curry(*args), right.curry(*args))
       end

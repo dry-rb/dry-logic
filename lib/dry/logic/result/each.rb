@@ -3,7 +3,7 @@ module Dry
     class Result::Each < Result::Multi
       def to_ast
         failed_rules = failures.map { |idx, el| [:el, [idx, el.to_ast]] }
-        [:result, [rule.evaluate(input), [:each, failed_rules]]]
+        [:result, [input, [:each, failed_rules]]]
       end
 
       def success?

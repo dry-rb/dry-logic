@@ -5,8 +5,12 @@ module Dry
         if response.respond_to?(:to_ast)
           response.to_ast
         else
-          [:result, [rule.evaluate(input), rule.to_ast]]
+          [:result, [input, rule.to_ast]]
         end
+      end
+
+      def input
+        rule.input != Predicate::Undefined ? rule.input : super
       end
     end
   end
