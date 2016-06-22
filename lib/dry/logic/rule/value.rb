@@ -26,7 +26,9 @@ module Dry
           Logic.Result(predicate.(), self, input)
         else
           evaled = evaluate(input)
-          Logic.Result(apply(evaled), curry(evaled), input)
+          result = apply(evaled)
+          rule = result == true ? self : curry(evaled)
+          Logic.Result(result, rule, input)
         end
       end
 
