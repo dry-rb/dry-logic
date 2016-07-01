@@ -1,3 +1,18 @@
+# v0.3.0 2016-07-01
+
+### Added
+
+* `:type?` predicate imported from dry-types (solnic)
+* `Rule#curry` interface (solnic)
+
+### Changed
+
+* Predicates AST now includes information about args (names & possible values) (fran-worley + solnic)
+* Predicates raise errors when they are called with invalid arity (fran-worley + solnic)
+* Rules no longer evaluate input twice when building result objects (solnic)
+
+[Compare v0.2.3...v0.3.0](https://github.com/dryrb/dry-logic/compare/v0.2.3...v0.3.0)
+
 # v0.2.3 2016-05-11
 
 ### Added
@@ -10,7 +25,6 @@
 * Renamed `exclusion?` to `excluded_from?` and deprecated `exclusion?` (fran-worley)
 
 [Compare v0.2.2...v0.2.3](https://github.com/dryrb/dry-logic/compare/v0.2.2...v0.2.3)
-
 
 # v0.2.2 2016-03-30
 
