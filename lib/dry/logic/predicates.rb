@@ -15,6 +15,10 @@ module Dry
         other.import(self)
       end
 
+      predicate(:type?) do |type, input|
+        input.kind_of?(type)
+      end
+
       predicate(:none?) do |input|
         input.nil?
       end
