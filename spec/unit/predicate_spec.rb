@@ -112,4 +112,18 @@ RSpec.describe Predicate do
       expect(actual_age_19.args).to eql([18,19])
     end
   end
+
+  describe '#inspect' do
+    it 'uses :id when there are no args' do
+      expect(Dry::Logic::Predicates[:size?].inspect).to eql(
+        '#<Dry::Logic::Predicate[size?]>'
+      )
+    end
+
+    it 'uses :id and args' do
+      expect(Dry::Logic::Predicates[:size?].curry(8, 'foo').inspect).to eql(
+        '#<Dry::Logic::Predicate[size?(8, "foo")]>'
+      )
+    end
+  end
 end

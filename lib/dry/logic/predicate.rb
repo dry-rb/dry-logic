@@ -31,6 +31,10 @@ module Dry
           end
         end
         alias_method :[], :call
+
+        def inspect
+          "#<#{self.class.superclass}[#{id}(#{args.map(&:inspect).join(', ')})]>"
+        end
       end
 
       def initialize(id, args: [], fn: nil, arity: nil, &block)
@@ -38,6 +42,10 @@ module Dry
         @args = args
         @fn = fn || block
         @arity = arity || @fn.arity
+      end
+
+      def inspect
+        "#<#{self.class}[#{id}]>"
       end
 
       #as long as we keep track of the args, we don't actually need to curry the proc...
