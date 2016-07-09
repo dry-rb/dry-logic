@@ -23,6 +23,10 @@ module Dry
         "#<Dry::Logic::Rule[#{predicate.sig}]>"
       end
 
+      def sig
+        predicate.sig
+      end
+
       def predicate_id
         predicate.id
       end

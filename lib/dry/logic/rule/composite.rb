@@ -23,7 +23,11 @@ module Dry
       end
 
       def inspect
-        "#<Dry::Logic::Rule[#{left.inspect} #{type.upcase} (#{right.inspect})]>"
+        "#<Dry::Logic::Rule[#{left.sig} #{type.upcase} #{right.sig}]>"
+      end
+
+      def sig
+        "(#{super})"
       end
 
       def name
