@@ -32,8 +32,8 @@ module Dry
         end
         alias_method :[], :call
 
-        def inspect
-          "#<#{self.class.superclass}[#{id}(#{args.map(&:inspect).join(', ')})]>"
+        def sig
+          "#{super}(#{args.map(&:inspect).join(', ')})"
         end
       end
 
@@ -45,7 +45,11 @@ module Dry
       end
 
       def inspect
-        "#<#{self.class}[#{id}]>"
+        "#<Dry::Logic::Predicate[#{sig}]>"
+      end
+
+      def sig
+        id
       end
 
       #as long as we keep track of the args, we don't actually need to curry the proc...

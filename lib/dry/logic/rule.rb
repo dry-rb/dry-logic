@@ -19,6 +19,10 @@ module Dry
         @options = options
       end
 
+      def inspect
+        "#<Dry::Logic::Rule[#{predicate.sig}]>"
+      end
+
       def predicate_id
         predicate.id
       end

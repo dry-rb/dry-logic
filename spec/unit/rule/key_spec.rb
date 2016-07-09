@@ -118,4 +118,16 @@ RSpec.describe Rule::Key do
       expect(present_and_string.(user: { name: 1 })).to be_failure
     end
   end
+
+  describe '#inspect' do
+    it 'with a value rule' do
+      expect(Rule::Value.new(str?).inspect).to eql("#<Dry::Logic::Rule[str?]>")
+    end
+
+    it 'with a composite rule' do
+      expect(Rule::Value.new(key?.curry(8)).and(Rule::Value.new(str?)).inspect).to eql(
+        '#<Dry::Logic::Rule[#<Dry::Logic::Rule[key?(8)]> AND (#<Dry::Logic::Rule[str?]>)]>'
+      )
+    end
+  end
 end

@@ -22,6 +22,10 @@ module Dry
         self.class.new(left.curry(*args), right.curry(*args))
       end
 
+      def inspect
+        "#<Dry::Logic::Rule[#{left.inspect} #{type.upcase} (#{right.inspect})]>"
+      end
+
       def name
         :"#{left.name}_#{type}_#{right.name}"
       end
