@@ -24,6 +24,8 @@ RSpec.shared_examples 'predicates' do
   let(:attr?) { Dry::Logic::Predicates[:attr?] }
 
   let(:eql?) { Dry::Logic::Predicates[:eql?] }
+
+  let(:size?) { Dry::Logic::Predicates[:size?] }
 end
 
 RSpec.shared_examples 'a passing predicate' do

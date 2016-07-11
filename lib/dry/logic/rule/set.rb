@@ -26,6 +26,10 @@ module Dry
       def to_ast
         [type, rules.map { |rule| rule.to_ast }]
       end
+
+      def sig
+        "[#{rules.map(&:sig).join(', ')}]"
+      end
     end
   end
 end

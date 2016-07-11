@@ -8,6 +8,10 @@ module Dry
       def type
         :each
       end
+
+      def sig
+        "each(#{super})"
+      end
     end
   end
 end

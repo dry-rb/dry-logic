@@ -22,6 +22,7 @@ module Dry
       def inspect
         "#<Dry::Logic::Rule[#{predicate.sig}]>"
       end
+      alias_method :to_s, :inspect
 
       def sig
         predicate.sig

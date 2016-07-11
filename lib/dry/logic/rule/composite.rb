@@ -23,11 +23,15 @@ module Dry
       end
 
       def inspect
-        "#<Dry::Logic::Rule[#{left.sig} #{type.upcase} #{right.sig}]>"
+        "#<Dry::Logic::Rule[#{sig}]>"
       end
 
       def sig
-        "(#{super})"
+        "(#{left.sig} #{sig_name.upcase} #{right.sig})"
+      end
+
+      def sig_name
+        type.upcase
       end
 
       def name
@@ -51,6 +55,10 @@ module Dry
 
       def type
         :implication
+      end
+
+      def sig_name
+        :THEN
       end
     end
 
