@@ -11,117 +11,117 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
       one: predicate }
   }
 
-  let(:predicate) { double(:predicate).as_null_object }
+  let(:predicate) { double(:predicate, name: :test?, arity: 2).as_null_object }
 
-  let(:val_rule) { Rule::Value.new(predicate) }
-  let(:key_rule) { Rule::Key.new(predicate, name: :email) }
-  let(:attr_rule) { Rule::Attr.new(predicate, name: :email) }
-  let(:not_key_rule) { Rule::Key.new(predicate, name: :email).negation }
-  let(:check_rule) { Rule::Check.new(predicate, name: :email, keys: [:email]) }
-  let(:and_rule) { key_rule & val_rule }
-  let(:or_rule) { key_rule | val_rule }
-  let(:xor_rule) { key_rule ^ val_rule }
-  let(:set_rule) { Rule::Set.new([val_rule]) }
-  let(:each_rule) { Rule::Each.new(val_rule) }
+  let(:rule) { Rule::Predicate.new(predicate) }
+  let(:key_op) { Operations::Key.new(rule, name: :email) }
+  let(:attr_op) { Operations::Attr.new(rule, name: :email) }
+  let(:check_op) { Operations::Check.new(rule, name: :email, keys: [:email]) }
+  let(:not_key_op) { Operations::Negation.new(key_op) }
+  let(:and_op) { key_op.curry(:email) & rule }
+  let(:or_op) { key_op.curry(:email) | rule }
+  let(:xor_op) { key_op.curry(:email) ^ rule }
+  let(:set_op) { Operations::Set.new([rule]) }
+  let(:each_op) { Operations::Each.new(rule) }
 
   it 'compiles key rules' do
-    ast = [[:key, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
+    ast = [[:key, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([key_rule])
+    expect(rules).to eql([key_op])
   end
 
   it 'compiles attr rules' do
-    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
+    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([attr_rule])
+    expect(rules).to eql([attr_op])
   end
 
   it 'compiles check rules' do
-    ast = [[:check, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]
+    ast = [[:check, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([check_rule])
+    expect(rules).to eql([check_op])
   end
 
   it 'compiles attr rules' do
-    ast = [[:attr, [:email, [:predicate, [:attr?, [[:name, :email]]]]]]]
+    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([attr_rule])
+    expect(rules).to eql([attr_op])
   end
 
   it 'compiles negated rules' do
-    ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, nil]]]]]]]]
+    ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([not_key_rule])
+    expect(rules).to eql([not_key_op])
   end
 
   it 'compiles conjunction rules' do
     ast = [
       [
         :and, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
-          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
+          [:predicate, [:filled?, [[:input, Undefined]]]]
         ]
       ]
     ]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([and_rule])
+    expect(rules).to eql([and_op])
   end
 
   it 'compiles disjunction rules' do
     ast = [
       [
         :or, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
-          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
+          [:predicate, [:filled?, [[:input, Undefined]]]]
         ]
       ]
     ]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([or_rule])
+    expect(rules).to eql([or_op])
   end
 
   it 'compiles exclusive disjunction rules' do
     ast = [
       [
         :xor, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, nil]]]]]],
-          [:val, [:predicate, [:filled?, [[:input, nil]]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
+          [:predicate, [:filled?, [[:input, Undefined]]]]
         ]
       ]
     ]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([xor_rule])
+    expect(rules).to eql([xor_op])
   end
 
   it 'compiles set rules' do
-    ast = [[:set, [[:val, [:predicate, [:filled?, [[:input, nil]]]]]]]]
+    ast = [[:set, [[:predicate, [:filled?, [[:input, nil]]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([set_rule])
+    expect(rules).to eql([set_op])
   end
 
   it 'compiles each rules' do
-    ast = [[:each, [:val, [:predicate, [:filled?, [[:input, nil]]]]]]]
+    ast = [[:each, [:predicate, [:filled?, [[:input, nil]]]]]]
 
     rules = compiler.(ast)
 
-    expect(rules).to eql([each_rule])
+    expect(rules).to eql([each_op])
   end
 end

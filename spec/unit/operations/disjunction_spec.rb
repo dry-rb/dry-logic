@@ -1,13 +1,15 @@
-RSpec.describe Rule::Composite::Disjunction do
+require 'dry/logic/rule/predicate'
+
+RSpec.describe Operations::Disjunction do
   include_context 'predicates'
 
-  subject(:rule) { Rule::Composite::Disjunction.new(left, right) }
+  subject(:rule) { Operations::Disjunction.new(left, right) }
 
-  let(:left) { Rule::Value.new(none?) }
-  let(:right) { Rule::Value.new(gt?.curry(18)) }
+  let(:left) { Rule::Predicate.new(none?) }
+  let(:right) { Rule::Predicate.new(gt?).curry(18) }
 
   let(:other) do
-    Rule::Value.new(int?) & Rule::Value.new(lt?.curry(14))
+    Rule::Predicate.new(int?) & Rule::Predicate.new(lt?).curry(14)
   end
 
   describe '#call' do

@@ -2,36 +2,30 @@ require 'bigdecimal'
 require 'bigdecimal/util'
 require 'date'
 
-require 'dry/logic/predicate_set'
-
 module Dry
   module Logic
     module Predicates
-      extend Logic::PredicateSet
-
-      def self.included(other)
-        super
-        other.extend(Logic::PredicateSet)
-        other.import(self)
+      def self.[](name)
+        method(name)
       end
 
-      predicate(:type?) do |type, input|
+      def self.type?(type, input)
         input.kind_of?(type)
       end
 
-      predicate(:none?) do |input|
+      def self.none?(input)
         input.nil?
       end
 
-      predicate(:key?) do |name, input|
+      def self.key?(name, input)
         input.key?(name)
       end
 
-      predicate(:attr?) do |name, input|
+      def self.attr?(name, input)
         input.respond_to?(name)
       end
 
-      predicate(:empty?) do |input|
+      def self.empty?(input)
         case input
         when String, Array, Hash then input.empty?
         when nil then true
@@ -40,27 +34,27 @@ module Dry
         end
       end
 
-      predicate(:filled?) do |input|
+      def self.filled?(input)
         !self[:empty?].(input)
       end
 
-      predicate(:bool?) do |input|
+      def self.bool?(input)
         input.is_a?(TrueClass) || input.is_a?(FalseClass)
       end
 
-      predicate(:date?) do |input|
+      def self.date?(input)
         input.is_a?(Date)
       end
 
-      predicate(:date_time?) do |input|
+      def self.date_time?(input)
         input.is_a?(DateTime)
       end
 
-      predicate(:time?) do |input|
+      def self.time?(input)
         input.is_a?(Time)
       end
 
-      predicate(:number?) do |input|
+      def self.number?(input)
         begin
           true if Float(input)
         rescue ArgumentError, TypeError
@@ -68,90 +62,90 @@ module Dry
         end
       end
 
-      predicate(:int?) do |input|
+      def self.int?(input)
         input.is_a?(Fixnum)
       end
 
-      predicate(:float?) do |input|
+      def self.float?(input)
         input.is_a?(Float)
       end
 
-      predicate(:decimal?) do |input|
+      def self.decimal?(input)
         input.is_a?(BigDecimal)
       end
 
-      predicate(:str?) do |input|
+      def self.str?(input)
         input.is_a?(String)
       end
 
-      predicate(:hash?) do |input|
+      def self.hash?(input)
         input.is_a?(Hash)
       end
 
-      predicate(:array?) do |input|
+      def self.array?(input)
         input.is_a?(Array)
       end
 
-      predicate(:odd?) do |input|
+      def self.odd?(input)
         input.odd?
       end
 
-      predicate(:even?) do |input|
+      def self.even?(input)
         input.even?
       end
 
-      predicate(:lt?) do |num, input|
+      def self.lt?(num, input)
         input < num
       end
 
-      predicate(:gt?) do |num, input|
+      def self.gt?(num, input)
         input > num
       end
 
-      predicate(:lteq?) do |num, input|
+      def self.lteq?(num, input)
         !self[:gt?].(num, input)
       end
 
-      predicate(:gteq?) do |num, input|
+      def self.gteq?(num, input)
         !self[:lt?].(num, input)
       end
 
-      predicate(:size?) do |size, input|
+      def self.size?(size, input)
         case size
         when Fixnum then size == input.size
         when Range, Array then size.include?(input.size)
         else
-          raise ArgumentError, "+#{size}+ is not supported type for size? predicate"
+          raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
         end
       end
 
-      predicate(:min_size?) do |num, input|
+      def self.min_size?(num, input)
         input.size >= num
       end
 
-      predicate(:max_size?) do |num, input|
+      def self.max_size?(num, input)
         input.size <= num
       end
 
-      predicate(:inclusion?) do |list, input|
+      def self.inclusion?(list, input)
         ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
         self[:included_in?].(list, input)
       end
 
-      predicate(:exclusion?) do |list, input|
+      def self.exclusion?(list, input)
         ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
         self[:excluded_from?].(list, input)
       end
 
-      predicate(:included_in?) do |list, input|
+      def self.included_in?(list, input)
         list.include?(input)
       end
 
-      predicate(:excluded_from?) do |list, input|
+      def self.excluded_from?(list, input)
         !list.include?(input)
       end
 
-      predicate(:includes?) do |value, input|
+      def self.includes?(value, input)
         begin
           if input.respond_to?(:include?)
             input.include?(value)
@@ -163,27 +157,27 @@ module Dry
         end
       end
 
-      predicate(:excludes?) do |value, input|
+      def self.excludes?(value, input)
         !self[:includes?].(value, input)
       end
 
-      predicate(:eql?) do |left, right|
+      def self.eql?(left, right)
         left.eql?(right)
       end
 
-      predicate(:not_eql?) do |left, right|
+      def self.not_eql?(left, right)
         !left.eql?(right)
       end
 
-      predicate(:true?) do |value|
+      def self.true?(value)
         value === true
       end
 
-      predicate(:false?) do |value|
+      def self.false?(value)
         value === false
       end
 
-      predicate(:format?) do |regex, input|
+      def self.format?(regex, input)
         !regex.match(input).nil?
       end
     end

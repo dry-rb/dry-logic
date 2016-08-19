@@ -1,4 +1,5 @@
-require 'dry/logic/rule'
+require 'dry/logic/operations'
+require 'dry/logic/rule/predicate'
 
 module Dry
   module Logic
@@ -20,41 +21,37 @@ module Dry
 
       def visit_check(node)
         name, predicate, keys = node
-        Rule::Check.new(visit(predicate), name: name, keys: keys || [name])
+        Operations::Check.new(visit(predicate), name: name, keys: keys || [name])
       end
 
       def visit_not(node)
-        visit(node).negation
+        Operations::Negation.new(visit(node))
       end
 
       def visit_key(node)
         name, predicate = node
-        Rule::Key.new(visit(predicate), name: name)
+        Operations::Key.new(visit(predicate), name: name)
       end
 
       def visit_attr(node)
         name, predicate = node
-        Rule::Attr.new(visit(predicate), name: name)
-      end
-
-      def visit_val(node)
-        Rule::Value.new(visit(node))
+        Operations::Attr.new(visit(predicate), name: name)
       end
 
       def visit_set(node)
-        Rule::Set.new(call(node))
+        Operations::Set.new(call(node))
       end
 
       def visit_each(node)
-        Rule::Each.new(visit(node))
+        Operations::Each.new(visit(node))
       end
 
       def visit_predicate(node)
         name, params = node
-        predicate = predicates[name]
+        predicate = Rule::Predicate.new(predicates[name])
 
         if params.size > 1
-          args = params.map(&:last).reject { |val| val == Predicate::Undefined }
+          args = params.map(&:last).reject { |val| val == Undefined }
           predicate.curry(*args)
         else
           predicate
@@ -63,22 +60,22 @@ module Dry
 
       def visit_and(node)
         left, right = node
-        visit(left) & visit(right)
+        visit(left).and(visit(right))
       end
 
       def visit_or(node)
         left, right = node
-        visit(left) | visit(right)
+        visit(left).or(visit(right))
       end
 
       def visit_xor(node)
         left, right = node
-        visit(left) ^ visit(right)
+        visit(left).xor(visit(right))
       end
 
       def visit_implication(node)
         left, right = node
-        visit(left) > visit(right)
+        visit(left).then(visit(right))
       end
     end
   end

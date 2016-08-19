@@ -1,91 +1,89 @@
+require 'dry/logic/operators'
+
 module Dry
   module Logic
     class Rule
       include Dry::Equalizer(:predicate, :options)
+      include Operators
+
+      DEFAULT_OPTIONS = { args: [].freeze, result: nil }.freeze
 
       attr_reader :predicate
 
       attr_reader :options
 
-      def self.method_added(meth)
-        super
-        if meth == :call
-          alias_method :[], :call
-        end
-      end
+      attr_reader :name
 
-      def initialize(predicate, options = {})
+      attr_reader :args
+
+      attr_reader :arity
+
+      attr_reader :result
+
+      def initialize(predicate, options = DEFAULT_OPTIONS)
         @predicate = predicate
         @options = options
-      end
-
-      def inspect
-        "#<Dry::Logic::Rule[#{predicate.sig}]>"
-      end
-      alias_method :to_s, :inspect
-
-      def sig
-        predicate.sig
-      end
-
-      def predicate_id
-        predicate.id
+        @name = options[:name]
+        @args = options[:args]
+        @result = options[:result]
+        @arity = options[:arity] || predicate.arity
       end
 
       def type
-        raise NotImplementedError
+        :rule
       end
 
-      def and(other)
-        Conjunction.new(self, other)
-      end
-      alias_method :&, :and
-
-      def or(other)
-        Disjunction.new(self, other)
-      end
-      alias_method :|, :or
-
-      def xor(other)
-        ExclusiveDisjunction.new(self, other)
-      end
-      alias_method :^, :xor
-
-      def then(other)
-        Implication.new(self, other)
-      end
-      alias_method :>, :then
-
-      def negation
-        Negation.new(self)
+      def call(*input)
+        with(args: [*args, *input], result: self[*input])
       end
 
-      def new(predicate)
-        self.class.new(predicate, options)
+      def [](*input)
+        arity == 0 ? predicate.() : predicate[*args, *input]
       end
 
-      def curry(*args)
-        if arity > 0
-          new(predicate.curry(*args))
+      def curry(*new_args)
+        all_args = args + new_args
+
+        if all_args.size > arity
+          raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
         else
-          self
+          with(args: all_args)
         end
       end
 
-      def each?
-        predicate.is_a?(Rule::Each)
+      def applied?
+        !result.nil?
+      end
+
+      def success?
+        result.equal?(true)
+      end
+
+      def failure?
+        !success?
+      end
+
+      def with(new_opts)
+        self.class.new(predicate, options.merge(new_opts))
+      end
+
+      def to_ast
+        if applied?
+          [success? ? :success : :failure, predicate_ast]
+        else
+          predicate_ast
+        end
+      end
+
+      private
+
+      def parameters
+        predicate.parameters
+      end
+
+      def args_with_names
+        parameters.map(&:last).zip(args + Array.new(arity - args.size, Undefined))
       end
     end
   end
 end
-
-require 'dry/logic/rule/value'
-require 'dry/logic/rule/key'
-require 'dry/logic/rule/attr'
-require 'dry/logic/rule/each'
-require 'dry/logic/rule/set'
-require 'dry/logic/rule/composite'
-require 'dry/logic/rule/negation'
-require 'dry/logic/rule/check'
-
-require 'dry/logic/result'

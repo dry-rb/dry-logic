@@ -1,0 +1,30 @@
+require 'dry/logic/rule/predicate'
+require 'dry/logic/operations/attr'
+
+RSpec.describe Operations::Attr do
+  include_context 'predicates'
+
+  let(:model) { Struct.new(:name) }
+
+  subject(:operation) { Operations::Attr.new(Rule::Predicate.new(str?), name: :name) }
+
+  describe '#call' do
+    it 'applies predicate to the value' do
+      expect(operation.(model.new('Jane'))).to be_success
+      expect(operation.(model.new(nil))).to be_failure
+    end
+  end
+
+  describe '#and' do
+    let(:other) { Operations::Attr.new(Rule::Predicate.new(min_size?).curry(3), name: :name) }
+
+    it 'returns conjunction where value is passed to the right' do
+      present_and_string = operation.and(other)
+
+      expect(present_and_string.(model.new('Jane'))).to be_success
+
+      expect(present_and_string.(model.new('Ja'))).to be_failure
+      expect(present_and_string.(model.new(1))).to be_failure
+    end
+  end
+end
