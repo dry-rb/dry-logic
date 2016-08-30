@@ -4,22 +4,22 @@ module Dry
       def and(other)
         Operations::And.new(self, other)
       end
-      alias_method :&, :and
+      alias & and
 
       def or(other)
         Operations::Or.new(self, other)
       end
-      alias_method :|, :or
+      alias | or
 
       def xor(other)
         Operations::Xor.new(self, other)
       end
-      alias_method :^, :xor
+      alias ^ xor
 
       def then(other)
         Operations::Implication.new(self, other)
       end
-      alias_method :>, :then
+      alias > then
     end
   end
 end
