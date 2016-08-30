@@ -11,6 +11,11 @@ module Dry
         :predicate
       end
 
+      def to_s
+        "#{name}(#{args.map(&:inspect).join(', ')})"
+      end
+      alias_method :to_str, :to_s
+
       def ast
         [type, [name, args_with_names]]
       end

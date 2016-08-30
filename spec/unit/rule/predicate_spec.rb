@@ -30,4 +30,10 @@ RSpec.describe Dry::Logic::Rule::Predicate do
       end
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(rule.('foo').to_s).to eql('str?("foo")')
+    end
+  end
 end
