@@ -3,6 +3,14 @@ require 'dry/logic/applicable'
 
 module Dry
   module Logic
+    def self.Rule(*args, **options, &block)
+      if args.any?
+        Rule.new(*args, options)
+      elsif block
+        Rule.new(block, options)
+      end
+    end
+
     class Rule
       include Dry::Equalizer(:predicate, :options)
       include Operators
