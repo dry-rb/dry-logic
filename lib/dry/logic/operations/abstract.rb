@@ -1,34 +1,22 @@
 require 'dry/logic/operators'
+require 'dry/logic/applicable'
 
 module Dry
   module Logic
     module Operations
       class Abstract
-        include Dry::Equalizer(:rules)
+        include Dry::Equalizer(:rules, :options)
         include Operators
+        include Applicable
 
         attr_reader :rules
-
-        attr_reader :result
 
         attr_reader :options
 
         def initialize(*rules, **options)
+          super
           @rules = rules.flatten
           @options = options
-          @result = options[:result]
-        end
-
-        def applied?
-          !result.nil?
-        end
-
-        def success?
-          result.equal?(true)
-        end
-
-        def failure?
-          !success?
         end
 
         def curry(*args)

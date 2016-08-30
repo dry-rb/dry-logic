@@ -1,10 +1,12 @@
 require 'dry/logic/operators'
+require 'dry/logic/applicable'
 
 module Dry
   module Logic
     class Rule
       include Dry::Equalizer(:predicate, :options)
       include Operators
+      include Applicable
 
       DEFAULT_OPTIONS = { args: [].freeze, result: nil }.freeze
 
@@ -18,14 +20,12 @@ module Dry
 
       attr_reader :arity
 
-      attr_reader :result
-
       def initialize(predicate, options = DEFAULT_OPTIONS)
+        super
         @predicate = predicate
         @options = options
         @name = options[:name]
         @args = options[:args]
-        @result = options[:result]
         @arity = options[:arity] || predicate.arity
       end
 
@@ -49,18 +49,6 @@ module Dry
         else
           with(args: all_args)
         end
-      end
-
-      def applied?
-        !result.nil?
-      end
-
-      def success?
-        result.equal?(true)
-      end
-
-      def failure?
-        !success?
       end
 
       def with(new_opts)
