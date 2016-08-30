@@ -1,4 +1,5 @@
-require 'dry/logic/operators'
+require 'dry/equalizer'
+require 'dry/logic/operations'
 require 'dry/logic/applicable'
 
 module Dry

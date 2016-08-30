@@ -9,3 +9,5 @@ require 'dry/logic/operations/attr'
 require 'dry/logic/operations/each'
 require 'dry/logic/operations/set'
 require 'dry/logic/operations/check'
+
+require 'dry/logic/operators'

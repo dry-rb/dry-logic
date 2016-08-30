@@ -1,5 +1,5 @@
-require 'dry/logic/operations'
-require 'dry/logic/rule/predicate'
+require 'dry/logic/rule'
+require 'dry/logic/constants'
 
 module Dry
   module Logic

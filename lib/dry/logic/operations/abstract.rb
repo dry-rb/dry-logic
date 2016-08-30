@@ -1,3 +1,4 @@
+require 'dry/equalizer'
 require 'dry/logic/operators'
 require 'dry/logic/applicable'
 
