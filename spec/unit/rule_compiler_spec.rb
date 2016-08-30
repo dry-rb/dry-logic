@@ -64,7 +64,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     expect(rules).to eql([not_key_op])
   end
 
-  it 'compiles conjunction rules' do
+  it 'compiles and rules' do
     ast = [
       [
         :and, [
@@ -79,7 +79,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     expect(rules).to eql([and_op])
   end
 
-  it 'compiles disjunction rules' do
+  it 'compiles or rules' do
     ast = [
       [
         :or, [
@@ -94,7 +94,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
     expect(rules).to eql([or_op])
   end
 
-  it 'compiles exclusive disjunction rules' do
+  it 'compiles exclusive or rules' do
     ast = [
       [
         :xor, [

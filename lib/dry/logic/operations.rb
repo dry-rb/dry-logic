@@ -1,6 +1,6 @@
-require 'dry/logic/operations/conjunction'
-require 'dry/logic/operations/disjunction'
-require 'dry/logic/operations/exclusive_disjunction'
+require 'dry/logic/operations/and'
+require 'dry/logic/operations/or'
+require 'dry/logic/operations/xor'
 require 'dry/logic/operations/implication'
 require 'dry/logic/operations/negation'
 

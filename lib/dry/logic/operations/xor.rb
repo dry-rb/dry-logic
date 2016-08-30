@@ -3,7 +3,7 @@ require 'dry/logic/operations/binary'
 module Dry
   module Logic
     module Operations
-      class ExclusiveDisjunction < Binary
+      class Xor < Binary
         def type
           :xor
         end

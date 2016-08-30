@@ -2,17 +2,17 @@ module Dry
   module Logic
     module Operators
       def and(other)
-        Operations::Conjunction.new(self, other)
+        Operations::And.new(self, other)
       end
       alias_method :&, :and
 
       def or(other)
-        Operations::Disjunction.new(self, other)
+        Operations::Or.new(self, other)
       end
       alias_method :|, :or
 
       def xor(other)
-        Operations::ExclusiveDisjunction.new(self, other)
+        Operations::Xor.new(self, other)
       end
       alias_method :^, :xor
 
@@ -24,7 +24,7 @@ module Dry
   end
 end
 
-require 'dry/logic/operations/conjunction'
-require 'dry/logic/operations/disjunction'
+require 'dry/logic/operations/and'
+require 'dry/logic/operations/or'
+require 'dry/logic/operations/xor'
 require 'dry/logic/operations/implication'
-require 'dry/logic/operations/exclusive_disjunction'

@@ -101,7 +101,7 @@ RSpec.describe Operations::Key do
       Operations::Key.new(Rule::Predicate.new(filled?), name: [:user, :name])
     end
 
-    it 'returns conjunction rule where value is passed to the right' do
+    it 'returns and rule where value is passed to the right' do
       present_and_string = operation.and(other)
 
       expect(present_and_string.(user: { name: 'Jane' })).to be_success

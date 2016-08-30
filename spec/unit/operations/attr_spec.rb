@@ -18,7 +18,7 @@ RSpec.describe Operations::Attr do
   describe '#and' do
     let(:other) { Operations::Attr.new(Rule::Predicate.new(min_size?).curry(3), name: :name) }
 
-    it 'returns conjunction where value is passed to the right' do
+    it 'returns and where value is passed to the right' do
       present_and_string = operation.and(other)
 
       expect(present_and_string.(model.new('Jane'))).to be_success

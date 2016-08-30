@@ -3,7 +3,7 @@ require 'dry/logic/operations/binary'
 module Dry
   module Logic
     module Operations
-      class Conjunction < Binary
+      class And < Binary
         def type
           :and
         end

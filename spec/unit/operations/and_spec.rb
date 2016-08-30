@@ -1,8 +1,8 @@
-require 'dry/logic/operations/conjunction'
+require 'dry/logic/operations/and'
 require 'dry/logic/rule/predicate'
 
-RSpec.describe Operations::Conjunction do
-  subject(:rule) { Operations::Conjunction.new(left, right) }
+RSpec.describe Operations::And do
+  subject(:rule) { Operations::And.new(left, right) }
 
   include_context 'predicates'
 
@@ -18,7 +18,7 @@ RSpec.describe Operations::Conjunction do
   describe '#and' do
     let(:other) { Rule::Predicate.new(lt?).curry(30) }
 
-    it 'creates conjunction with the other' do
+    it 'creates and with the other' do
       expect(rule.and(other).(31)).to be_failure
     end
   end
@@ -26,7 +26,7 @@ RSpec.describe Operations::Conjunction do
   describe '#or' do
     let(:other) { Rule::Predicate.new(lt?).curry(14) }
 
-    it 'creates disjunction with the other' do
+    it 'creates or with the other' do
       expect(rule.or(other).(13)).to be_success
     end
   end

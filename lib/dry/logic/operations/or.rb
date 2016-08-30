@@ -3,7 +3,7 @@ require 'dry/logic/operations/binary'
 module Dry
   module Logic
     module Operations
-      class Disjunction < Binary
+      class Or < Binary
         def type
           :or
         end
