@@ -55,14 +55,6 @@ module Dry
         self.class.new(predicate, options.merge(new_opts))
       end
 
-      def to_ast
-        if applied?
-          [success? ? :success : :failure, predicate_ast]
-        else
-          predicate_ast
-        end
-      end
-
       private
 
       def parameters

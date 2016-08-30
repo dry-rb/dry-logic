@@ -39,10 +39,8 @@ module Dry
           new(applied, result: applied.success?)
         end
 
-        def to_ast
-          if applied?
-            [success? ? :success : :failure, [name, predicate.predicate_ast]]
-          end
+        def ast
+          [name, predicate.ast]
         end
       end
     end

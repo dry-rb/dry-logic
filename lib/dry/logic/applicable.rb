@@ -18,6 +18,10 @@ module Dry
       def failure?
         !success?
       end
+
+      def to_ast
+        applied? ? [success? ? :success : :failure, ast] : ast
+      end
     end
   end
 end

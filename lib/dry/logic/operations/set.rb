@@ -15,8 +15,8 @@ module Dry
           self.class.new(applied, result: result)
         end
 
-        def predicate_ast
-          [:set, rules.select(&:failure?).map(&:predicate_ast)]
+        def ast
+          [type, rules.select(&:failure?).map(&:ast)]
         end
       end
     end

@@ -43,10 +43,8 @@ module Dry
           self.class.new(applied, options.merge(result: applied.success?))
         end
 
-        def to_ast
-          if applied?
-            [success? ? :success : :failure, [name, [:path, [path, predicate.predicate_ast]]]]
-          end
+        def ast
+          [name, [:path, [path, predicate.ast]]]
         end
       end
     end

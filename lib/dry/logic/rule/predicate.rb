@@ -11,7 +11,7 @@ module Dry
         :predicate
       end
 
-      def predicate_ast
+      def ast
         [type, [name, args_with_names]]
       end
     end

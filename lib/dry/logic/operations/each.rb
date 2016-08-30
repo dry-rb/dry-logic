@@ -22,14 +22,12 @@ module Dry
           self.class.new(applied, result: result)
         end
 
-        def to_ast
+        def ast
           if applied?
-            [success? ? :success : :failure, predicate_ast]
+            [type, failures.map { |rule, idx| [:path, [idx, rule.ast]] }]
+          else
+            [type, rules.map(&:ast)]
           end
-        end
-
-        def predicate_ast
-          [:each, failures.map { |rule, idx| [:path, [idx, rule.predicate_ast]] }]
         end
 
         def failures
