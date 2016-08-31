@@ -1,6 +1,6 @@
 require 'dry/equalizer'
 require 'dry/logic/operations'
-require 'dry/logic/applicable'
+require 'dry/logic/appliable'
 
 module Dry
   module Logic
@@ -15,7 +15,7 @@ module Dry
     class Rule
       include Dry::Equalizer(:predicate, :options)
       include Operators
-      include Applicable
+      include Appliable
 
       DEFAULT_OPTIONS = { args: [].freeze, result: nil }.freeze
 

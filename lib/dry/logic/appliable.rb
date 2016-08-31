@@ -1,6 +1,6 @@
 module Dry
   module Logic
-    module Applicable
+    module Appliable
       attr_reader :result
 
       def initialize(*, **options)
