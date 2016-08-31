@@ -60,6 +60,10 @@ module Dry
         end
       end
 
+      def bind(object)
+        self.class.new(predicate.bind(object), options)
+      end
+
       def with(new_opts)
         self.class.new(predicate, options.merge(new_opts))
       end
