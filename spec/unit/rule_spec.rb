@@ -15,4 +15,16 @@ RSpec.describe Dry::Logic::Rule do
       expect(bound.()).to be_success
     end
   end
+
+  describe '#eval_args' do
+    subject(:rule) { Rule.new(-> { true }, args: args) }
+
+    let(:args) { [klass.instance_method(:num)] }
+    let(:klass) { Class.new { def num; 7; end } }
+    let(:object) { klass.new }
+
+    it 'evaluates args in the context of the provided object' do
+      expect(rule.eval_args(object).args).to eql([7])
+    end
+  end
 end
