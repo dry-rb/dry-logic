@@ -20,10 +20,10 @@ RSpec.describe Operations::Each do
 
     it 'returns result ast' do
       expect(operation.([nil, nil]).to_ast).to eql(
-        [:failure, [:each, [
+        [:each, [
           [:path, [0, [:predicate, [:str?, [[:input, nil]]]]]],
           [:path, [1, [:predicate, [:str?, [[:input, nil]]]]]]
-        ]]]
+        ]]
       )
     end
   end

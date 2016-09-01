@@ -12,7 +12,7 @@ module Dry
           applied = rules.map { |rule| rule.(input) }
           result = applied.all?(&:success?)
 
-          self.class.new(applied, result: result)
+          new(applied, result: result)
         end
 
         def ast

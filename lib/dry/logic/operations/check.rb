@@ -40,7 +40,7 @@ module Dry
         end
 
         def ast
-          [name, predicate.ast]
+          predicate.ast
         end
       end
     end

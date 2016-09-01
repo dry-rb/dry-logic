@@ -28,11 +28,11 @@ RSpec.describe Dry::Logic::Rule::Predicate do
 
     context 'with a result' do
       it 'returns success ast' do
-        expect(rule.('foo').to_ast).to eql([:success, [:predicate, [:str?, [[:input, 'foo']]]]])
+        expect(rule.('foo').to_ast).to eql([:predicate, [:str?, [[:input, 'foo']]]])
       end
 
-      it 'returns success ast' do
-        expect(rule.(5).to_ast).to eql([:failure, [:predicate, [:str?, [[:input, 5]]]]])
+      it 'returns ast' do
+        expect(rule.(5).to_ast).to eql([:predicate, [:str?, [[:input, 5]]]])
       end
     end
   end

@@ -16,14 +16,14 @@ RSpec.describe Operations::Check do
         expect(operation.(num: 2)).to be_failure
 
         expect(operation.(num: 1).to_ast).to eql(
-          [:success, [:compare, [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]]]
+          [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]
         )
       end
     end
 
     context 'with 2-levels nesting' do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.new(eql?), name: :compare, keys: [[:nums, :left], [:nums, :right]])
+        Operations::Check.new(Rule::Predicate.new(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]])
       end
 
       it 'applies predicate to args extracted from the input' do

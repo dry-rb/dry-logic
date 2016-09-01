@@ -22,9 +22,8 @@ module Dry
       end
 
       def to_ast
-        if applied?
-          node_name = success? ? :success : :failure
-          [node_name, id ? [id, ast] : ast]
+        if applied? && id
+          [success? ? :success : :failure, [id, ast]]
         else
           ast
         end
