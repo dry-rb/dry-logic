@@ -3,14 +3,6 @@ shared_examples_for Dry::Logic::Rule do
   let(:rule_type) { described_class }
   let(:predicate_name) { :good? }
 
-  describe '.new' do
-    it 'accepts a name' do
-      rule = rule_type.new(predicate, name: :check_num)
-
-      expect(rule.name).to be(:check_num)
-    end
-  end
-
   describe '#arity' do
     it 'returns its predicate arity' do
       rule = rule_type.new(predicate)
