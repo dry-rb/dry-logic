@@ -9,8 +9,7 @@ module Dry
         attr_reader :evaluator
 
         attr_reader :path
-
-        attr_reader :name
+        alias_method :id, :path
 
         def self.new(rules, options)
           if options[:evaluator]
@@ -18,7 +17,7 @@ module Dry
           else
             name = options.fetch(:name)
             eval = options.fetch(:evaluator, evaluator(name))
-            super(rules, options.merge(evaluator: eval, name: name, path: name))
+            super(rules, options.merge(evaluator: eval, path: name))
           end
         end
 
@@ -30,7 +29,6 @@ module Dry
           super
           @evaluator = options[:evaluator]
           @predicate = rules.first
-          @name = options[:name]
           @path = options[:path]
         end
 
@@ -44,7 +42,7 @@ module Dry
         end
 
         def ast
-          [name, [:path, [path, predicate.ast]]]
+          [:path, [path, predicate.ast]]
         end
       end
     end

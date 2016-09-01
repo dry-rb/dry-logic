@@ -18,6 +18,12 @@ RSpec.describe Dry::Logic::Rule::Predicate do
       it 'returns rule ast' do
         expect(rule.to_ast).to eql([:predicate, [:str?, [[:input, Undefined]]]])
       end
+
+      it 'returns :failure with an id' do
+        email = rule.with(id: :email)
+
+        expect(email.(11).to_ast).to eql([:failure, [:email, [:predicate, [:str?, [[:input, 11]]]]]])
+      end
     end
 
     context 'with a result' do
