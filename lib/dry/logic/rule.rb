@@ -30,7 +30,6 @@ module Dry
       attr_reader :arity
 
       def initialize(predicate, options = DEFAULT_OPTIONS)
-        super
         @predicate = predicate
         @options = options
         @name = options[:name]

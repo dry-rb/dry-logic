@@ -1,10 +1,12 @@
 module Dry
   module Logic
     module Appliable
-      attr_reader :result
+      def id
+        options[:id]
+      end
 
-      def initialize(*, **options)
-        @result = options[:result]
+      def result
+        options[:result]
       end
 
       def applied?

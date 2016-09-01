@@ -15,7 +15,6 @@ module Dry
         attr_reader :options
 
         def initialize(*rules, **options)
-          super
           @rules = rules.flatten
           @options = options
         end
