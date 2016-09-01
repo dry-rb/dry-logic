@@ -71,11 +71,11 @@ module Dry
         self.class.new(predicate, options.merge(new_opts))
       end
 
-      private
-
       def parameters
         predicate.parameters
       end
+
+      private
 
       def args_with_names
         parameters.map(&:last).zip(args + Array.new(arity - args.size, Undefined))

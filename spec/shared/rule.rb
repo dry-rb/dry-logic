@@ -1,3 +1,5 @@
+require 'dry/logic/constants'
+
 shared_examples_for Dry::Logic::Rule do
   let(:predicate) { double(:predicate, arity: 2, name: predicate_name) }
   let(:rule_type) { described_class }
@@ -8,6 +10,14 @@ shared_examples_for Dry::Logic::Rule do
       rule = rule_type.new(predicate)
 
       expect(rule.arity).to be(2)
+    end
+  end
+
+  describe '#parameters' do
+    it 'returns a list of args with their names' do
+      rule = rule_type.new(-> foo, bar { true }, args: [312])
+
+      expect(rule.parameters).to eql([[:req, :foo], [:req, :bar]])
     end
   end
 
