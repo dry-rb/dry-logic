@@ -4,7 +4,7 @@ RSpec.describe Operations::Check do
   describe '#call' do
     context 'with 1-level nesting' do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.new(eql?).curry(1), name: :compare, keys: [:num])
+        Operations::Check.new(Rule::Predicate.new(eql?).curry(1), id: :compare, keys: [:num])
       end
 
       it 'applies predicate to args extracted from the input' do
@@ -13,7 +13,7 @@ RSpec.describe Operations::Check do
         expect(operation.(num: 2)).to be_failure
 
         expect(operation.(num: 1).to_ast).to eql(
-          [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]
+          [:success, [:compare, [:check, [:compare, [:num], [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]]]]]
         )
       end
     end
@@ -33,7 +33,9 @@ RSpec.describe Operations::Check do
         result = operation.(nums: { left: 1, right: 2 })
 
         expect(result.to_ast).to eql(
-          [:failure, [:compare, [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]]
+          [:failure, [:compare, [:check, [
+            :compare, [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]
+          ]]]
         )
       end
     end
@@ -41,11 +43,15 @@ RSpec.describe Operations::Check do
 
   describe '#to_ast' do
     subject(:operation) do
-      Operations::Check.new(Rule::Predicate.new(str?), name: :check_name, keys: [:name])
+      Operations::Check.new(
+        Rule::Predicate.new(str?), id: :verify_email, keys: [:email]
+      )
     end
 
-    it 'returns predicate ast' do
-      expect(operation.to_ast).to eql([:predicate, [:str?, [[:input, Undefined]]]])
+    it 'returns ast' do
+      expect(operation.to_ast).to eql(
+        [:check, [:verify_email, [:email], [:predicate, [:str?, [[:input, Undefined]]]]]]
+      )
     end
   end
 end

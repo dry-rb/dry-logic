@@ -7,22 +7,24 @@ module Dry
       class Check < Abstract
         attr_reader :evaluator
 
-        attr_reader :name
+        attr_reader :rule
 
-        attr_reader :predicate
+        def self.new(rule, **options)
+          if options[:evaluator]
+            super(rule, options)
+          else
+            keys = options.fetch(:keys)
+            evaluator = Evaluator::Set.new(keys)
 
-        def self.new(*rules, **options)
-          keys = options.fetch(:keys)
-          evaluator = Evaluator::Set.new(keys)
-
-          super(*rules, options.merge(evaluator: evaluator))
+            super(rule, options.merge(evaluator: evaluator))
+          end
         end
 
-        def initialize(*rules, **options)
-          super
+        def initialize(rule, **options)
+          @options = options
           @evaluator = options[:evaluator]
-          @name = options[:name]
-          @predicate = rules.first
+          @rules = [rule]
+          @rule = rule
         end
 
         def type
@@ -33,14 +35,14 @@ module Dry
           args = evaluator[input].reverse
           *head, tail = args
 
-          curried = predicate.curry(*head)
+          curried = rule.curry(*head)
           applied = curried.(tail)
 
-          new(applied, result: applied.success?)
+          new([applied], result: applied.success?)
         end
 
         def ast
-          predicate.ast
+          [type, [id, options[:keys], rule.ast]]
         end
       end
     end

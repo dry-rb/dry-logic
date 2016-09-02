@@ -20,8 +20,8 @@ module Dry
       end
 
       def visit_check(node)
-        name, predicate, keys = node
-        Operations::Check.new(visit(predicate), name: name, keys: keys || [name])
+        name, keys, predicate = node
+        Operations::Check.new(visit(predicate), id: name, keys: keys)
       end
 
       def visit_not(node)
