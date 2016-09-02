@@ -78,7 +78,13 @@ module Dry
       private
 
       def args_with_names
-        parameters.map(&:last).zip(args + Array.new(arity - args.size, Undefined))
+        idx = arity - args.size
+
+        if idx < 0
+          []
+        else
+          parameters.map(&:last).zip(args + Array.new(idx, Undefined))
+        end
       end
     end
   end

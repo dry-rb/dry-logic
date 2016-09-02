@@ -1,5 +1,7 @@
 RSpec.describe Dry::Logic::Rule::Predicate do
-  subject(:rule) { Dry::Logic::Rule::Predicate.new(str?) }
+  subject(:rule) { Dry::Logic::Rule::Predicate.new(predicate) }
+
+  let(:predicate) { str? }
 
   include_context 'predicates'
 
@@ -31,6 +33,14 @@ RSpec.describe Dry::Logic::Rule::Predicate do
 
       it 'returns ast' do
         expect(rule.(5).to_ast).to eql([:predicate, [:str?, [[:input, 5]]]])
+      end
+    end
+
+    context 'with a zero-arity predicate' do
+      let(:predicate) { Module.new { def self.test?; true; end }.method(:test?) }
+
+      it 'returns ast' do
+        expect(rule.to_ast).to eql([:predicate, [:test?, []]])
       end
     end
   end
