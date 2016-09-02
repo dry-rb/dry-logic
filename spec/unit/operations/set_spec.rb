@@ -1,12 +1,7 @@
-require 'dry/logic/rule/predicate'
-require 'dry/logic/operations/set'
-
 RSpec.describe Operations::Set do
-  include_context 'predicates'
+  subject(:operation) { Operations::Set.new(is_int, gt_18) }
 
-  subject(:operation) do
-    Operations::Set.new(is_int, gt_18)
-  end
+  include_context 'predicates'
 
   let(:is_int) { Rule::Predicate.new(int?) }
   let(:gt_18) { Rule::Predicate.new(gt?, args: [18]) }
@@ -15,6 +10,14 @@ RSpec.describe Operations::Set do
     it 'applies all its rules to the input' do
       expect(operation.(19)).to be_success
       expect(operation.(17)).to be_failure
+    end
+  end
+
+  describe '#to_ast' do
+    it 'returns ast' do
+      expect(operation.to_ast).to eql(
+        [:set, [[:predicate, [:int?, [[:input, Undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]]
+      )
     end
 
     it 'returns result ast' do

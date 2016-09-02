@@ -16,8 +16,12 @@ module Dry
         end
 
         def call(input)
-          applied = predicate.(input)
-          self.class.new(applied, result: !applied.success?)
+          applied = predicate.with(id: id).(input)
+          new(applied, result: !applied.success?)
+        end
+
+        def ast
+          [type, predicate.ast]
         end
       end
     end

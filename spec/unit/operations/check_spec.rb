@@ -1,6 +1,3 @@
-require 'dry/logic/rule/predicate'
-require 'dry/logic/operations/check'
-
 RSpec.describe Operations::Check do
   include_context 'predicates'
 
@@ -39,6 +36,16 @@ RSpec.describe Operations::Check do
           [:failure, [:compare, [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]]
         )
       end
+    end
+  end
+
+  describe '#to_ast' do
+    subject(:operation) do
+      Operations::Check.new(Rule::Predicate.new(str?), name: :check_name, keys: [:name])
+    end
+
+    it 'returns predicate ast' do
+      expect(operation.to_ast).to eql([:predicate, [:str?, [[:input, Undefined]]]])
     end
   end
 end

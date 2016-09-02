@@ -16,7 +16,7 @@ module Dry
         end
 
         def ast
-          [type, rules.select(&:failure?).map(&:ast)]
+          [type, rules.select(&:failure?).map(&:to_ast)]
         end
       end
     end

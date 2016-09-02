@@ -1,15 +1,7 @@
-require 'dry/logic/rule/predicate'
-
-require 'dry/logic/operations/key'
-require 'dry/logic/operations/set'
-require 'dry/logic/operations/each'
-
 RSpec.describe Operations::Key do
-  include_context 'predicates'
+  subject(:operation) { Operations::Key.new(predicate, name: :user) }
 
-  subject(:operation) do
-    Operations::Key.new(predicate, name: :user)
-  end
+  include_context 'predicates'
 
   let(:predicate) do
     Rule::Predicate.new(key?).curry(:age)
@@ -27,7 +19,7 @@ RSpec.describe Operations::Key do
         expect(result).to be_failure
 
         expect(result.to_ast).to eql(
-          [:failure, [:user, [:path, [:user,
+          [:failure, [:user, [:key, [:user,
             [:predicate, [:key?, [[:name, :age], [:input, {}]]]]
           ]]]]
         )
@@ -55,7 +47,7 @@ RSpec.describe Operations::Key do
         expect(result).to be_failure
 
         expect(result.to_ast).to eql(
-          [:failure, [:address, [:path, [:address, [:set, [
+          [:failure, [:address, [:key, [:address, [:set, [
             [:predicate, [:key?, [[:name, :zipcode], [:input, { city: 'NYC' }]]]]
           ]]]]]]
         )
@@ -83,12 +75,20 @@ RSpec.describe Operations::Key do
         expect(failure).to be_failure
 
         expect(failure.to_ast).to eql(
-          [:failure, [:nums, [:path, [:nums, [:each, [
-            [:path, [0, [:predicate, [:str?, [[:input, 1]]]]]],
-            [:path, [2, [:predicate, [:str?, [[:input, 3]]]]]]
+          [:failure, [:nums, [:key, [:nums, [:each, [
+            [:key, [0, [:predicate, [:str?, [[:input, 1]]]]]],
+            [:key, [2, [:predicate, [:str?, [[:input, 3]]]]]]
           ]]]]]]
         )
       end
+    end
+  end
+
+  describe '#to_ast' do
+    it 'returns ast' do
+      expect(operation.to_ast).to eql(
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
+      )
     end
   end
 

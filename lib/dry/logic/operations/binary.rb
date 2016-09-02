@@ -8,9 +8,13 @@ module Dry
 
         attr_reader :right
 
-        def initialize(*rules)
+        def initialize(*rules, **options)
           super
           @left, @right = rules
+        end
+
+        def ast
+          [type, [left.ast, right.ast]]
         end
       end
     end

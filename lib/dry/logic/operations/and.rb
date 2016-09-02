@@ -9,10 +9,10 @@ module Dry
         end
 
         def call(input)
-          applied = left.(input)
+          applied = left.with(id: id).(input)
 
           if applied.success?
-            right.(input)
+            right.with(id: id).(input)
           else
             applied
           end

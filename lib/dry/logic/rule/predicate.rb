@@ -1,4 +1,4 @@
-require 'dry/logic/constants'
+require 'dry/logic/rule'
 
 module Dry
   module Logic

@@ -3,6 +3,10 @@ require 'dry/logic/predicates'
 RSpec.shared_examples 'predicates' do
   let(:none?) { Dry::Logic::Predicates[:none?] }
 
+  let(:array?) { Dry::Logic::Predicates[:array?] }
+
+  let(:empty?) { Dry::Logic::Predicates[:empty?] }
+
   let(:str?) { Dry::Logic::Predicates[:str?] }
 
   let(:true?) { Dry::Logic::Predicates[:true?] }

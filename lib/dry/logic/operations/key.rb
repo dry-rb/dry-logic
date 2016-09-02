@@ -42,7 +42,7 @@ module Dry
         end
 
         def ast
-          [:path, [path, predicate.ast]]
+          [type, [path, predicate.ast]]
         end
       end
     end

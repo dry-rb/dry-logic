@@ -1,12 +1,9 @@
-require 'dry/logic/rule/predicate'
-require 'dry/logic/operations/attr'
-
 RSpec.describe Operations::Attr do
+  subject(:operation) { Operations::Attr.new(Rule::Predicate.new(str?), name: :name) }
+
   include_context 'predicates'
 
   let(:model) { Struct.new(:name) }
-
-  subject(:operation) { Operations::Attr.new(Rule::Predicate.new(str?), name: :name) }
 
   describe '#call' do
     it 'applies predicate to the value' do

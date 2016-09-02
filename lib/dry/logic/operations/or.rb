@@ -14,7 +14,7 @@ module Dry
           if applied.success?
             applied
           else
-            right.(input)
+            right.with(id: id).(input)
           end
         end
       end

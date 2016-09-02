@@ -12,7 +12,7 @@ module Dry
           applied = left.(input)
 
           if applied.success?
-            right.(input)
+            right.with(id: id).(input)
           else
             with(result: true)
           end

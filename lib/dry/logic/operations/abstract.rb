@@ -15,16 +15,16 @@ module Dry
         attr_reader :options
 
         def initialize(*rules, **options)
-          @rules = rules.flatten
+          @rules = rules
           @options = options
         end
 
         def curry(*args)
-          self.class.new(rules.map { |rule| rule.curry(*args) }, options)
+          new(rules.map { |rule| rule.curry(*args) }, options)
         end
 
-        def new(rules, new_options)
-          self.class.new(rules, options.merge(new_options))
+        def new(rules, **new_options)
+          self.class.new(*rules, options.merge(new_options))
         end
 
         def with(new_options)

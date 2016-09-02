@@ -1,18 +1,24 @@
-require 'dry/logic/rule/predicate'
-
 RSpec.describe Operations::Implication do
-  include_context 'predicates'
+  subject(:operation) { Operations::Implication.new(left, right) }
 
-  subject(:rule) { Operations::Implication.new(left, right) }
+  include_context 'predicates'
 
   let(:left) { Rule::Predicate.new(int?) }
   let(:right) { Rule::Predicate.new(gt?).curry(18) }
 
   describe '#call' do
     it 'calls left and right' do
-      expect(rule.('19')).to be_success
-      expect(rule.(19)).to be_success
-      expect(rule.(18)).to be_failure
+      expect(operation.('19')).to be_success
+      expect(operation.(19)).to be_success
+      expect(operation.(18)).to be_failure
+    end
+  end
+
+  describe '#to_ast' do
+    it 'returns ast' do
+      expect(operation.to_ast).to eql(
+        [:implication, [[:predicate, [:int?, [[:input, Undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]]
+      )
     end
   end
 end

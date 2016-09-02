@@ -1,12 +1,7 @@
-require 'dry/logic/rule/predicate'
-require 'dry/logic/operations/each'
-
 RSpec.describe Operations::Each do
-  include_context 'predicates'
+  subject(:operation) { Operations::Each.new(is_string) }
 
-  subject(:operation) do
-    Operations::Each.new(is_string)
-  end
+  include_context 'predicates'
 
   let(:is_string) { Rule::Predicate.new(str?) }
 
@@ -17,13 +12,29 @@ RSpec.describe Operations::Each do
       expect(operation.([nil, 'Address'])).to be_failure
       expect(operation.([:Address, 'Address'])).to be_failure
     end
+  end
+
+  describe '#to_ast' do
+    it 'returns ast' do
+      expect(operation.to_ast).to eql([:each, [:predicate, [:str?, [[:input, Undefined]]]]])
+    end
 
     it 'returns result ast' do
-      expect(operation.([nil, nil]).to_ast).to eql(
+      expect(operation.([nil, 12, nil]).to_ast).to eql(
         [:each, [
-          [:path, [0, [:predicate, [:str?, [[:input, nil]]]]]],
-          [:path, [1, [:predicate, [:str?, [[:input, nil]]]]]]
+          [:key, [0, [:predicate, [:str?, [[:input, nil]]]]]],
+          [:key, [1, [:predicate, [:str?, [[:input, 12]]]]]],
+          [:key, [2, [:predicate, [:str?, [[:input, nil]]]]]]
         ]]
+      )
+    end
+
+    it 'returns failure result ast' do
+      expect(operation.with(id: :tags).([nil, 'red', 12]).to_ast).to eql(
+        [:failure, [:tags, [:each, [
+          [:key, [0, [:predicate, [:str?, [[:input, nil]]]]]],
+          [:key, [2, [:predicate, [:str?, [[:input, 12]]]]]]
+        ]]]]
       )
     end
   end

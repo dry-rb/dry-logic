@@ -1,5 +1,3 @@
-require 'dry/logic/rule/predicate'
-
 RSpec.describe Dry::Logic::Rule::Predicate do
   subject(:rule) { Dry::Logic::Rule::Predicate.new(str?) }
 
