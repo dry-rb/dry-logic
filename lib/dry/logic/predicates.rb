@@ -171,11 +171,11 @@ module Dry
         end
 
         def true?(value)
-          value === true
+          value.equal?(true)
         end
 
         def false?(value)
-          value === false
+          value.equal?(false)
         end
 
         def format?(regex, input)
