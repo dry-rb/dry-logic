@@ -5,22 +5,18 @@ bundler_args: --without console tools
 script:
   - bundle exec rake spec
 rvm:
-  - 2.0
   - 2.1
   - 2.2
   - 2.3.0
   - rbx-2
   - jruby-9000
-  - ruby-head
-  - jruby-head
 env:
   global:
     - JRUBY_OPTS='--dev -J-Xmx1024M'
 matrix:
   allow_failures:
-    - rvm: ruby-head
-    - rvm: jruby-head
     - rvm: jruby-9000
+    - rvm: rbx-2
 notifications:
   email: false
   webhooks:
