@@ -39,7 +39,7 @@ module Dry
       end
 
       def visit_set(node)
-        Operations::Set.new(call(node))
+        Operations::Set.new(*call(node))
       end
 
       def visit_each(node)

@@ -21,7 +21,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:and_op) { key_op.curry(:email) & rule }
   let(:or_op) { key_op.curry(:email) | rule }
   let(:xor_op) { key_op.curry(:email) ^ rule }
-  let(:set_op) { Operations::Set.new([rule]) }
+  let(:set_op) { Operations::Set.new(rule) }
   let(:each_op) { Operations::Each.new(rule) }
 
   it 'compiles key rules' do
