@@ -28,7 +28,7 @@ module Dry
         end
 
         def with(new_options)
-          self.class.new(*rules, options.merge(new_options))
+          new(rules, options.merge(new_options))
         end
       end
     end
