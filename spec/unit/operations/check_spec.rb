@@ -9,12 +9,7 @@ RSpec.describe Operations::Check do
 
       it 'applies predicate to args extracted from the input' do
         expect(operation.(num: 1)).to be_success
-
         expect(operation.(num: 2)).to be_failure
-
-        expect(operation.(num: 1).to_ast).to eql(
-          [:success, [:compare, [:check, [:compare, [:num], [:predicate, [:eql?, [[:left, 1], [:right, 1]]]]]]]]
-        )
       end
     end
 

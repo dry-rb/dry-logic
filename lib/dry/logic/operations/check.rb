@@ -32,13 +32,14 @@ module Dry
         end
 
         def call(input)
-          args = evaluator[input].reverse
-          *head, tail = args
+          *head, tail = evaluator[input].reverse
+          result = rule.curry(*head).(tail)
 
-          curried = rule.curry(*head)
-          success = curried[tail]
-
-          Result.new(success, id) { [type, [id, options[:keys], curried.ast(tail)]] }
+          if result.success?
+            Result::SUCCESS
+          else
+            Result.new(false, id) { [type, [id, options[:keys], result.to_ast]] }
+          end
         end
 
         def [](input)
