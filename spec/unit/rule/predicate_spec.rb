@@ -1,11 +1,11 @@
-RSpec.describe Dry::Logic::Rule::Predicate do
-  subject(:rule) { Dry::Logic::Rule::Predicate.new(predicate) }
+RSpec.describe Rule::Predicate do
+  subject(:rule) { Rule::Predicate.new(predicate) }
 
   let(:predicate) { str? }
 
   include_context 'predicates'
 
-  it_behaves_like Dry::Logic::Rule
+  it_behaves_like Rule
 
   describe '#name' do
     it 'returns predicate identifier' do
