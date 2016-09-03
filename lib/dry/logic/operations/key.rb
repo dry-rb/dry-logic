@@ -38,7 +38,12 @@ module Dry
         def call(hash)
           input = evaluator[hash]
           result = predicate.(input)
-          Result.new(result.success?, path) { [type, [path, result.ast]] }
+
+          if result.success?
+            Result::SUCCESS
+          else
+            Result.new(false, path) { [type, [path, result.to_ast]] }
+          end
         end
 
         def [](hash)
