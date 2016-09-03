@@ -12,7 +12,7 @@ module Dry
           left_result = left.(input)
 
           if left_result.success?
-            Result.new(true, id)
+            Result::SUCCESS
           else
             right_result = right.(input)
             Result.new(right_result.success?, id) { right_result.ast(input) }

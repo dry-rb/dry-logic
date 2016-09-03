@@ -1,6 +1,16 @@
 module Dry
   module Logic
     class Result
+      SUCCESS = Class.new {
+        def success?
+          true
+        end
+
+        def failure?
+          false
+        end
+      }.new.freeze
+
       attr_reader :success
 
       attr_reader :id

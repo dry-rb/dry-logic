@@ -15,7 +15,7 @@ module Dry
             right_result = right.(input)
             Result.new(right_result.success?, id) { right_result.to_ast }
           else
-            Result.new(true, id) { left.ast(input) }
+            Result::SUCCESS
           end
         end
 
