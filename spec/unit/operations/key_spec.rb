@@ -75,7 +75,7 @@ RSpec.describe Operations::Key do
         expect(failure).to be_failure
 
         expect(failure.to_ast).to eql(
-          [:failure, [:nums, [:key, [:nums, [:each, [
+          [:failure, [:nums, [:key, [:nums, [:set, [
             [:key, [0, [:predicate, [:str?, [[:input, 1]]]]]],
             [:key, [2, [:predicate, [:str?, [[:input, 3]]]]]]
           ]]]]]]

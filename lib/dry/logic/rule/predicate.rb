@@ -1,4 +1,5 @@
 require 'dry/logic/rule'
+require 'dry/logic/result'
 
 module Dry
   module Logic
@@ -16,9 +17,10 @@ module Dry
       end
       alias_method :to_str, :to_s
 
-      def ast
-        [type, [name, args_with_names]]
+      def ast(input = Undefined)
+        [type, [name, args_with_names(input)]]
       end
+      alias_method :to_ast, :ast
     end
   end
 end

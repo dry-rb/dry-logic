@@ -21,7 +21,7 @@ RSpec.describe Operations::Each do
 
     it 'returns result ast' do
       expect(operation.([nil, 12, nil]).to_ast).to eql(
-        [:each, [
+        [:set, [
           [:key, [0, [:predicate, [:str?, [[:input, nil]]]]]],
           [:key, [1, [:predicate, [:str?, [[:input, 12]]]]]],
           [:key, [2, [:predicate, [:str?, [[:input, nil]]]]]]
@@ -31,7 +31,7 @@ RSpec.describe Operations::Each do
 
     it 'returns failure result ast' do
       expect(operation.with(id: :tags).([nil, 'red', 12]).to_ast).to eql(
-        [:failure, [:tags, [:each, [
+        [:failure, [:tags, [:set, [
           [:key, [0, [:predicate, [:str?, [[:input, nil]]]]]],
           [:key, [2, [:predicate, [:str?, [[:input, 12]]]]]]
         ]]]]

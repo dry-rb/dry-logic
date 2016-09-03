@@ -1,6 +1,5 @@
 require 'dry/equalizer'
 require 'dry/logic/operations'
-require 'dry/logic/appliable'
 
 module Dry
   module Logic
@@ -15,7 +14,6 @@ module Dry
     class Rule
       include Dry::Equalizer(:predicate, :options)
       include Operators
-      include Appliable
 
       DEFAULT_OPTIONS = { args: [].freeze, result: nil }.freeze
 
@@ -41,8 +39,12 @@ module Dry
         :rule
       end
 
+      def id
+        options[:id]
+      end
+
       def call(*input)
-        with(args: [*args, *input], result: self[*input])
+        Result.new(self[*input], id) { ast(*input) }
       end
 
       def [](*input)
@@ -77,14 +79,8 @@ module Dry
 
       private
 
-      def args_with_names
-        idx = arity - args.size
-
-        if idx < 0
-          []
-        else
-          parameters.map(&:last).zip(args + Array.new(idx, Undefined))
-        end
+      def args_with_names(*input)
+        parameters.map(&:last).zip(args + input)
       end
     end
   end

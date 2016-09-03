@@ -36,13 +36,17 @@ module Dry
           *head, tail = args
 
           curried = rule.curry(*head)
-          applied = curried.(tail)
+          success = curried[tail]
 
-          new([applied], result: applied.success?)
+          Result.new(success, id) { [type, [id, options[:keys], curried.ast(tail)]] }
         end
 
-        def ast
-          [type, [id, options[:keys], rule.ast]]
+        def [](input)
+          rule[*evaluator[input].reverse]
+        end
+
+        def ast(input = Undefined)
+          [type, [id, options[:keys], rule.ast(input)]]
         end
       end
     end

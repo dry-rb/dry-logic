@@ -13,8 +13,8 @@ module Dry
           @left, @right = rules
         end
 
-        def ast
-          [type, [left.ast, right.ast]]
+        def ast(input = Undefined)
+          [type, [left.ast(input), right.ast(input)]]
         end
       end
     end

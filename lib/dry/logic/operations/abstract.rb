@@ -1,6 +1,5 @@
 require 'dry/equalizer'
 require 'dry/logic/operators'
-require 'dry/logic/appliable'
 
 module Dry
   module Logic
@@ -8,7 +7,6 @@ module Dry
       class Abstract
         include Dry::Equalizer(:rules, :options)
         include Operators
-        include Appliable
 
         attr_reader :rules
 
@@ -17,6 +15,10 @@ module Dry
         def initialize(*rules, **options)
           @rules = rules
           @options = options
+        end
+
+        def id
+          options[:id]
         end
 
         def curry(*args)
@@ -29,6 +31,10 @@ module Dry
 
         def with(new_options)
           new(rules, options.merge(new_options))
+        end
+
+        def to_ast
+          ast
         end
       end
     end

@@ -22,13 +22,6 @@ shared_examples_for Dry::Logic::Rule do
   end
 
   describe '#call' do
-    it 'returns applied predicate' do
-      rule = rule_type.new(predicate)
-
-      expect(predicate).to receive(:[]).with(2).and_return(true)
-      expect(rule.(2)).to be_applied
-    end
-
     it 'returns success for valid input' do
       rule = rule_type.new(predicate)
 

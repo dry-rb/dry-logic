@@ -21,7 +21,7 @@ RSpec.describe Operations::And do
 
     it 'returns result ast' do
       expect(operation.('18').to_ast).to eql(
-        [:predicate, [:int?, [[:input, '18']]]]
+        [:and, [[:predicate, [:int?, [[:input, '18']]]], [:hint, [:predicate, [:gt?, [[:num, 18], [:input, '18']]]]]]]
       )
 
       expect(operation.(18).to_ast).to eql(
@@ -31,7 +31,7 @@ RSpec.describe Operations::And do
 
     it 'returns failure result ast' do
       expect(operation.with(id: :age).('18').to_ast).to eql(
-        [:failure, [:age, [:predicate, [:int?, [[:input, '18']]]]]]
+        [:failure, [:age, [:and, [[:predicate, [:int?, [[:input, '18']]]], [:hint, [:predicate, [:gt?, [[:num, 18], [:input, '18']]]]]]]]]
       )
 
       expect(operation.with(id: :age).(18).to_ast).to eql(

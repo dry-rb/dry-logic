@@ -9,14 +9,15 @@ module Dry
         end
 
         def call(input)
-          left_applied = left.(input)
-          right_applied = right.(input)
-
-          new([left_applied, right_applied], result: left.(input).success? ^ right.(input).success?)
+          Result.new(self[input], id) { ast(input) }
         end
 
-        def ast
-          [type, rules.map { |rule| rule.to_ast }]
+        def [](input)
+          left[input] ^ right[input]
+        end
+
+        def ast(input = Undefined)
+          [type, rules.map { |rule| rule.ast(input) }]
         end
       end
     end

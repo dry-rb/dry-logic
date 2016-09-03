@@ -1,4 +1,5 @@
 require 'dry/logic/operations/abstract'
+require 'dry/logic/result'
 
 module Dry
   module Logic
@@ -9,14 +10,20 @@ module Dry
         end
 
         def call(input)
-          applied = rules.map { |rule| rule.(input) }
-          result = applied.all?(&:success?)
+          results = rules.map { |rule| rule.(input) }
+          success = results.all?(&:success?)
 
-          new(applied, result: result)
+          Result.new(success, id) do
+            [type, results.select(&:failure?).map { |failure| failure.to_ast }]
+          end
         end
 
-        def ast
-          [type, rules.select(&:failure?).map(&:to_ast)]
+        def [](input)
+          rules.map { |rule| rule[input] }.all?
+        end
+
+        def ast(input = Undefined)
+          [type, rules.map { |rule| rule.ast(input) }]
         end
       end
     end

@@ -9,7 +9,6 @@ module Dry
         attr_reader :evaluator
 
         attr_reader :path
-        alias_method :id, :path
 
         def self.new(rules, options)
           if options[:evaluator]
@@ -37,12 +36,21 @@ module Dry
         end
 
         def call(hash)
-          applied = predicate.(evaluator[hash])
-          self.class.new(applied, options.merge(result: applied.success?))
+          input = evaluator[hash]
+          result = predicate.(input)
+          Result.new(result.success?, path) { [type, [path, result.ast]] }
         end
 
-        def ast
-          [type, [path, predicate.ast]]
+        def [](hash)
+          predicate[evaluator[hash]]
+        end
+
+        def ast(input = nil)
+          if input
+            [type, [path, predicate.ast(evaluator[input])]]
+          else
+            [type, [path, predicate.ast]]
+          end
         end
       end
     end

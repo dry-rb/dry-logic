@@ -9,12 +9,21 @@ module Dry
         end
 
         def call(input)
-          applied = left.(input)
+          left_result = left.(input)
 
-          if applied.success?
-            right.with(id: id).(input)
+          if left_result.success?
+            right_result = right.(input)
+            Result.new(right_result.success?, id) { right_result.to_ast }
           else
-            with(result: true)
+            Result.new(true, id) { left.ast(input) }
+          end
+        end
+
+        def [](input)
+          if left[input]
+            right[input]
+          else
+            true
           end
         end
       end

@@ -47,7 +47,7 @@ RSpec.describe Rule::Predicate do
 
   describe '#to_s' do
     it 'returns string representation' do
-      expect(rule.('foo').to_s).to eql('str?("foo")')
+      expect(rule.curry('foo').to_s).to eql('str?("foo")')
     end
   end
 end

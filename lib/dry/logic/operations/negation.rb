@@ -16,12 +16,11 @@ module Dry
         end
 
         def call(input)
-          applied = predicate.with(id: id).(input)
-          new(applied, result: !applied.success?)
+          Result.new(!predicate[input], id) { ast(input) }
         end
 
-        def ast
-          [type, predicate.ast]
+        def ast(input = Undefined)
+          [type, predicate.ast(input)]
         end
       end
     end

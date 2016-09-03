@@ -16,22 +16,25 @@ module Dry
         end
 
         def call(input)
-          applied = input.map { |element| predicate.(element) }
-          result = applied.all?(&:success?)
+          results = input.map { |element| predicate.(element) }
+          success = results.all?(&:success?)
 
-          new(applied, result: result)
-        end
+          Result.new(success, id) do
+            failures = results
+              .map
+              .with_index { |result, idx| [:key, [idx, result.ast(input[idx])]] if result.failure? }
+              .compact
 
-        def ast
-          if applied?
-            [type, failures.map { |rule, idx| [:key, [idx, rule.to_ast]] }]
-          else
-            [type, predicate.to_ast]
+            [:set, failures]
           end
         end
 
-        def failures
-          rules.map.with_index { |rule, idx| [rule, idx] if rule.failure? }.compact
+        def [](arr)
+          arr.map { |input| predicate[input] }.all?
+        end
+
+        def ast(input = Undefined)
+          [type, predicate.ast(input)]
         end
       end
     end
