@@ -16,6 +16,10 @@ module Dry
         def ast(input = Undefined)
           [type, [left.ast(input), right.ast(input)]]
         end
+
+        def to_s
+          "#{left} #{operator.to_s.upcase} #{right}"
+        end
       end
     end
   end

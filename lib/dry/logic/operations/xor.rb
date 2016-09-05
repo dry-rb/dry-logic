@@ -7,6 +7,7 @@ module Dry
         def type
           :xor
         end
+        alias_method :operator, :type
 
         def call(input)
           Result.new(self[input], id) { ast(input) }

@@ -110,4 +110,10 @@ RSpec.describe Operations::Key do
       expect(present_and_string.(user: { name: 1 })).to be_failure
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(operation.to_s).to eql('key[user](key?(:age))')
+    end
+  end
 end

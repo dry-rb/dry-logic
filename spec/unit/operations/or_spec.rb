@@ -55,4 +55,10 @@ RSpec.describe Operations::Or do
       expect(operation.or(other).(14)).to be_failure
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(operation.to_s).to eql('none? OR gt?(18)')
+    end
+  end
 end

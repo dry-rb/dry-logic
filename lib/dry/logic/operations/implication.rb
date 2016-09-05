@@ -8,6 +8,10 @@ module Dry
           :implication
         end
 
+        def operator
+          :then
+        end
+
         def call(input)
           left_result = left.(input)
 

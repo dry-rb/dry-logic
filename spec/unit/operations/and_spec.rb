@@ -55,4 +55,10 @@ RSpec.describe Operations::And do
       expect(operation.or(other).(13)).to be_success
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(operation.to_s).to eql('int? AND gt?(18)')
+    end
+  end
 end

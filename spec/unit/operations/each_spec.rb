@@ -38,4 +38,10 @@ RSpec.describe Operations::Each do
       )
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(operation.to_s).to eql('each(str?)')
+    end
+  end
 end

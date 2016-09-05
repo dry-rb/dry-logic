@@ -25,6 +25,10 @@ module Dry
         def ast(input = Undefined)
           [type, rules.map { |rule| rule.ast(input) }]
         end
+
+        def to_s
+          "#{type}(#{rules.map(&:to_s).join(', ')})"
+        end
       end
     end
   end

@@ -36,6 +36,10 @@ module Dry
         def ast(input = Undefined)
           [type, predicate.ast(input)]
         end
+
+        def to_s
+          "#{type}(#{predicate})"
+        end
       end
     end
   end

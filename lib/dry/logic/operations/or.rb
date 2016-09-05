@@ -7,6 +7,7 @@ module Dry
         def type
           :or
         end
+        alias_method :operator, :type
 
         def call(input)
           left_result = left.(input)

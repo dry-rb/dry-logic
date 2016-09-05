@@ -13,7 +13,11 @@ module Dry
       end
 
       def to_s
-        "#{name}(#{args.map(&:inspect).join(', ')})"
+        if args.size > 0
+          "#{name}(#{args.map(&:inspect).join(', ')})"
+        else
+          "#{name}"
+        end
       end
       alias_method :to_str, :to_s
 

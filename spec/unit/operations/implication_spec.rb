@@ -21,4 +21,10 @@ RSpec.describe Operations::Implication do
       )
     end
   end
+
+  describe '#to_s' do
+    it 'returns string representation' do
+      expect(operation.to_s).to eql('int? THEN gt?(18)')
+    end
+  end
 end

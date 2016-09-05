@@ -57,6 +57,10 @@ module Dry
             [type, [path, predicate.ast]]
           end
         end
+
+        def to_s
+          "#{type}[#{path}](#{predicate})"
+        end
       end
     end
   end
