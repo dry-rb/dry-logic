@@ -16,7 +16,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   let(:rule) { Rule::Predicate.new(predicate) }
   let(:key_op) { Operations::Key.new(rule, name: :email) }
   let(:attr_op) { Operations::Attr.new(rule, name: :email) }
-  let(:check_op) { Operations::Check.new(rule, id: :email, keys: [:email]) }
+  let(:check_op) { Operations::Check.new(rule, keys: [:email]) }
   let(:not_key_op) { Operations::Negation.new(key_op) }
   let(:and_op) { key_op.curry(:email) & rule }
   let(:or_op) { key_op.curry(:email) | rule }
@@ -41,7 +41,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
   end
 
   it 'compiles check rules' do
-    ast = [[:check, [:email, [:email], [:predicate, [:filled?, [[:input, Undefined]]]]]]]
+    ast = [[:check, [[:email], [:predicate, [:filled?, [[:input, Undefined]]]]]]]
 
     rules = compiler.(ast)
 

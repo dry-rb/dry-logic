@@ -38,7 +38,7 @@ module Dry
           if result.success?
             Result::SUCCESS
           else
-            Result.new(false, id) { [type, [id, options[:keys], result.to_ast]] }
+            Result.new(false, id) { [type, [options[:keys], result.to_ast]] }
           end
         end
 
@@ -47,7 +47,7 @@ module Dry
         end
 
         def ast(input = Undefined)
-          [type, [id, options[:keys], rule.ast(input)]]
+          [type, [options[:keys], rule.ast(input)]]
         end
       end
     end

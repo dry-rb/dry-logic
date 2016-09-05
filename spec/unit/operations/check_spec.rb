@@ -29,7 +29,7 @@ RSpec.describe Operations::Check do
 
         expect(result.to_ast).to eql(
           [:failure, [:compare, [:check, [
-            :compare, [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]
+            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]
           ]]]
         )
       end
@@ -38,14 +38,12 @@ RSpec.describe Operations::Check do
 
   describe '#to_ast' do
     subject(:operation) do
-      Operations::Check.new(
-        Rule::Predicate.new(str?), id: :verify_email, keys: [:email]
-      )
+      Operations::Check.new(Rule::Predicate.new(str?), keys: [:email])
     end
 
     it 'returns ast' do
       expect(operation.to_ast).to eql(
-        [:check, [:verify_email, [:email], [:predicate, [:str?, [[:input, Undefined]]]]]]
+        [:check, [[:email], [:predicate, [:str?, [[:input, Undefined]]]]]]
       )
     end
   end
