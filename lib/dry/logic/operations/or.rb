@@ -20,7 +20,7 @@ module Dry
             if right_result.success?
               Result::SUCCESS
             else
-              Result.new(false, id) { right_result.ast(input) }
+              Result.new(false, id) { [:or, [left_result.to_ast, right_result.ast(input)]] }
             end
           end
         end

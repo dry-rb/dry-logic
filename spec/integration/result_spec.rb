@@ -27,7 +27,7 @@ RSpec.describe Result do
     context 'with OR operation' do
       let(:rule) { Rule::Predicate.new(array?).or(Rule::Predicate.new(empty?)) }
       let(:input) { 123 }
-      let(:output) { 'empty?(123)' }
+      let(:output) { 'array?(123) OR empty?(123)' }
 
       it_behaves_like 'string representation'
     end

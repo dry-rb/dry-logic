@@ -72,6 +72,11 @@ module Dry
         "#{visit(left)} AND #{visit(right)}"
       end
 
+      def visit_or(node)
+        left, right = node
+        "#{visit(left)} OR #{visit(right)}"
+      end
+
       def visit_xor(node)
         left, right = node
         "#{visit(left)} XOR #{visit(right)}"

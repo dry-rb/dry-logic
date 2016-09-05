@@ -21,19 +21,28 @@ RSpec.describe Operations::Or do
   describe '#to_ast' do
     it 'returns ast' do
       expect(operation.to_ast).to eql(
-        [:or, [[:predicate, [:none?, [[:input, Undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]]
+        [:or, [
+          [:predicate, [:none?, [[:input, Undefined]]]],
+          [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]
+        ]
       )
     end
 
     it 'returns result ast' do
       expect(operation.(17).to_ast).to eql(
-        [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]
+        [:or, [
+          [:predicate, [:none?, [[:input, 17]]]],
+          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
+        ]
       )
     end
 
     it 'returns failure result ast' do
       expect(operation.with(id: :age).(17).to_ast).to eql(
-        [:failure, [:age, [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]]
+        [:failure, [:age, [:or, [
+          [:predicate, [:none?, [[:input, 17]]]],
+          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
+        ]]]
       )
     end
   end
