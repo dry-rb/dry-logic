@@ -46,6 +46,44 @@ module Dry
           ast
         end
       end
+
+      def to_s
+        visit(to_ast)
+      end
+
+      private
+
+      def visit(ast)
+        __send__(:"visit_#{ast[0]}", ast[1])
+      end
+
+      def visit_predicate(node)
+        name, args = node
+
+        if args.empty?
+          name.to_s
+        else
+          "#{name}(#{args.map(&:last).map(&:inspect).join(', ')})"
+        end
+      end
+
+      def visit_and(node)
+        left, right = node
+        "#{visit(left)} AND #{visit(right)}"
+      end
+
+      def visit_xor(node)
+        left, right = node
+        "#{visit(left)} XOR #{visit(right)}"
+      end
+
+      def visit_not(node)
+        "not(#{visit(node)})"
+      end
+
+      def visit_hint(node)
+        visit(node)
+      end
     end
   end
 end
