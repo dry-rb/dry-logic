@@ -24,7 +24,7 @@ module Dry
       end
 
       def success?
-        success.equal?(true)
+        success
       end
 
       def failure?

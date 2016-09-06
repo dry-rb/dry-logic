@@ -12,6 +12,16 @@ RSpec.describe Dry::Logic::Rule do
     end
   end
 
+  describe 'with a function returning truthy value' do
+    it 'is successful for valid input' do
+      expect(Rule.new(-> val { val }).('true')).to be_success
+    end
+
+    it 'is not successful for invalid input' do
+      expect(Rule.new(-> val { val }).(nil)).to be_failure
+    end
+  end
+
   describe '#bind' do
     let(:predicate) { klass.instance_method(:test?) }
     let(:klass) { Class.new { def test?; true; end } }
