@@ -181,6 +181,10 @@ module Dry
         def format?(regex, input)
           !regex.match(input).nil?
         end
+
+        def predicate(name, &block)
+          define_singleton_method(name, &block)
+        end
       end
 
       extend Methods
