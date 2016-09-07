@@ -60,7 +60,14 @@ module Dry
       end
 
       def bind(object)
-        self.class.new(predicate.bind(object), options)
+        if predicate.is_a?(UnboundMethod)
+          self.class.new(predicate.bind(object), options)
+        else
+          self.class.new(
+            -> *args { object.instance_exec(*args, &predicate) },
+            options.merge(arity: arity, parameters: parameters)
+          )
+        end
       end
 
       def eval_args(object)
@@ -72,7 +79,7 @@ module Dry
       end
 
       def parameters
-        predicate.parameters
+        options[:parameters] || predicate.parameters
       end
 
       def ast(input = Undefined)

@@ -31,15 +31,31 @@ RSpec.describe Dry::Logic::Rule do
   end
 
   describe '#bind' do
-    let(:predicate) { klass.instance_method(:test?) }
-    let(:klass) { Class.new { def test?; true; end } }
-    let(:object) { klass.new }
+    context 'with an unbound method' do
+      let(:predicate) { klass.instance_method(:test?) }
+      let(:klass) { Class.new { def test?; true; end } }
+      let(:object) { klass.new }
 
-    it 'returns a new rule with its predicate bound to a specific object' do
-      bound = rule.bind(object)
+      it 'returns a new rule with its predicate bound to a specific object' do
+        bound = rule.bind(object)
 
-      expect(bound.options).to eql(rule.options)
-      expect(bound.()).to be_success
+        expect(bound.options).to eql(rule.options)
+        expect(bound.()).to be_success
+      end
+    end
+
+    context 'with an arbitrary block' do
+      let(:predicate) { -> value { value == expected } }
+      let(:object) { Class.new { def expected; 'test'; end }.new }
+
+      it 'returns a new with its predicate executed in the context of the provided object' do
+        bound = rule.bind(object)
+
+        expect(bound.parameters).to eql([[:req, :value]])
+
+        expect(bound.('test')).to be_success
+        expect(bound.('oops')).to be_failure
+      end
     end
   end
 
