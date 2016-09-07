@@ -1,13 +1,11 @@
-require 'dry/logic/operations/abstract'
+require 'dry/logic/operations/unary'
 require 'dry/logic/evaluator'
 
 module Dry
   module Logic
     module Operations
-      class Check < Abstract
+      class Check < Unary
         attr_reader :evaluator
-
-        attr_reader :rule
 
         def self.new(rule, **options)
           if options[:evaluator]
@@ -20,11 +18,9 @@ module Dry
           end
         end
 
-        def initialize(rule, **options)
-          @options = options
+        def initialize(*rules, **options)
+          super
           @evaluator = options[:evaluator]
-          @rules = [rule]
-          @rule = rule
         end
 
         def type

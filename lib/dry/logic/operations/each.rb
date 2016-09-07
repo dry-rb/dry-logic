@@ -1,22 +1,15 @@
-require 'dry/logic/operations/abstract'
+require 'dry/logic/operations/unary'
 
 module Dry
   module Logic
     module Operations
-      class Each < Abstract
-        attr_reader :predicate
-
-        def initialize(*rules, **options)
-          super
-          @predicate = rules.first
-        end
-
+      class Each < Unary
         def type
           :each
         end
 
         def call(input)
-          results = input.map { |element| predicate.(element) }
+          results = input.map { |element| rule.(element) }
           success = results.all?(&:success?)
 
           Result.new(success, id) do
@@ -30,15 +23,7 @@ module Dry
         end
 
         def [](arr)
-          arr.map { |input| predicate[input] }.all?
-        end
-
-        def ast(input = Undefined)
-          [type, predicate.ast(input)]
-        end
-
-        def to_s
-          "#{type}(#{predicate})"
+          arr.map { |input| rule[input] }.all?
         end
       end
     end

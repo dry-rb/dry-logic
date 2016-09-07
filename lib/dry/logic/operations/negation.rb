@@ -1,30 +1,15 @@
-require 'dry/logic/operations/negation'
+require 'dry/logic/operations/unary'
 
 module Dry
   module Logic
     module Operations
-      class Negation < Abstract
-        attr_reader :predicate
-
-        def initialize(*rules, **options)
-          super
-          @predicate = rules.first
-        end
-
+      class Negation < Unary
         def type
           :not
         end
 
         def call(input)
-          Result.new(!predicate[input], id) { ast(input) }
-        end
-
-        def ast(input = Undefined)
-          [type, predicate.ast(input)]
-        end
-
-        def to_s
-          "#{type}(#{predicate})"
+          Result.new(!rule[input], id) { ast(input) }
         end
       end
     end

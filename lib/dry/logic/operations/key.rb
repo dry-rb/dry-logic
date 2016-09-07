@@ -1,11 +1,10 @@
+require 'dry/logic/operations/unary'
 require 'dry/logic/evaluator'
 
 module Dry
   module Logic
     module Operations
-      class Key < Abstract
-        attr_reader :predicate
-
+      class Key < Unary
         attr_reader :evaluator
 
         attr_reader :path
@@ -27,7 +26,6 @@ module Dry
         def initialize(*rules, **options)
           super
           @evaluator = options[:evaluator]
-          @predicate = rules.first
           @path = options[:path]
         end
 
@@ -37,7 +35,7 @@ module Dry
 
         def call(hash)
           input = evaluator[hash]
-          result = predicate.(input)
+          result = rule.(input)
 
           if result.success?
             Result::SUCCESS
@@ -47,19 +45,19 @@ module Dry
         end
 
         def [](hash)
-          predicate[evaluator[hash]]
+          rule[evaluator[hash]]
         end
 
         def ast(input = nil)
           if input
-            [type, [path, predicate.ast(evaluator[input])]]
+            [type, [path, rule.ast(evaluator[input])]]
           else
-            [type, [path, predicate.ast]]
+            [type, [path, rule.ast]]
           end
         end
 
         def to_s
-          "#{type}[#{path}](#{predicate})"
+          "#{type}[#{path}](#{rule})"
         end
       end
     end
