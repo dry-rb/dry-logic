@@ -15,7 +15,7 @@ module Dry
       include Dry::Equalizer(:predicate, :options)
       include Operators
 
-      DEFAULT_OPTIONS = { args: [].freeze, result: nil }.freeze
+      DEFAULT_OPTIONS = { args: [].freeze }.freeze
 
       attr_reader :predicate
 
