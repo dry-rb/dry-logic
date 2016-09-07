@@ -21,8 +21,6 @@ module Dry
 
       attr_reader :options
 
-      attr_reader :name
-
       attr_reader :args
 
       attr_reader :arity
@@ -30,7 +28,6 @@ module Dry
       def initialize(predicate, options = DEFAULT_OPTIONS)
         @predicate = predicate
         @options = options
-        @name = options[:name]
         @args = options[:args]
         @arity = options[:arity] || predicate.arity
       end

@@ -7,8 +7,8 @@ RSpec.describe Dry::Logic::Rule do
   it_behaves_like Dry::Logic::Rule
 
   describe '.new' do
-    it 'accepts a name' do
-      expect(Rule.new(predicate, name: :check_num).name).to be(:check_num)
+    it 'accepts an :id' do
+      expect(Rule.new(predicate, id: :check_num).id).to be(:check_num)
     end
   end
 
