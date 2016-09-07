@@ -1,4 +1,5 @@
 require 'dry/logic/operations/unary'
+require 'dry/logic/result'
 
 module Dry
   module Logic

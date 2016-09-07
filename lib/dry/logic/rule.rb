@@ -1,5 +1,6 @@
 require 'dry/equalizer'
 require 'dry/logic/operations'
+require 'dry/logic/result'
 
 module Dry
   module Logic

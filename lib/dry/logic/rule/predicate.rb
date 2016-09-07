@@ -1,5 +1,4 @@
 require 'dry/logic/rule'
-require 'dry/logic/result'
 
 module Dry
   module Logic
