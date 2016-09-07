@@ -19,7 +19,6 @@ module Dry
           "#{name}"
         end
       end
-      alias_method :to_str, :to_s
 
       def ast(input = Undefined)
         [type, [name, args_with_names(input)]]
