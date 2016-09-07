@@ -75,6 +75,10 @@ module Dry
         predicate.parameters
       end
 
+      def ast(input = Undefined)
+        [:predicate, [id, args_with_names(input)]]
+      end
+
       private
 
       def args_with_names(*input)

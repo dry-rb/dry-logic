@@ -22,6 +22,14 @@ RSpec.describe Dry::Logic::Rule do
     end
   end
 
+  describe '#ast' do
+    it 'returns predicate node with :id' do
+      expect(Rule.new(-> value { true }).with(id: :email?).ast('oops')).to eql(
+        [:predicate, [:email?, [[:value, 'oops']]]]
+      )
+    end
+  end
+
   describe '#bind' do
     let(:predicate) { klass.instance_method(:test?) }
     let(:klass) { Class.new { def test?; true; end } }
