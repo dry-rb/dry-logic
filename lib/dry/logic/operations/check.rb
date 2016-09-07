@@ -29,7 +29,7 @@ module Dry
         end
 
         def call(input)
-          *head, tail = evaluator[input].reverse
+          *head, tail = evaluator[input]
           result = rule.curry(*head).(tail)
 
           if result.success?

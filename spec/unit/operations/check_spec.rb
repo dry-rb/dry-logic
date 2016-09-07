@@ -23,13 +23,12 @@ RSpec.describe Operations::Check do
         expect(operation.(nums: { left: 1, right: 2 })).to be_failure
       end
 
-      # check rules reverse the order of params to enable cases like `left.gt(right)` to work
       it 'curries args properly' do
         result = operation.(nums: { left: 1, right: 2 })
 
         expect(result.to_ast).to eql(
           [:failure, [:compare, [:check, [
-            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 2], [:right, 1]]]]]
+            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 1], [:right, 2]]]]]
           ]]]
         )
       end
