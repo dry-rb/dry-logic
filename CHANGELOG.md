@@ -1,3 +1,31 @@
+# v0.4.0 to-be-released
+
+This is a partial rewrite focused on internal clean up and major performance improvements. This is also the beginning of the work to make this library first-class rather than "just" a rule backend for dry-validation and dry-types.
+
+### Added
+
+* `Rule#[]` which applies a rule and always returns `true` or `false` (solnic)
+* `Rule#bind` which returns a rule with its predicate bound to a given object (solnic)
+* `Rule#eval_args` which evaluates unbound-methods-args in the context of a given object (solnic)
+* `Logic.Rule` builder function (solnic)
+* Nice `#inspect` on rules and operation objects (solnic)
+
+### Changed
+
+* [BRAEKING] New result API (solnic)
+* [BREAKING] `Predicate` is now `Rule::Predicate` (solnic)
+* [BREAKING] `Rule::Conjunction` is now `Operation::And` (solnic)
+* [BREAKING] `Rule::Disjunction` is now `Operation::Or` (solnic)
+* [BREAKING] `Rule::ExlusiveDisjunction` is now `Operation::Xor` (solnic)
+* [BREAKING] `Rule::Implication` is now `Operation::Implication` (solnic)
+* [BREAKING] `Rule::Set` is now `Operation::Set` (solnic)
+* [BREAKING] `Rule::Each` is now `Operation::Each` (solnic)
+* [BREAKING] `Rule.new` accepts a predicate function as its first arg now (solnic)
+* [BREAKING] `Rule#name` is now `Rule#id` (solnic)
+* `Rule#parameters` is public now (solnic)
+
+[Compare v0.3.0...v0.4.0](https://github.com/dryrb/dry-logic/compare/v0.3.0...v0.4.0)
+
 # v0.3.0 2016-07-01
 
 ### Added
