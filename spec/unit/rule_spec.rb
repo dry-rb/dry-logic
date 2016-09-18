@@ -30,6 +30,12 @@ RSpec.describe Dry::Logic::Rule do
     end
   end
 
+  describe '#type' do
+    it 'returns rule type' do
+      expect(rule.type).to be(:rule)
+    end
+  end
+
   describe '#bind' do
     let(:bound) { rule.with(id: :bound).bind(object) }
 
