@@ -42,4 +42,12 @@ RSpec.describe 'Rules' do
     expect(rule.([1, 2])).to be_success
     expect(rule.('')).to be_success
   end
+
+  specify 'defining a rule with options' do
+    rule = Dry::Logic::Rule(id: :empty?) { |value| value.empty? }
+
+    expect(rule.('foo')).to be_failure
+    expect(rule.('')).to be_success
+    expect(rule.ast('foo')).to eql([:predicate, [:empty?, [[:value, 'foo']]]])
+  end
 end

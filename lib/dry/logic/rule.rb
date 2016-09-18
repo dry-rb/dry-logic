@@ -6,9 +6,9 @@ module Dry
   module Logic
     def self.Rule(*args, **options, &block)
       if args.any?
-        Rule.new(*args, options)
+        Rule.new(*args, Rule::DEFAULT_OPTIONS.merge(options))
       elsif block
-        Rule.new(block, options)
+        Rule.new(block, Rule::DEFAULT_OPTIONS.merge(options))
       end
     end
 
