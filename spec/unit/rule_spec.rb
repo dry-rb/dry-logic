@@ -71,12 +71,12 @@ RSpec.describe Dry::Logic::Rule do
   end
 
   describe '#eval_args' do
-    let(:options) { { args: [klass.instance_method(:num)] } }
+    let(:options) { { args: [1, klass.instance_method(:num), :foo] } }
     let(:klass) { Class.new { def num; 7; end } }
     let(:object) { klass.new }
 
     it 'evaluates args in the context of the provided object' do
-      expect(rule.eval_args(object).args).to eql([7])
+      expect(rule.eval_args(object).args).to eql([1, 7, :foo])
     end
   end
 end
