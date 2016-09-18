@@ -28,6 +28,12 @@ RSpec.describe Dry::Logic::Rule do
         [:predicate, [:email?, [[:value, 'oops']]]]
       )
     end
+
+    it 'returns predicate node with undefined args' do
+      expect(Rule.new(-> value { true }).with(id: :email?).ast).to eql(
+        [:predicate, [:email?, [[:value, Undefined]]]]
+      )
+    end
   end
 
   describe '#type' do
