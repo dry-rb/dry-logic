@@ -60,7 +60,7 @@ module Dry
       end
 
       def bind(object)
-        if predicate.is_a?(UnboundMethod)
+        if predicate.instance_of?(UnboundMethod)
           self.class.new(predicate.bind(object), options)
         else
           self.class.new(
