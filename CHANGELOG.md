@@ -1,4 +1,4 @@
-# v0.4.0 to-be-released
+# v0.4.0 2016-09-21
 
 This is a partial rewrite focused on internal clean up and major performance improvements. This is also the beginning of the work to make this library first-class rather than "just" a rule backend for dry-validation and dry-types.
 
