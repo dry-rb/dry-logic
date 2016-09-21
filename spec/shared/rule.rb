@@ -1,5 +1,3 @@
-require 'dry/logic/constants'
-
 shared_examples_for Dry::Logic::Rule do
   let(:predicate) { double(:predicate, arity: 2, name: predicate_name) }
   let(:rule_type) { described_class }

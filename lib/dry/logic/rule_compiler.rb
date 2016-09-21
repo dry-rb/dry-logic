@@ -1,9 +1,11 @@
+require 'dry/core/constants'
 require 'dry/logic/rule'
-require 'dry/logic/constants'
 
 module Dry
   module Logic
     class RuleCompiler
+      include Core::Constants
+
       attr_reader :predicates
 
       def initialize(predicates)

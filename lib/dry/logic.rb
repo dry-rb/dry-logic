@@ -1,5 +1,3 @@
-require 'dry-equalizer'
-
 # A collection of micro-libraries, each intended to encapsulate
 # a common task in Ruby
 module Dry
@@ -7,6 +5,5 @@ module Dry
   end
 end
 
-require 'dry/logic/constants'
 require 'dry/logic/rule/predicate'
 require 'dry/logic/operations'

@@ -1,3 +1,4 @@
+require 'dry/core/constants'
 require 'dry/equalizer'
 require 'dry/logic/operations'
 require 'dry/logic/result'
@@ -13,6 +14,7 @@ module Dry
     end
 
     class Rule
+      include Core::Constants
       include Dry::Equalizer(:predicate, :options)
       include Operators
 

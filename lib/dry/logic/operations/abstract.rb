@@ -1,3 +1,4 @@
+require 'dry/core/constants'
 require 'dry/equalizer'
 require 'dry/logic/operators'
 
@@ -5,6 +6,7 @@ module Dry
   module Logic
     module Operations
       class Abstract
+        include Core::Constants
         include Dry::Equalizer(:rules, :options)
         include Operators
 
