@@ -2,34 +2,30 @@ require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates do
   describe '#filled?' do
-    let(:predicate_name) { :filled? }
+    let(:predicate_name) { :non_whitespace? }
 
-    context 'when value is filled' do
+    context 'when string contains non-whitespace characters' do
       let(:arguments_list) do
         [
-          ['Jill'],
-          [[1, 2, 3]],
-          [{ name: 'John' }],
-          [true],
-          [false],
-          ['1'],
+          ['something'],
           ['0'],
-          [:symbol],
-          [String],
-          [' '],
+          ['  with trailing whitespace   '],
+          [:symbol]
         ]
       end
 
       it_behaves_like 'a passing predicate'
     end
 
-    context 'with value is not filled' do
+    context 'when string contains no non-whitespace chars ' do
       let(:arguments_list) do
         [
           [''],
-          [[]],
-          [{}],
-          [nil]
+          [' '],
+          ["\n"],
+          ["\t"],
+          [:""],
+          [:"  "],
         ]
       end
 

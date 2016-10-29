@@ -28,7 +28,8 @@ RSpec.describe Dry::Logic::Predicates do
           ['1'],
           ['0'],
           [:symbol],
-          [String]
+          [String],
+          [' '],
         ]
       end
 

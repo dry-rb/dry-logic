@@ -6,6 +6,8 @@ module Dry
   module Logic
     module Predicates
       module Methods
+        WHITESPACE_PATTERN = /\A[[:space:]#{"\u200B\u200C\u200D\u2060\uFEFF"}]*\z/
+
         def [](name)
           method(name)
         end
@@ -37,6 +39,10 @@ module Dry
 
         def filled?(input)
           !self[:empty?].(input)
+        end
+
+        def non_whitespace?(input)
+          !(WHITESPACE_PATTERN =~ input)
         end
 
         def bool?(input)
