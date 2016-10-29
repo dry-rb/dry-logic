@@ -36,7 +36,7 @@ module Dry
         end
 
         def filled?(input)
-          !self[:empty?].(input)
+          !empty?(input)
         end
 
         def bool?(input)
@@ -104,11 +104,11 @@ module Dry
         end
 
         def lteq?(num, input)
-          !self[:gt?].(num, input)
+          !gt?(num, input)
         end
 
         def gteq?(num, input)
-          !self[:lt?].(num, input)
+          !lt?(num, input)
         end
 
         def size?(size, input)
@@ -130,12 +130,12 @@ module Dry
 
         def inclusion?(list, input)
           ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
-          self[:included_in?].(list, input)
+          included_in?(list, input)
         end
 
         def exclusion?(list, input)
           ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
-          self[:excluded_from?].(list, input)
+          excluded_from?(list, input)
         end
 
         def included_in?(list, input)
@@ -159,7 +159,7 @@ module Dry
         end
 
         def excludes?(value, input)
-          !self[:includes?].(value, input)
+          !includes?(value, input)
         end
 
         def eql?(left, right)
