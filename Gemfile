@@ -4,11 +4,12 @@ gemspec
 
 group :test do
   gem 'codeclimate-test-reporter', platform: :mri
+  gem 'simplecov', require: false
 end
 
 group :tools do
+  gem 'rubocop'
   gem 'byebug', platform: :mri
-  gem 'simplecov', platforms: :mri
 
   unless ENV['TRAVIS']
     gem 'mutant', github: 'mbj/mutant'
