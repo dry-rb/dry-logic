@@ -1,5 +1,9 @@
 # v0.4.1 2017-01-23
 
+### Changed
+
+* Predicates simply reuse other predicate methods instead of referring to them via `#[]` (georgemillo)
+
 ### Fixed
 
 * Warnings on MRI 2.4.0 are gone (jtippett)
