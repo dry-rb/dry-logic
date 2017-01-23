@@ -1,3 +1,11 @@
+# v0.4.1 2017-01-23
+
+### Fixed
+
+* Warnings on MRI 2.4.0 are gone (jtippett)
+
+[Compare v0.4.0...v0.4.1](https://github.com/dryrb/dry-logic/compare/v0.4.0...v0.4.1)
+
 # v0.4.0 2016-09-21
 
 This is a partial rewrite focused on internal clean up and major performance improvements. This is also the beginning of the work to make this library first-class rather than "just" a rule backend for dry-validation and dry-types.
