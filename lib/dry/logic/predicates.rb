@@ -64,7 +64,7 @@ module Dry
         end
 
         def int?(input)
-          input.is_a?(Fixnum)
+          input.is_a?(Integer)
         end
 
         def float?(input)
@@ -113,7 +113,7 @@ module Dry
 
         def size?(size, input)
           case size
-          when Fixnum then size == input.size
+          when Integer then size == input.size
           when Range, Array then size.include?(input.size)
           else
             raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
