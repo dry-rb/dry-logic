@@ -64,11 +64,7 @@ module Dry
         end
 
         def int?(input)
-          if 1.class == Integer
-            input.is_a?(Integer)
-          else
-            input.is_a?(Fixnum)
-          end
+          input.is_a?(Integer)
         end
 
         def float?(input)
@@ -116,14 +112,8 @@ module Dry
         end
 
         def size?(size, input)
-          if 1.class == Integer
-            numeric_class = Integer
-          else
-            numeric_class = Fixnum
-          end
-
           case size
-          when numeric_class then size == input.size
+          when Integer then size == input.size
           when Range, Array then size.include?(input.size)
           else
             raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
