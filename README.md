@@ -28,27 +28,36 @@ require 'dry/logic/predicates'
 
 include Dry::Logic
 
-user_present = Rule::Key.new(Predicates[:filled?], name: :user)
+# Rule::Predicate will only apply its predicate to its input, that’s all
 
-has_min_age = Rule::Key.new(Predicates[:int?], name: [:user, :age])
-  & Rule::Key.new(Predicates[:gt?].curry(18), name: [:user, :age])
+user_present = Rule::Predicate.new(Predicates[:key?]).curry(:user)
+# here curry simply curries arguments, so we can prepare
+# predicates with args without the input
+# translating this into words: check the the input has the key `:user`
+
+min_18 = Rule::Predicate.new(Predicates[:gt?]).curry(18)
+# check the value is greater than 18
+
+has_min_age = Operations::Key.new(min_18, name: [:user, :age])
+# in this example the name options is been use for accessing
+# the value of the input
 
 user_rule = user_present & has_min_age
 
-user_rule.(user: { age: 19 })
-# #<Dry::Logic::Result::Named success?=true input={:user=>{:age=>19}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:gt? args=[18, 19]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
+user_rule.(user: { age: 19 }).success?
+# true
 
-user_rule.(user: { age: 18 })
-# #<Dry::Logic::Result::Named success?=false input={:user=>{:age=>18}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:gt? args=[18, 18]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
+user_rule.(user: { age: 18 }).success?
+# false
 
-user_rule.(user: { age: 'seventeen' }).inspect
-#<Dry::Logic::Result::Named success?=false input={:user=>{:age=>"seventeen"}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:int? args=["seventeen"]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
+user_rule.(user: { age: 'seventeen' })
+# ArgumentError: comparison of String with 18 failed
 
-user_rule.(user: { }).inspect
-#<Dry::Logic::Result::Named success?=false input={:user=>{}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:filled? args=[{}]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user]>, :name=>:user}>>
+user_rule.(user: { })
+# NoMethodError: undefined method `>' for nil:NilClass
 
-puts user_rule.({}).inspect
-#<Dry::Logic::Result::Named success?=false input={} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:filled? args=[nil]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user]>, :name=>:user}>>
+puts user_rule.({}).success?
+# false
 ```
 
 ## License
