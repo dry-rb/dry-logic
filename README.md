@@ -20,36 +20,13 @@ Predicate logic and rule composition used by:
 * [dry-validation](https://github.com/dry-rb/dry-validation) for composing validation rules
 * your project...?
 
-## Synopsis
+## Links
 
-``` ruby
-require 'dry/logic'
-require 'dry/logic/predicates'
+* [Documentation](http://dry-rb.org/gems/dry-logic)
 
-include Dry::Logic
+## Contributing
 
-user_present = Rule::Key.new(Predicates[:filled?], name: :user)
-
-has_min_age = Rule::Key.new(Predicates[:int?], name: [:user, :age])
-  & Rule::Key.new(Predicates[:gt?].curry(18), name: [:user, :age])
-
-user_rule = user_present & has_min_age
-
-user_rule.(user: { age: 19 })
-# #<Dry::Logic::Result::Named success?=true input={:user=>{:age=>19}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:gt? args=[18, 19]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
-
-user_rule.(user: { age: 18 })
-# #<Dry::Logic::Result::Named success?=false input={:user=>{:age=>18}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:gt? args=[18, 18]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
-
-user_rule.(user: { age: 'seventeen' }).inspect
-#<Dry::Logic::Result::Named success?=false input={:user=>{:age=>"seventeen"}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:int? args=["seventeen"]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :name=>[:user, :age]}>>
-
-user_rule.(user: { }).inspect
-#<Dry::Logic::Result::Named success?=false input={:user=>{}} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:filled? args=[{}]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user]>, :name=>:user}>>
-
-puts user_rule.({}).inspect
-#<Dry::Logic::Result::Named success?=false input={} rule=#<Dry::Logic::Rule::Key predicate=#<Dry::Logic::Predicate id=:filled? args=[nil]> options={:evaluator=>#<Dry::Logic::Evaluator::Key path=[:user]>, :name=>:user}>>
-```
+Bug reports and pull requests are welcome on GitHub at https://github.com/dry-rb/dry-logic.
 
 ## License
 
