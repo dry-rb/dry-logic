@@ -188,6 +188,10 @@ module Dry
           end
         end
 
+        def case?(pattern, input)
+          pattern === input
+        end
+
         def predicate(name, &block)
           define_singleton_method(name, &block)
         end
