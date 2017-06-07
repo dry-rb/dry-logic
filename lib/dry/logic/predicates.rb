@@ -178,8 +178,14 @@ module Dry
           value.equal?(false)
         end
 
-        def format?(regex, input)
-          !regex.match(input).nil?
+        if RUBY_VERSION < '2.4'
+          def format?(regex, input)
+            !regex.match(input).nil?
+          end
+        else
+          def format?(regex, input)
+            regex.match?(input)
+          end
         end
 
         def predicate(name, &block)
