@@ -1,3 +1,9 @@
+# v0.4.2 to-be-released
+
+### Added
+
+* New `:case?` predicate matches a value against the given object with `#===` (flash-gordon)
+
 # v0.4.1 2017-01-23
 
 ### Changed
