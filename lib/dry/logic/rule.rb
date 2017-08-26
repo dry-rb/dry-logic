@@ -62,7 +62,7 @@ module Dry
       end
 
       def bind(object)
-        if predicate.instance_of?(UnboundMethod)
+        if UnboundMethod === predicate
           self.class.new(predicate.bind(object), options)
         else
           self.class.new(
@@ -73,7 +73,7 @@ module Dry
       end
 
       def eval_args(object)
-        with(args: args.map { |arg| arg.instance_of?(UnboundMethod) ? arg.bind(object).() : arg })
+        with(args: args.map { |arg| UnboundMethod === arg ? arg.bind(object).() : arg })
       end
 
       def with(new_opts)
