@@ -166,6 +166,10 @@ module Dry
           left.eql?(right)
         end
 
+        def equal?(left, right)
+          left.equal?(right)
+        end
+
         def not_eql?(left, right)
           !left.eql?(right)
         end

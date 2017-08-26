@@ -1,11 +1,13 @@
 require 'dry/logic/predicates'
 
-RSpec.describe Dry::Logic::Predicates, '#eql?' do
-  let(:predicate_name) { :eql? }
+RSpec.describe Dry::Logic::Predicates, '#equal?' do
+  let(:predicate_name) { :equal? }
+  let(:one) { Object.new }
+  let(:two) { Object.new }
 
   context 'when value is equal to the arg' do
     let(:arguments_list) do
-      [['Foo', 'Foo']]
+      [[one, one], [:one, :one]]
     end
 
     it_behaves_like 'a passing predicate'
@@ -13,7 +15,8 @@ RSpec.describe Dry::Logic::Predicates, '#eql?' do
 
   context 'with value is not equal to the arg' do
     let(:arguments_list) do
-      [['Bar', 'Foo']]
+      # Strings are not equal. Yet
+      [[one, two], ['one', 'one']]
     end
 
     it_behaves_like 'a failing predicate'

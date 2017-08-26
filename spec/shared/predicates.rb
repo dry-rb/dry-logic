@@ -30,6 +30,10 @@ RSpec.shared_examples 'predicates' do
   let(:eql?) { Dry::Logic::Predicates[:eql?] }
 
   let(:size?) { Dry::Logic::Predicates[:size?] }
+
+  let(:case?) { Dry::Logic::Predicates[:case?] }
+
+  let(:equal?) { Dry::Logic::Predicates[:equal?] }
 end
 
 RSpec.shared_examples 'a passing predicate' do
