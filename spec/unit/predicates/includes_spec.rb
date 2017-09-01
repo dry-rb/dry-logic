@@ -1,56 +1,24 @@
 require 'dry/logic/predicates'
 
-RSpec.describe Dry::Logic::Predicates do
-  describe '#includes?' do
-    let(:predicate_name) { :includes? }
+RSpec.describe Dry::Logic::Predicates, '#is?' do
+  let(:predicate_name) { :is? }
+  let(:one) { Object.new }
+  let(:two) { Object.new }
 
-    context 'when input includes value' do
-      let(:arguments_list) do
-        [
-          ['Jill', ['Jill', 'John']],
-          ['John', ['Jill', 'John']],
-          [1, 1..2],
-          [2, 1..2],
-          ['Hello', 'Hello World'],
-          ['World', 'Hello World'],
-          [:bar, { bar: 0 }],
-          [nil, [nil, false]],
-          [false, [nil, false]]
-        ]
-      end
-
-      it_behaves_like 'a passing predicate'
+  context 'when value is equal to the arg' do
+    let(:arguments_list) do
+      [[one, one], [:one, :one]]
     end
 
-    context 'with input of invalid type' do
-      let(:arguments_list) do
-        [
-          [2, 1],
-          [1, nil],
-          ["foo", 1],
-          [1, "foo"],
-          [1..2, "foo"],
-          ["foo", 1..2],
-          [:key, "foo"]
-        ]
-      end
+    it_behaves_like 'a passing predicate'
+  end
 
-      it_behaves_like 'a failing predicate'
+  context 'with value is not equal to the arg' do
+    let(:arguments_list) do
+      # Strings are not equal. Yet
+      [[one, two], ['one', 'one']]
     end
 
-    context 'with input excludes value' do
-      let(:arguments_list) do
-        [
-          ['Jack', ['Jill', 'John']],
-          [0, 1..2],
-          [3, 1..2],
-          ['foo', 'Hello World'],
-          [:foo, { bar: 0 }],
-          [true, [nil, false]]
-        ]
-      end
-
-      it_behaves_like 'a failing predicate'
-    end
+    it_behaves_like 'a failing predicate'
   end
 end

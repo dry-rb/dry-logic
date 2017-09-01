@@ -166,7 +166,7 @@ module Dry
           left.eql?(right)
         end
 
-        def equal?(left, right)
+        def is?(left, right)
           left.equal?(right)
         end
 

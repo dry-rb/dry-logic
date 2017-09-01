@@ -3,6 +3,7 @@
 ### Added
 
 * New `:case?` predicate matches a value against the given object with `#===` (flash-gordon)
+* New `:is?` predicate checks objects identity (using `#equal?`) (flash-gordon)
 
 # v0.4.1 2017-01-23
 
