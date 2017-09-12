@@ -1,4 +1,3 @@
-# coding: utf-8
 require File.expand_path('../lib/dry/logic/version', __FILE__)
 
 Gem::Specification.new do |spec|
@@ -7,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Piotr Solnica']
   spec.email         = ['piotr.solnica@gmail.com']
   spec.summary       = 'Predicate logic with rule composition'
-  spec.homepage      = 'https://github.com/dryrb/dry-logic'
+  spec.homepage      = 'https://github.com/dry-rb/dry-logic'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
