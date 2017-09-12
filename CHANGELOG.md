@@ -1,9 +1,15 @@
-# v0.4.2 to-be-released
+# v0.4.2 2017-09-12
 
 ### Added
 
 * New `:case?` predicate matches a value against the given object with `#===` (flash-gordon)
 * New `:is?` predicate checks objects identity (using `#equal?`) (flash-gordon)
+
+### Fixed
+
+* A bug with using custom predicates within a standalone module in `dry-validation` (flash-gordon)
+
+[Compare v0.4.1...v0.4.2(https://github.com/dryrb/dry-logic/compare/v0.4.1...v0.4.2)
 
 # v0.4.1 2017-01-23
 
