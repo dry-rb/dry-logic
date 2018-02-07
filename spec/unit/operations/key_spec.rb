@@ -92,6 +92,20 @@ RSpec.describe Operations::Key do
     end
   end
 
+  describe '#ast' do
+    it 'returns ast without the input' do
+      expect(operation.ast).to eql(
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
+      )
+    end
+
+    it 'returns ast with the input' do
+      expect(operation.ast(user: 'jane')).to eql(
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, 'jane']]]]]]
+      )
+    end
+  end
+
   describe '#and' do
     subject(:operation) do
       Operations::Key.new(Rule::Predicate.new(str?), name: [:user, :name])

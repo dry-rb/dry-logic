@@ -49,11 +49,11 @@ module Dry
           rule[evaluator[hash]]
         end
 
-        def ast(input = nil)
-          if input
-            [type, [path, rule.ast(evaluator[input])]]
-          else
+        def ast(input = Undefined)
+          if input.equal?(Undefined) || !input.is_a?(Hash)
             [type, [path, rule.ast]]
+          else
+            [type, [path, rule.ast(evaluator[input])]]
           end
         end
 
