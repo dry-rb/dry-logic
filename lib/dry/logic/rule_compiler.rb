@@ -1,5 +1,7 @@
 require 'dry/core/constants'
+
 require 'dry/logic/rule'
+require 'dry/logic/rule/predicate'
 
 module Dry
   module Logic
