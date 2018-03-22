@@ -10,7 +10,11 @@ module Dry
         end
 
         def call(input)
-          Result.new(!rule[input], id) { ast(input) }
+          Result.new(rule.(input).failure?, id) { ast(input) }
+        end
+
+        def [](input)
+          !rule[input]
         end
       end
     end
