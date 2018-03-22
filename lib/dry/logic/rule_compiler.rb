@@ -40,6 +40,10 @@ module Dry
         Operations::Attr.new(visit(predicate), name: name)
       end
 
+      def visit_part(node)
+        Operations::Part.new(*call(node))
+      end
+
       def visit_set(node)
         Operations::Set.new(*call(node))
       end

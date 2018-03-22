@@ -34,6 +34,8 @@ RSpec.shared_examples 'predicates' do
   let(:case?) { Dry::Logic::Predicates[:case?] }
 
   let(:equal?) { Dry::Logic::Predicates[:equal?] }
+
+  let(:odd?) { Dry::Logic::Predicates[:odd?] }
 end
 
 RSpec.shared_examples 'a passing predicate' do

@@ -93,6 +93,14 @@ module Dry
       def visit_hint(node)
         visit(node)
       end
+
+      def visit_set(nodes)
+        "set(#{nodes.map { |node| visit(node) }.join(', ')})"
+      end
+
+      def visit_part(nodes)
+        "part(#{nodes.map { |node| visit(node) }.join(', ')})"
+      end
     end
   end
 end
