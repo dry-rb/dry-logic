@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require 'dry/logic'
+require 'dry/logic/predicates'
+
+include Dry::Logic
+
+require "irb"
+IRB.start
