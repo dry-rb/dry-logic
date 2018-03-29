@@ -10,6 +10,15 @@ RSpec.describe Operations::Negation do
       expect(operation.('19')).to be_success
       expect(operation.(17)).to be_failure
     end
+
+    context 'double negation' do
+      subject(:double_negation) { Operations::Negation.new(operation) }
+
+      it 'works as rule' do
+        expect(double_negation.('19')).to be_failure
+        expect(double_negation.(17)).to be_success
+      end
+    end
   end
 
   describe '#to_ast' do
