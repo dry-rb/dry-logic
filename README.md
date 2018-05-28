@@ -1,6 +1,5 @@
 [gem]: https://rubygems.org/gems/dry-logic
 [travis]: https://travis-ci.org/dry-rb/dry-logic
-[gemnasium]: https://gemnasium.com/dry-rb/dry-logic
 [codeclimate]: https://codeclimate.com/github/dry-rb/dry-logic
 [coveralls]: https://coveralls.io/r/dry-rb/dry-logic
 [inchpages]: http://inch-ci.org/github/dry-rb/dry-logic
@@ -9,7 +8,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/dry-logic.svg)][gem]
 [![Build Status](https://travis-ci.org/dry-rb/dry-logic.svg?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/dry-rb/dry-logic.svg)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/dry-rb/dry-logic/badges/gpa.svg)][codeclimate]
 [![Test Coverage](https://codeclimate.com/github/dry-rb/dry-logic/badges/coverage.svg)][codeclimate]
 [![Inline docs](http://inch-ci.org/github/dry-rb/dry-logic.svg?branch=master)][inchpages]
