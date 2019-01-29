@@ -3,7 +3,7 @@ RSpec.describe Operations::Or do
 
   include_context 'predicates'
 
-  let(:left) { Rule::Predicate.new(none?) }
+  let(:left) { Rule::Predicate.new(nil?) }
   let(:right) { Rule::Predicate.new(gt?).curry(18) }
 
   let(:other) do
@@ -22,7 +22,7 @@ RSpec.describe Operations::Or do
     it 'returns ast' do
       expect(operation.to_ast).to eql(
         [:or, [
-          [:predicate, [:none?, [[:input, Undefined]]]],
+          [:predicate, [:nil?, [[:input, Undefined]]]],
           [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]
         ]
       )
@@ -31,7 +31,7 @@ RSpec.describe Operations::Or do
     it 'returns result ast' do
       expect(operation.(17).to_ast).to eql(
         [:or, [
-          [:predicate, [:none?, [[:input, 17]]]],
+          [:predicate, [:nil?, [[:input, 17]]]],
           [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
         ]
       )
@@ -40,7 +40,7 @@ RSpec.describe Operations::Or do
     it 'returns failure result ast' do
       expect(operation.with(id: :age).(17).to_ast).to eql(
         [:failure, [:age, [:or, [
-          [:predicate, [:none?, [[:input, 17]]]],
+          [:predicate, [:nil?, [[:input, 17]]]],
           [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
         ]]]
       )
@@ -67,7 +67,7 @@ RSpec.describe Operations::Or do
 
   describe '#to_s' do
     it 'returns string representation' do
-      expect(operation.to_s).to eql('none? OR gt?(18)')
+      expect(operation.to_s).to eql('nil? OR gt?(18)')
     end
   end
 end

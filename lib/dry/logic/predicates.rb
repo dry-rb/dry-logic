@@ -14,9 +14,10 @@ module Dry
           input.kind_of?(type)
         end
 
-        def none?(input)
+        def nil?(input)
           input.nil?
         end
+        alias_method :none?, :nil?
 
         def key?(name, input)
           input.key?(name)

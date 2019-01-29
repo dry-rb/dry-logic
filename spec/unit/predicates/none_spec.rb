@@ -1,8 +1,8 @@
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#none?' do
-    let(:predicate_name) { :none? }
+  describe '#nil?' do
+    let(:predicate_name) { :nil? }
 
     context 'when value is nil' do
       let(:arguments_list) { [[nil]] }
