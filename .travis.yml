@@ -16,9 +16,13 @@ rvm:
   - 2.4.5
   - 2.3.8
   - jruby-9.2.6.0
+  - truffleruby
 env:
   global:
     - COVERAGE=true
+matrix:
+  allow_failures:
+    - rvm: truffleruby
 notifications:
   email: false
   webhooks:
