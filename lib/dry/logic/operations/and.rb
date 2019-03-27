@@ -15,7 +15,7 @@ module Dry
         def type
           :and
         end
-        alias_method :operator, :type
+        alias operator type
 
         def call(input)
           left_result = left.(input)
