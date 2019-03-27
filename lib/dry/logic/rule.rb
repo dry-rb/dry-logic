@@ -44,7 +44,11 @@ module Dry
       end
 
       def call(*input)
-        Result.new(self[*input], id) { ast(*input) }
+        success = self[*input]
+
+        return Result::SUCCESS if success
+
+        Result.new(false, id) { ast(*input) }
       end
 
       def [](*input)
