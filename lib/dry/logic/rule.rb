@@ -48,7 +48,7 @@ module Dry
       end
 
       def [](*input)
-        arity == 0 ? predicate.() : predicate[*args, *input]
+        arity.zero? ? predicate.() : predicate[*args, *input]
       end
 
       def curry(*new_args)
