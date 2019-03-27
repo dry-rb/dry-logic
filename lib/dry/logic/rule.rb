@@ -56,9 +56,9 @@ module Dry
 
         if all_args.size > arity
           raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
-        else
-          with(args: all_args)
         end
+
+        with(args: all_args)
       end
 
       def bind(object)
