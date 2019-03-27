@@ -7,11 +7,5 @@ group :test do
 end
 
 group :tools do
-  gem 'rubocop'
   gem 'byebug', platform: :mri
-
-  unless ENV['TRAVIS']
-    gem 'mutant', github: 'mbj/mutant'
-    gem 'mutant-rspec', github: 'mbj/mutant'
-  end
 end
