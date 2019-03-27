@@ -5,3 +5,4 @@ vendor/bundle
 tmp/
 .idea/
 Gemfile.lock
+.rubocop.yml
