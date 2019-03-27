@@ -5,7 +5,7 @@ RSpec.describe Dry::Logic::Rule do
   let(:options) { {} }
 
   let(:schema) do
-    Class.new(BasicObject) do
+    Class.new do
       define_method(:class, Kernel.instance_method(:class))
 
       def method_missing(m, *)

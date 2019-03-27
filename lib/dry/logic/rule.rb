@@ -62,7 +62,7 @@ module Dry
       end
 
       def bind(object)
-        if UnboundMethod === predicate
+        if predicate.respond_to?(:bind)
           self.class.new(predicate.bind(object), options)
         else
           self.class.new(
