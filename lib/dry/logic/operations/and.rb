@@ -5,6 +5,13 @@ module Dry
   module Logic
     module Operations
       class And < Binary
+        attr_reader :hints
+
+        def initialize(*)
+          super
+          @hints = options.fetch(:hints, true)
+        end
+
         def type
           :and
         end
@@ -22,7 +29,10 @@ module Dry
               Result.new(false, id) { right_result.ast(input) }
             end
           else
-            Result.new(false, id) { [type, [left_result.to_ast, [:hint, right.ast(input)]]] }
+            Result.new(false, id) do
+              left_ast = left_result.to_ast
+              hints ? [type, [left_ast, [:hint, right.ast(input)]]] : left_ast
+            end
           end
         end
 

@@ -24,6 +24,10 @@ RSpec.describe Operations::And do
         [:and, [[:predicate, [:int?, [[:input, '18']]]], [:hint, [:predicate, [:gt?, [[:num, 18], [:input, '18']]]]]]]
       )
 
+      expect(operation.with(hints: false).('18').to_ast).to eql(
+        [:predicate, [:int?, [[:input, '18']]]]
+      )
+
       expect(operation.(18).to_ast).to eql(
         [:predicate, [:gt?, [[:num, 18], [:input, 18]]]]
       )
