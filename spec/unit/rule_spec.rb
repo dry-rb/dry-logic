@@ -163,5 +163,18 @@ RSpec.describe Dry::Logic::Rule do
         expect(rule.(1)).to be_success
       end
     end
+
+    describe 'currying' do
+      let(:options) { { args: [], arity: 2 } }
+      let(:predicate) { -> a, b { a + b } }
+      let(:rule) { super().curry(1) }
+
+      it 'generates correct arity on currying' do
+        expect(rule.method(:call).arity).to be(1)
+        expect(rule.method(:[]).arity).to be(1)
+        expect(rule[10]).to be(11)
+        expect(rule.(1)).to be_success
+      end
+    end
   end
 end

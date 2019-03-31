@@ -84,9 +84,9 @@ module Dry
 
       def bind(object)
         if predicate.respond_to?(:bind)
-          self.class.new(predicate.bind(object), options)
+          self.class.build(predicate.bind(object), options)
         else
-          self.class.new(
+          self.class.build(
             -> *args { object.instance_exec(*args, &predicate) },
             options.merge(arity: arity, parameters: parameters)
           )
@@ -98,7 +98,7 @@ module Dry
       end
 
       def with(new_opts)
-        self.class.new(predicate, options.merge(new_opts))
+        self.class.build(predicate, options.merge(new_opts))
       end
 
       def parameters
