@@ -138,4 +138,30 @@ RSpec.describe Dry::Logic::Rule do
       end
     end
   end
+
+  describe 'arity specialization' do
+    describe '0-arity rule' do
+      let(:options) { { args: [1], arity: 1 } }
+      let(:predicate) { :odd?.to_proc }
+
+      it 'generates interface with the right arity' do
+        expect(rule.method(:call).arity).to be_zero
+        expect(rule.method(:[]).arity).to be_zero
+        expect(rule[]).to be(true)
+        expect(rule.()).to be_success
+      end
+    end
+
+    describe '1-arity rule' do
+      let(:options) { { args: [1], arity: 2 } }
+      let(:predicate) { -> a, b { a + b } }
+
+      it 'generates interface with the right arity' do
+        expect(rule.method(:call).arity).to be(1)
+        expect(rule.method(:[]).arity).to be(1)
+        expect(rule[10]).to be(11)
+        expect(rule.(1)).to be_success
+      end
+    end
+  end
 end
