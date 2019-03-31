@@ -31,8 +31,63 @@ module Dry
       def initialize(predicate, options = DEFAULT_OPTIONS)
         @predicate = predicate
         @options = options
-        @args = options[:args]
+        @args = options[:args] || EMPTY_ARRAY
         @arity = options[:arity] || predicate.arity
+        args = @args
+        arity = @arity
+
+        case arity - args.size
+        when 0
+          singleton_class.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+            def call
+              if @fn[]
+                Result::SUCCESS
+              else
+                Result.new(false, id) { ast }
+              end
+            end
+
+            def []
+              @fn.()
+            end
+          RUBY
+
+          case @args.size
+          when 0
+            @fn = predicate
+          when 1
+            arg = @args[0]
+            @fn = -> { @predicate[arg] }
+          else
+            @fn = -> { @predicate[*@args] }
+          end
+        when 1
+          singleton_class.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+            def call(input)
+              if @fn[input]
+                Result::SUCCESS
+              else
+                Result.new(false, id) { ast(input) }
+              end
+            end
+
+            def [](input)
+              @fn[input]
+            end
+          RUBY
+
+          case args.size
+          when 0
+            @fn = predicate
+          when 1
+            arg = @args[0]
+            @fn = -> input { @predicate[arg, input] }
+          else
+            @fn = -> input { @predicate[*@args, input] }
+          end
+        else
+          @fn = predicate
+        end
       end
 
       def type
@@ -44,15 +99,15 @@ module Dry
       end
 
       def call(*input)
-        success = self[*input]
-
-        return Result::SUCCESS if success
-
-        Result.new(false, id) { ast(*input) }
+        if self[*input]
+          Result::SUCCESS
+        else
+          Result.new(false, id) { ast(*input) }
+        end
       end
 
       def [](*input)
-        arity.zero? ? predicate.() : predicate[*args, *input]
+        @fn[*args, *input]
       end
 
       def curry(*new_args)
