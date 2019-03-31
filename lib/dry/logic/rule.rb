@@ -1,9 +1,9 @@
+require 'concurrent/map'
 require 'dry/core/constants'
 require 'dry/equalizer'
 require 'dry/logic/operations'
 require 'dry/logic/result'
-require 'dry/logic/rule/arity0'
-require 'dry/logic/rule/arity1'
+require 'dry/logic/rule/interface'
 
 module Dry
   module Logic
@@ -28,20 +28,18 @@ module Dry
 
       attr_reader :arity
 
-      RuleArity0 = Class.new(self) { include Arity0 }
-      RuleArity1 = Class.new(self) { include Arity1 }
+      def self.interfaces
+        @interfaces ||= ::Concurrent::Map.new
+      end
 
-      def self.specialize(arity, args)
-        case arity - args.size
-        when 0 then RuleArity0
-        when 1 then RuleArity1
-        else self
+      def self.specialize(arity, curried)
+        interfaces.fetch_or_store([arity, curried]) do
+          Class.new(self) { include Interface.new(arity, curried) }
         end
       end
 
       def self.build(predicate, args: EMPTY_ARRAY, arity: predicate.arity, **options)
-        klass = specialize(arity, args)
-        klass.new(predicate, { args: args, arity: arity, **options })
+        specialize(arity, args.size).new(predicate, { args: args, arity: arity, **options })
       end
 
       def initialize(predicate, options = EMPTY_HASH)
@@ -49,7 +47,6 @@ module Dry
         @options = options
         @args = options[:args] || EMPTY_ARRAY
         @arity = options[:arity] || predicate.arity
-        @fn = predicate
       end
 
       def type
@@ -58,18 +55,6 @@ module Dry
 
       def id
         options[:id]
-      end
-
-      def call(*input)
-        if self[*input]
-          Result::SUCCESS
-        else
-          Result.new(false, id) { ast(*input) }
-        end
-      end
-
-      def [](*input)
-        @fn[*args, *input]
       end
 
       def curry(*new_args)

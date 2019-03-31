@@ -3,17 +3,6 @@ require 'dry/logic/rule'
 module Dry
   module Logic
     class Rule::Predicate < Rule
-      PredicateArity0 = Class.new(self) { include Arity0 }
-      PredicateArity1 = Class.new(self) { include Arity1 }
-
-      def self.specialize(arity, args)
-        case arity - args.size
-        when 0 then PredicateArity0
-        when 1 then PredicateArity1
-        else self
-        end
-      end
-
       def type
         :predicate
       end

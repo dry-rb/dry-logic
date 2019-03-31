@@ -176,5 +176,27 @@ RSpec.describe Dry::Logic::Rule do
         expect(rule.(1)).to be_success
       end
     end
+
+    describe 'arbitrary arity' do
+      let(:arity) { rand(20) }
+      let(:curried) { rand(arity) }
+
+      let(:options) { { args: [1] * curried, arity: arity } }
+      let(:predicate) { double(:predicate) }
+
+      it 'generates correct arity' do
+        expect(rule.method(:call).arity).to be(arity - curried)
+        expect(rule.method(:[]).arity).to be(arity - curried)
+      end
+    end
+
+    describe '-1 arity' do
+      let(:options) { { args: [], arity: -1 } }
+
+      it 'accepts variable number of arguments' do
+        expect(rule.method(:call).arity).to be(-1)
+        expect(rule.method(:[]).arity).to be(-1)
+      end
+    end
   end
 end

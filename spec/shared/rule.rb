@@ -1,5 +1,6 @@
 shared_examples_for Dry::Logic::Rule do
-  let(:predicate) { double(:predicate, arity: 2, name: predicate_name) }
+  let(:arity) { 2 }
+  let(:predicate) { double(:predicate, arity: arity, name: predicate_name) }
   let(:rule_type) { described_class }
   let(:predicate_name) { :good? }
 
@@ -20,6 +21,8 @@ shared_examples_for Dry::Logic::Rule do
   end
 
   describe '#call' do
+    let(:arity) { 1 }
+
     it 'returns success for valid input' do
       rule = rule_type.build(predicate)
 
@@ -38,6 +41,8 @@ shared_examples_for Dry::Logic::Rule do
   end
 
   describe '#[]' do
+    let(:arity) { 1 }
+
     it 'delegates to its predicate' do
       rule = rule_type.build(predicate)
 
