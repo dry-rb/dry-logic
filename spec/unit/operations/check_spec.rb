@@ -4,7 +4,7 @@ RSpec.describe Operations::Check do
   describe '#call' do
     context 'with 1-level nesting' do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.new(eql?).curry(1), id: :compare, keys: [:num])
+        Operations::Check.new(Rule::Predicate.build(eql?).curry(1), id: :compare, keys: [:num])
       end
 
       it 'applies predicate to args extracted from the input' do
@@ -15,7 +15,7 @@ RSpec.describe Operations::Check do
 
     context 'with 2-levels nesting' do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.new(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]])
+        Operations::Check.new(Rule::Predicate.build(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]])
       end
 
       it 'applies predicate to args extracted from the input' do
@@ -37,7 +37,7 @@ RSpec.describe Operations::Check do
 
   describe '#to_ast' do
     subject(:operation) do
-      Operations::Check.new(Rule::Predicate.new(str?), keys: [:email])
+      Operations::Check.new(Rule::Predicate.build(str?), keys: [:email])
     end
 
     it 'returns ast' do

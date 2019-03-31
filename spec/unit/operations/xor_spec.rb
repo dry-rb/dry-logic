@@ -3,11 +3,11 @@ RSpec.describe Operations::Xor do
 
   include_context 'predicates'
 
-  let(:left) { Rule::Predicate.new(array?) }
-  let(:right) { Rule::Predicate.new(empty?) }
+  let(:left) { Rule::Predicate.build(array?) }
+  let(:right) { Rule::Predicate.build(empty?) }
 
   let(:other) do
-    Rule::Predicate.new(str?)
+    Rule::Predicate.build(str?)
   end
 
   describe '#call' do

@@ -52,7 +52,7 @@ module Dry
 
       def visit_predicate(node)
         name, params = node
-        predicate = Rule::Predicate.new(predicates[name])
+        predicate = Rule::Predicate.build(predicates[name])
 
         if params.size > 1
           args = params.map(&:last).reject { |val| val == Undefined }

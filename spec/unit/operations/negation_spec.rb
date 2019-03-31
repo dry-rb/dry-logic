@@ -3,7 +3,7 @@ RSpec.describe Operations::Negation do
 
   include_context 'predicates'
 
-  let(:is_int) { Rule::Predicate.new(int?) }
+  let(:is_int) { Rule::Predicate.build(int?) }
 
   describe '#call' do
     it 'negates its rule' do

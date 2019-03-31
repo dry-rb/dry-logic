@@ -1,5 +1,5 @@
 RSpec.describe Rule::Predicate do
-  subject(:rule) { Rule::Predicate.new(predicate) }
+  subject(:rule) { Rule::Predicate.build(predicate) }
 
   let(:predicate) { str? }
 

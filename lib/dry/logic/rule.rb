@@ -2,14 +2,16 @@ require 'dry/core/constants'
 require 'dry/equalizer'
 require 'dry/logic/operations'
 require 'dry/logic/result'
+require 'dry/logic/rule/arity0'
+require 'dry/logic/rule/arity1'
 
 module Dry
   module Logic
     def self.Rule(*args, **options, &block)
       if args.any?
-        Rule.new(*args, Rule::DEFAULT_OPTIONS.merge(options))
+        Rule.build(*args, **options)
       elsif block
-        Rule.new(block, Rule::DEFAULT_OPTIONS.merge(options))
+        Rule.build(block, **options)
       end
     end
 
@@ -17,8 +19,6 @@ module Dry
       include Core::Constants
       include Dry::Equalizer(:predicate, :options)
       include Operators
-
-      DEFAULT_OPTIONS = { args: [].freeze }.freeze
 
       attr_reader :predicate
 
@@ -28,66 +28,28 @@ module Dry
 
       attr_reader :arity
 
-      def initialize(predicate, options = DEFAULT_OPTIONS)
+      RuleArity0 = Class.new(self) { include Arity0 }
+      RuleArity1 = Class.new(self) { include Arity1 }
+
+      def self.specialize(arity, args)
+        case arity - args.size
+        when 0 then RuleArity0
+        when 1 then RuleArity1
+        else self
+        end
+      end
+
+      def self.build(predicate, args: EMPTY_ARRAY, arity: predicate.arity, **options)
+        klass = specialize(arity, args)
+        klass.new(predicate, { args: args, arity: arity, **options })
+      end
+
+      def initialize(predicate, options = EMPTY_HASH)
         @predicate = predicate
         @options = options
         @args = options[:args] || EMPTY_ARRAY
         @arity = options[:arity] || predicate.arity
-        args = @args
-        arity = @arity
-
-        case arity - args.size
-        when 0
-          singleton_class.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call
-              if @fn[]
-                Result::SUCCESS
-              else
-                Result.new(false, id) { ast }
-              end
-            end
-
-            def []
-              @fn.()
-            end
-          RUBY
-
-          case @args.size
-          when 0
-            @fn = predicate
-          when 1
-            arg = @args[0]
-            @fn = -> { @predicate[arg] }
-          else
-            @fn = -> { @predicate[*@args] }
-          end
-        when 1
-          singleton_class.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(input)
-              if @fn[input]
-                Result::SUCCESS
-              else
-                Result.new(false, id) { ast(input) }
-              end
-            end
-
-            def [](input)
-              @fn[input]
-            end
-          RUBY
-
-          case args.size
-          when 0
-            @fn = predicate
-          when 1
-            arg = @args[0]
-            @fn = -> input { @predicate[arg, input] }
-          else
-            @fn = -> input { @predicate[*@args, input] }
-          end
-        else
-          @fn = predicate
-        end
+        @fn = predicate
       end
 
       def type

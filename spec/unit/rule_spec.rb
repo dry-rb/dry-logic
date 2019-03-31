@@ -1,5 +1,5 @@
 RSpec.describe Dry::Logic::Rule do
-  subject(:rule) { Rule.new(predicate, options) }
+  subject(:rule) { Rule.build(predicate, options) }
 
   let(:predicate) { -> { true } }
   let(:options) { {} }
@@ -34,29 +34,29 @@ RSpec.describe Dry::Logic::Rule do
 
   describe '.new' do
     it 'accepts an :id' do
-      expect(Rule.new(predicate, id: :check_num).id).to be(:check_num)
+      expect(Rule.build(predicate, id: :check_num).id).to be(:check_num)
     end
   end
 
   describe 'with a function returning truthy value' do
     it 'is successful for valid input' do
-      expect(Rule.new(-> val { val }).('true')).to be_success
+      expect(Rule.build(-> val { val }).('true')).to be_success
     end
 
     it 'is not successful for invalid input' do
-      expect(Rule.new(-> val { val }).(nil)).to be_failure
+      expect(Rule.build(-> val { val }).(nil)).to be_failure
     end
   end
 
   describe '#ast' do
     it 'returns predicate node with :id' do
-      expect(Rule.new(-> value { true }).with(id: :email?).ast('oops')).to eql(
+      expect(Rule.build(-> value { true }).with(id: :email?).ast('oops')).to eql(
         [:predicate, [:email?, [[:value, 'oops']]]]
       )
     end
 
     it 'returns predicate node with undefined args' do
-      expect(Rule.new(-> value { true }).with(id: :email?).ast).to eql(
+      expect(Rule.build(-> value { true }).with(id: :email?).ast).to eql(
         [:predicate, [:email?, [[:value, Undefined]]]]
       )
     end

@@ -3,9 +3,9 @@ require 'dry/logic/predicates'
 
 include Dry::Logic
 
-user_present = Rule::Predicate.new(Predicates[:key?]).curry(:user)
+user_present = Rule::Predicate.build(Predicates[:key?]).curry(:user)
 
-has_min_age = Operations::Key.new(Rule::Predicate.new(Predicates[:gt?]).curry(18), name: [:user, :age])
+has_min_age = Operations::Key.new(Rule::Predicate.build(Predicates[:gt?]).curry(18), name: [:user, :age])
 
 user_rule = user_present & has_min_age
 
