@@ -3,8 +3,8 @@ RSpec.describe Operations::And do
 
   include_context 'predicates'
 
-  let(:left) { Rule::Predicate.new(int?) }
-  let(:right) { Rule::Predicate.new(gt?).curry(18) }
+  let(:left) { Rule::Predicate.build(int?) }
+  let(:right) { Rule::Predicate.build(gt?).curry(18) }
 
   describe '#call' do
     it 'calls left and right' do
@@ -45,7 +45,7 @@ RSpec.describe Operations::And do
   end
 
   describe '#and' do
-    let(:other) { Rule::Predicate.new(lt?).curry(30) }
+    let(:other) { Rule::Predicate.build(lt?).curry(30) }
 
     it 'creates and with the other' do
       expect(operation.and(other).(31)).to be_failure
@@ -53,7 +53,7 @@ RSpec.describe Operations::And do
   end
 
   describe '#or' do
-    let(:other) { Rule::Predicate.new(lt?).curry(14) }
+    let(:other) { Rule::Predicate.build(lt?).curry(14) }
 
     it 'creates or with the other' do
       expect(operation.or(other).(13)).to be_success

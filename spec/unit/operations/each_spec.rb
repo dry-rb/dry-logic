@@ -3,7 +3,7 @@ RSpec.describe Operations::Each do
 
   include_context 'predicates'
 
-  let(:is_string) { Rule::Predicate.new(str?) }
+  let(:is_string) { Rule::Predicate.build(str?) }
 
   describe '#call' do
     it 'applies its rules to all elements in the input' do

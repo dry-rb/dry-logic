@@ -3,8 +3,8 @@ RSpec.describe Operations::Implication do
 
   include_context 'predicates'
 
-  let(:left) { Rule::Predicate.new(int?) }
-  let(:right) { Rule::Predicate.new(gt?).curry(18) }
+  let(:left) { Rule::Predicate.build(int?) }
+  let(:right) { Rule::Predicate.build(gt?).curry(18) }
 
   describe '#call' do
     it 'calls left and right' do

@@ -3,6 +3,10 @@ require 'dry/logic/rule'
 module Dry
   module Logic
     class Rule::Predicate < Rule
+      def self.specialize(arity, curried, base = Predicate)
+        super
+      end
+
       def type
         :predicate
       end

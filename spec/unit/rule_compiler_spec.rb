@@ -13,7 +13,7 @@ RSpec.describe Dry::Logic::RuleCompiler, '#call' do
 
   let(:predicate) { double(:predicate, name: :test?, arity: 2).as_null_object }
 
-  let(:rule) { Rule::Predicate.new(predicate) }
+  let(:rule) { Rule::Predicate.build(predicate) }
   let(:key_op) { Operations::Key.new(rule, name: :email) }
   let(:attr_op) { Operations::Attr.new(rule, name: :email) }
   let(:check_op) { Operations::Check.new(rule, keys: [:email]) }

@@ -1,5 +1,5 @@
 RSpec.describe Dry::Logic::Rule do
-  subject(:rule) { Rule.new(predicate, options) }
+  subject(:rule) { Rule.build(predicate, options) }
 
   let(:predicate) { -> { true } }
   let(:options) { {} }
@@ -34,29 +34,29 @@ RSpec.describe Dry::Logic::Rule do
 
   describe '.new' do
     it 'accepts an :id' do
-      expect(Rule.new(predicate, id: :check_num).id).to be(:check_num)
+      expect(Rule.build(predicate, id: :check_num).id).to be(:check_num)
     end
   end
 
   describe 'with a function returning truthy value' do
     it 'is successful for valid input' do
-      expect(Rule.new(-> val { val }).('true')).to be_success
+      expect(Rule.build(-> val { val }).('true')).to be_success
     end
 
     it 'is not successful for invalid input' do
-      expect(Rule.new(-> val { val }).(nil)).to be_failure
+      expect(Rule.build(-> val { val }).(nil)).to be_failure
     end
   end
 
   describe '#ast' do
     it 'returns predicate node with :id' do
-      expect(Rule.new(-> value { true }).with(id: :email?).ast('oops')).to eql(
+      expect(Rule.build(-> value { true }).with(id: :email?).ast('oops')).to eql(
         [:predicate, [:email?, [[:value, 'oops']]]]
       )
     end
 
     it 'returns predicate node with undefined args' do
-      expect(Rule.new(-> value { true }).with(id: :email?).ast).to eql(
+      expect(Rule.build(-> value { true }).with(id: :email?).ast).to eql(
         [:predicate, [:email?, [[:value, Undefined]]]]
       )
     end
@@ -120,7 +120,7 @@ RSpec.describe Dry::Logic::Rule do
 
   describe '#eval_args' do
     context 'with an unbound method' do
-      let(:options) { { args: [1, klass.instance_method(:num), :foo] } }
+      let(:options) { { args: [1, klass.instance_method(:num), :foo], arity: 3 } }
       let(:klass) { Class.new { def num; 7; end } }
       let(:object) { klass.new }
 
@@ -130,11 +130,72 @@ RSpec.describe Dry::Logic::Rule do
     end
 
     context 'with a schema instance' do
-      let(:options) { { args: [1, schema, :foo] } }
+      let(:options) { { args: [1, schema, :foo], arity: 3 } }
       let(:object) { Object.new }
 
       it 'returns a new with its predicate executed in the context of the provided object' do
         expect(rule.eval_args(object).args).to eql([1, schema, :foo])
+      end
+    end
+  end
+
+  describe 'arity specialization' do
+    describe '0-arity rule' do
+      let(:options) { { args: [1], arity: 1 } }
+      let(:predicate) { :odd?.to_proc }
+
+      it 'generates interface with the right arity' do
+        expect(rule.method(:call).arity).to be_zero
+        expect(rule.method(:[]).arity).to be_zero
+        expect(rule[]).to be(true)
+        expect(rule.()).to be_success
+      end
+    end
+
+    describe '1-arity rule' do
+      let(:options) { { args: [1], arity: 2 } }
+      let(:predicate) { -> a, b { a + b } }
+
+      it 'generates interface with the right arity' do
+        expect(rule.method(:call).arity).to be(1)
+        expect(rule.method(:[]).arity).to be(1)
+        expect(rule[10]).to be(11)
+        expect(rule.(1)).to be_success
+      end
+    end
+
+    describe 'currying' do
+      let(:options) { { args: [], arity: 2 } }
+      let(:predicate) { -> a, b { a + b } }
+      let(:rule) { super().curry(1) }
+
+      it 'generates correct arity on currying' do
+        expect(rule.method(:call).arity).to be(1)
+        expect(rule.method(:[]).arity).to be(1)
+        expect(rule[10]).to be(11)
+        expect(rule.(1)).to be_success
+      end
+    end
+
+    describe 'arbitrary arity' do
+      let(:arity) { rand(20) }
+      let(:curried) { arity.zero? ? 0 : rand(arity) }
+
+      let(:options) { { args: [1] * curried, arity: arity } }
+      let(:predicate) { double(:predicate) }
+
+      it 'generates correct arity' do
+        expect(rule.method(:call).arity).to be(arity - curried)
+        expect(rule.method(:[]).arity).to be(arity - curried)
+      end
+    end
+
+    describe '-1 arity' do
+      let(:options) { { args: [], arity: -1 } }
+
+      it 'accepts variable number of arguments' do
+        expect(rule.method(:call).arity).to be(-1)
+        expect(rule.method(:[]).arity).to be(-1)
       end
     end
   end

@@ -1,5 +1,5 @@
 RSpec.describe Operations::Attr do
-  subject(:operation) { Operations::Attr.new(Rule::Predicate.new(str?), name: :name) }
+  subject(:operation) { Operations::Attr.new(Rule::Predicate.build(str?), name: :name) }
 
   include_context 'predicates'
 
@@ -13,7 +13,7 @@ RSpec.describe Operations::Attr do
   end
 
   describe '#and' do
-    let(:other) { Operations::Attr.new(Rule::Predicate.new(min_size?).curry(3), name: :name) }
+    let(:other) { Operations::Attr.new(Rule::Predicate.build(min_size?).curry(3), name: :name) }
 
     it 'returns and where value is passed to the right' do
       present_and_string = operation.and(other)

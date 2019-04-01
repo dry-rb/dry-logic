@@ -3,8 +3,8 @@ RSpec.describe Operations::Set do
 
   include_context 'predicates'
 
-  let(:is_int) { Rule::Predicate.new(int?) }
-  let(:gt_18) { Rule::Predicate.new(gt?, args: [18]) }
+  let(:is_int) { Rule::Predicate.build(int?) }
+  let(:gt_18) { Rule::Predicate.build(gt?, args: [18]) }
 
   describe '#call' do
     it 'applies all its rules to the input' do

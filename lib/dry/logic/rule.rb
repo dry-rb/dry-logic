@@ -1,15 +1,17 @@
+require 'concurrent/map'
 require 'dry/core/constants'
 require 'dry/equalizer'
 require 'dry/logic/operations'
 require 'dry/logic/result'
+require 'dry/logic/rule/interface'
 
 module Dry
   module Logic
     def self.Rule(*args, **options, &block)
       if args.any?
-        Rule.new(*args, Rule::DEFAULT_OPTIONS.merge(options))
+        Rule.build(*args, **options)
       elsif block
-        Rule.new(block, Rule::DEFAULT_OPTIONS.merge(options))
+        Rule.build(block, **options)
       end
     end
 
@@ -17,8 +19,6 @@ module Dry
       include Core::Constants
       include Dry::Equalizer(:predicate, :options)
       include Operators
-
-      DEFAULT_OPTIONS = { args: [].freeze }.freeze
 
       attr_reader :predicate
 
@@ -28,10 +28,27 @@ module Dry
 
       attr_reader :arity
 
-      def initialize(predicate, options = DEFAULT_OPTIONS)
+      def self.interfaces
+        @interfaces ||= ::Concurrent::Map.new
+      end
+
+      def self.specialize(arity, curried, base = Rule)
+        base.interfaces.fetch_or_store([arity, curried]) do
+          interface = Interface.new(arity, curried)
+          klass = Class.new(base) { include interface }
+          base.const_set("#{base.name.split('::').last}#{interface.name}", klass)
+          klass
+        end
+      end
+
+      def self.build(predicate, args: EMPTY_ARRAY, arity: predicate.arity, **options)
+        specialize(arity, args.size).new(predicate, { args: args, arity: arity, **options })
+      end
+
+      def initialize(predicate, options = EMPTY_HASH)
         @predicate = predicate
         @options = options
-        @args = options[:args]
+        @args = options[:args] || EMPTY_ARRAY
         @arity = options[:arity] || predicate.arity
       end
 
@@ -43,33 +60,15 @@ module Dry
         options[:id]
       end
 
-      def call(*input)
-        success = self[*input]
-
-        return Result::SUCCESS if success
-
-        Result.new(false, id) { ast(*input) }
-      end
-
-      def [](*input)
-        arity.zero? ? predicate.() : predicate[*args, *input]
-      end
-
       def curry(*new_args)
-        all_args = args + new_args
-
-        if all_args.size > arity
-          raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
-        end
-
-        with(args: all_args)
+        with(args: args + new_args)
       end
 
       def bind(object)
         if predicate.respond_to?(:bind)
-          self.class.new(predicate.bind(object), options)
+          self.class.build(predicate.bind(object), options)
         else
-          self.class.new(
+          self.class.build(
             -> *args { object.instance_exec(*args, &predicate) },
             options.merge(arity: arity, parameters: parameters)
           )
@@ -81,7 +80,7 @@ module Dry
       end
 
       def with(new_opts)
-        self.class.new(predicate, options.merge(new_opts))
+        self.class.build(predicate, options.merge(new_opts))
       end
 
       def parameters

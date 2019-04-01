@@ -4,7 +4,7 @@ RSpec.describe Operations::Key do
   include_context 'predicates'
 
   let(:predicate) do
-    Rule::Predicate.new(key?).curry(:age)
+    Rule::Predicate.build(key?).curry(:age)
   end
 
   describe '#call' do
@@ -32,7 +32,7 @@ RSpec.describe Operations::Key do
       end
 
       let(:predicate) do
-        Operations::Set.new(Rule::Predicate.new(key?).curry(:city), Rule::Predicate.new(key?).curry(:zipcode))
+        Operations::Set.new(Rule::Predicate.build(key?).curry(:city), Rule::Predicate.build(key?).curry(:zipcode))
       end
 
       it 'applies set rule to the value that passes' do
@@ -60,7 +60,7 @@ RSpec.describe Operations::Key do
       end
 
       let(:predicate) do
-        Operations::Each.new(Rule::Predicate.new(str?))
+        Operations::Each.new(Rule::Predicate.build(str?))
       end
 
       it 'applies each rule to the value that passses' do
@@ -108,11 +108,11 @@ RSpec.describe Operations::Key do
 
   describe '#and' do
     subject(:operation) do
-      Operations::Key.new(Rule::Predicate.new(str?), name: [:user, :name])
+      Operations::Key.new(Rule::Predicate.build(str?), name: [:user, :name])
     end
 
     let(:other) do
-      Operations::Key.new(Rule::Predicate.new(filled?), name: [:user, :name])
+      Operations::Key.new(Rule::Predicate.build(filled?), name: [:user, :name])
     end
 
     it 'returns and rule where value is passed to the right' do

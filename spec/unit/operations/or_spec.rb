@@ -3,11 +3,11 @@ RSpec.describe Operations::Or do
 
   include_context 'predicates'
 
-  let(:left) { Rule::Predicate.new(nil?) }
-  let(:right) { Rule::Predicate.new(gt?).curry(18) }
+  let(:left) { Rule::Predicate.build(nil?) }
+  let(:right) { Rule::Predicate.build(gt?).curry(18) }
 
   let(:other) do
-    Rule::Predicate.new(int?) & Rule::Predicate.new(lt?).curry(14)
+    Rule::Predicate.build(int?) & Rule::Predicate.build(lt?).curry(14)
   end
 
   describe '#call' do
