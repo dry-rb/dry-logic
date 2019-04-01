@@ -2,19 +2,60 @@ module Dry
   module Logic
     class Rule
       class Interface < Module
-        def initialize(arity, curried)
-          curried_args = curried.times.map { |i| "@arg#{ i }" }
-          define_constructor(curried_args) unless curried_args.empty?
+        attr_reader :arity
 
-          if arity == -1
-            define_splat_application(curried_args)
+        attr_reader :curried
+
+        def initialize(arity, curried)
+          @arity = arity
+          @curried = curried
+
+          if !variable_arity? && curried > arity
+            raise ArgumentError, "wrong number of arguments (#{curried} for #{arity})"
+          end
+
+          define_constructor if curried?
+
+          if variable_arity?
+            define_splat_application
           else
-            define_fixed_application(curried_args, arity - curried)
+            define_fixed_application
           end
         end
 
-        def define_constructor(curried_args)
-          if curried_args.size == 1
+        def constant?
+          arity.zero?
+        end
+
+        def variable_arity?
+          arity.equal?(-1)
+        end
+
+        def curried?
+          !curried.zero?
+        end
+
+        def unapplied
+          if variable_arity?
+            -1
+          else
+            arity - curried
+          end
+        end
+
+        def name
+          if constant?
+            "Constant"
+          else
+            arity_str = variable_arity? ? "VariableArity" : "#{ arity }Arity"
+            curried_str = curried? ? "#{ curried }Curried" : EMPTY_STRING
+
+            "#{ arity_str }#{ curried_str }"
+          end
+        end
+
+        def define_constructor
+          if curried == 1
             assignment = "@arg0 = @args[0]"
           else
             assignment = "#{ curried_args.join(', ') } = @args"
@@ -29,12 +70,13 @@ module Dry
           RUBY
         end
 
-        def define_splat_application(curried_args)
-          if curried_args.empty?
-            application = "@predicate[*input]"
-          else
-            application = "@predicate[#{ curried_args.join(', ') }, *input]"
-          end
+        def define_splat_application
+          application =
+            if curried?
+              "@predicate[#{ curried_args.join(', ') }, *input]"
+            else
+              "@predicate[*input]"
+            end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(*input)
@@ -51,8 +93,7 @@ module Dry
           RUBY
         end
 
-        def define_fixed_application(curried_args, unapplied)
-          unapplied_args = unapplied.times.map { |i| "input#{ i }" }
+        def define_fixed_application
           parameters = unapplied_args.join(', ')
           application = "@predicate[#{ (curried_args + unapplied_args).join(', ') }]"
 
@@ -69,6 +110,14 @@ module Dry
               #{ application }
             end
           RUBY
+        end
+
+        def curried_args
+          @curried_args ||= curried.times.map { |i| "@arg#{ i }" }
+        end
+
+        def unapplied_args
+          @unapplied_args ||= unapplied.times.map { |i| "input#{ i }" }
         end
       end
     end

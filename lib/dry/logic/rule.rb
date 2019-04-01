@@ -32,9 +32,12 @@ module Dry
         @interfaces ||= ::Concurrent::Map.new
       end
 
-      def self.specialize(arity, curried)
-        interfaces.fetch_or_store([arity, curried]) do
-          Class.new(self) { include Interface.new(arity, curried) }
+      def self.specialize(arity, curried, base = Rule)
+        base.interfaces.fetch_or_store([arity, curried]) do
+          interface = Interface.new(arity, curried)
+          klass = Class.new(base) { include interface }
+          base.const_set("#{ base.name.split('::').last }#{ interface.name }", klass)
+          klass
         end
       end
 
@@ -58,13 +61,7 @@ module Dry
       end
 
       def curry(*new_args)
-        all_args = args + new_args
-
-        if all_args.size > arity
-          raise ArgumentError, "wrong number of arguments (#{all_args.size} for #{arity})"
-        end
-
-        with(args: all_args)
+        with(args: args + new_args)
       end
 
       def bind(object)

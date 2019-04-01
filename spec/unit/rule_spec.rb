@@ -120,7 +120,7 @@ RSpec.describe Dry::Logic::Rule do
 
   describe '#eval_args' do
     context 'with an unbound method' do
-      let(:options) { { args: [1, klass.instance_method(:num), :foo] } }
+      let(:options) { { args: [1, klass.instance_method(:num), :foo], arity: 3 } }
       let(:klass) { Class.new { def num; 7; end } }
       let(:object) { klass.new }
 
@@ -130,7 +130,7 @@ RSpec.describe Dry::Logic::Rule do
     end
 
     context 'with a schema instance' do
-      let(:options) { { args: [1, schema, :foo] } }
+      let(:options) { { args: [1, schema, :foo], arity: 3 } }
       let(:object) { Object.new }
 
       it 'returns a new with its predicate executed in the context of the provided object' do
