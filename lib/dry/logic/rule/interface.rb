@@ -1,7 +1,7 @@
 module Dry
   module Logic
     class Rule
-      class Interface < Module
+      class Interface < ::Module
         attr_reader :arity
 
         attr_reader :curried
@@ -45,27 +45,28 @@ module Dry
 
         def name
           if constant?
-            "Constant"
+            'Constant'
           else
-            arity_str = variable_arity? ? "VariableArity" : "#{ arity }Arity"
-            curried_str = curried? ? "#{ curried }Curried" : EMPTY_STRING
+            arity_str = variable_arity? ? 'VariableArity' : "#{arity}Arity"
+            curried_str = curried? ? "#{curried}Curried" : EMPTY_STRING
 
-            "#{ arity_str }#{ curried_str }"
+            "#{arity_str}#{curried_str}"
           end
         end
 
         def define_constructor
-          if curried == 1
-            assignment = "@arg0 = @args[0]"
-          else
-            assignment = "#{ curried_args.join(', ') } = @args"
-          end
+          assignment =
+            if curried.equal?(1)
+              '@arg0 = @args[0]'
+            else
+              "#{curried_args.join(', ')} = @args"
+            end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def initialize(*)
               super
 
-              #{ assignment }
+              #{assignment}
             end
           RUBY
         end
@@ -73,14 +74,14 @@ module Dry
         def define_splat_application
           application =
             if curried?
-              "@predicate[#{ curried_args.join(', ') }, *input]"
+              "@predicate[#{curried_args.join(', ')}, *input]"
             else
-              "@predicate[*input]"
+              '@predicate[*input]'
             end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(*input)
-              if #{ application }
+              if #{application}
                 Result::SUCCESS
               else
                 Result.new(false, id) { ast(*input) }
@@ -88,7 +89,7 @@ module Dry
             end
 
             def [](*input)
-              #{ application }
+              #{application}
             end
           RUBY
         end
@@ -98,26 +99,26 @@ module Dry
           application = "@predicate[#{ (curried_args + unapplied_args).join(', ') }]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(#{ parameters })
-              if #{ application }
+            def call(#{parameters})
+              if #{application}
                 Result::SUCCESS
               else
-                Result.new(false, id) { ast(#{ parameters }) }
+                Result.new(false, id) { ast(#{parameters}) }
               end
             end
 
-            def [](#{ parameters })
-              #{ application }
+            def [](#{parameters})
+              #{application}
             end
           RUBY
         end
 
         def curried_args
-          @curried_args ||= curried.times.map { |i| "@arg#{ i }" }
+          @curried_args ||= ::Array.new(curried) { |i| "@arg#{i}" }
         end
 
         def unapplied_args
-          @unapplied_args ||= unapplied.times.map { |i| "input#{ i }" }
+          @unapplied_args ||= ::Array.new(unapplied) { |i| "input#{i}" }
         end
       end
     end

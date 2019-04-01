@@ -36,7 +36,7 @@ module Dry
         base.interfaces.fetch_or_store([arity, curried]) do
           interface = Interface.new(arity, curried)
           klass = Class.new(base) { include interface }
-          base.const_set("#{ base.name.split('::').last }#{ interface.name }", klass)
+          base.const_set("#{base.name.split('::').last}#{interface.name}", klass)
           klass
         end
       end
