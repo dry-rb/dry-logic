@@ -9,4 +9,5 @@ end
 group :tools do
   gem 'byebug', platform: :mri
   gem 'benchmark-ips', platform: :mri
+  gem 'hotch', platform: :mri
 end
