@@ -179,7 +179,7 @@ RSpec.describe Dry::Logic::Rule do
 
     describe 'arbitrary arity' do
       let(:arity) { rand(20) }
-      let(:curried) { rand(arity) }
+      let(:curried) { arity.zero? ? 0 : rand(arity) }
 
       let(:options) { { args: [1] * curried, arity: arity } }
       let(:predicate) { double(:predicate) }
