@@ -11,17 +11,21 @@ module Dry
         alias_method :operator, :type
 
         def call(input)
-          left_result = left.(input)
-
-          if left_result.success?
-            Result::SUCCESS
+          if block_given?
+            left.(input) { right.(input) }
           else
-            right_result = right.(input)
+            left_result = left.(input)
 
-            if right_result.success?
+            if left_result.success?
               Result::SUCCESS
             else
-              Result.new(false, id) { [:or, [left_result.to_ast, right_result.to_ast]] }
+              right_result = right.(input)
+
+              if right_result.success?
+                Result::SUCCESS
+              else
+                Result.new(false, id) { [:or, [left_result.to_ast, right_result.to_ast]] }
+              end
             end
           end
         end

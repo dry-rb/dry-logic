@@ -83,6 +83,8 @@ module Dry
             def call(*input)
               if #{application}
                 Result::SUCCESS
+              elsif block_given?
+                yield
               else
                 Result.new(false, id) { ast(*input) }
               end
@@ -96,12 +98,14 @@ module Dry
 
         def define_fixed_application
           parameters = unapplied_args.join(', ')
-          application = "@predicate[#{ (curried_args + unapplied_args).join(', ') }]"
+          application = "@predicate[#{(curried_args + unapplied_args).join(', ')}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(#{parameters})
               if #{application}
                 Result::SUCCESS
+              elsif block_given?
+                yield
               else
                 Result.new(false, id) { ast(#{parameters}) }
               end

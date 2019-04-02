@@ -32,7 +32,7 @@ RSpec.describe Dry::Logic::Rule do
 
   it_behaves_like Dry::Logic::Rule
 
-  describe '.new' do
+  describe '.build' do
     it 'accepts an :id' do
       expect(Rule.build(predicate, id: :check_num).id).to be(:check_num)
     end
@@ -135,6 +135,18 @@ RSpec.describe Dry::Logic::Rule do
 
       it 'returns a new with its predicate executed in the context of the provided object' do
         expect(rule.eval_args(object).args).to eql([1, schema, :foo])
+      end
+    end
+  end
+
+  describe '#call' do
+    describe 'fallback block' do
+      let(:predicate) { :odd?.to_proc }
+
+      it 'yields a block on failure' do
+        called = false
+        rule.(2) { called = true }
+        expect(called).to be(true)
       end
     end
   end
