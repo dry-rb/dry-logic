@@ -10,16 +10,21 @@ module Dry
         end
 
         def call(input)
-          results = input.map { |element| rule.(element) }
-          success = results.all?(&:success?)
+          if block_given?
+            input.each { |e| rule.(e) { return yield } }
+            Result::SUCCESS
+          else
+            results = input.map { |element| rule.(element) }
+            success = results.all?(&:success?)
 
-          Result.new(success, id) do
-            failures = results
-              .map
-              .with_index { |result, idx| [:key, [idx, result.ast(input[idx])]] if result.failure? }
-              .compact
+            Result.new(success, id) do
+              failures = results
+                .map
+                .with_index { |result, idx| [:key, [idx, result.ast(input[idx])]] if result.failure? }
+                .compact
 
-            [:set, failures]
+              [:set, failures]
+            end
           end
         end
 

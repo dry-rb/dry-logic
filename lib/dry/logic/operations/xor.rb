@@ -11,7 +11,13 @@ module Dry
         alias_method :operator, :type
 
         def call(input)
-          Result.new(self[input], id) { ast(input) }
+          pred = self[input]
+
+          if !pred && block_given?
+            yield
+          else
+            Result.new(pred, id) { ast(input) }
+          end
         end
 
         def [](input)

@@ -13,14 +13,20 @@ module Dry
           :then
         end
 
-        def call(input)
-          left_result = left.(input)
-
-          if left_result.success?
-            right_result = right.(input)
-            Result.new(right_result.success?, id) { right_result.to_ast }
+        def call(input, &block)
+          if block_given?
+            left.(input) { return Result::SUCCESS }
+            right.(input, &block)
           else
-            Result::SUCCESS
+            left_result = left.(input)
+
+            if left_result.success?
+              right_result = right.(input)
+
+              Result.new(right_result.success?, id) { right_result.to_ast }
+            else
+              Result::SUCCESS
+            end
           end
         end
 

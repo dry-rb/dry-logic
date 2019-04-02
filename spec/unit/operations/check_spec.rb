@@ -11,6 +11,11 @@ RSpec.describe Operations::Check do
         expect(operation.(num: 1)).to be_success
         expect(operation.(num: 2)).to be_failure
       end
+
+      it 'yields a block on failure' do
+        expect(operation.(num: 1) { fail }).to be_success
+        expect(operation.(num: 2) { :else }).to be(:else)
+      end
     end
 
     context 'with 2-levels nesting' do

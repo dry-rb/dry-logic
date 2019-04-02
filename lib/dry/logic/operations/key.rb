@@ -34,14 +34,19 @@ module Dry
           :key
         end
 
-        def call(hash)
+        def call(hash, &block)
           input = evaluator[hash]
-          result = rule.(input)
 
-          if result.success?
-            Result::SUCCESS
+          if block_given?
+            rule.(input, &block)
           else
-            Result.new(false, path) { [type, [path, result.to_ast]] }
+            result = rule.(input)
+
+            if result.success?
+              Result::SUCCESS
+            else
+              Result.new(false, path) { [type, [path, result.to_ast]] }
+            end
           end
         end
 

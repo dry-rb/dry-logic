@@ -16,6 +16,12 @@ RSpec.describe Operations::Xor do
       expect(operation.('')).to be_success
       expect(operation.([])).to be_failure
     end
+
+    it 'yields a block on failure' do
+      expect(operation.(nil) { fail }).to be_success
+      expect(operation.('') { fail }).to be_success
+      expect(operation.([]) { :else }).to be(:else)
+    end
   end
 
   describe '#to_ast' do

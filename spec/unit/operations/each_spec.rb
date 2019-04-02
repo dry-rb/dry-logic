@@ -12,6 +12,12 @@ RSpec.describe Operations::Each do
       expect(operation.([nil, 'Address'])).to be_failure
       expect(operation.([:Address, 'Address'])).to be_failure
     end
+
+    it 'yields a block on failure' do
+      expect(operation.(['Address']) { fail }).to be_success
+      expect(operation.([nil, 'Address']) { :else }).to be(:else)
+      expect(operation.([:Address, 'Address']) { :else }).to be(:else)
+    end
   end
 
   describe '#to_ast' do

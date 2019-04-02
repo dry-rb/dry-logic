@@ -10,11 +10,16 @@ module Dry
         end
 
         def call(input)
-          results = rules.map { |rule| rule.(input) }
-          success = results.all?(&:success?)
+          if block_given?
+            rules.each { |r| r.(input) { return yield } }
+            Result::SUCCESS
+          else
+            results = rules.map { |rule| rule.(input) }
+            success = results.all?(&:success?)
 
-          Result.new(success, id) do
-            [type, results.select(&:failure?).map { |failure| failure.to_ast }]
+            Result.new(success, id) do
+              [type, results.select(&:failure?).map { |failure| failure.to_ast }]
+            end
           end
         end
 

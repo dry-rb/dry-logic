@@ -10,7 +10,12 @@ module Dry
         end
 
         def call(input)
-          Result.new(rule.(input).failure?, id) { ast(input) }
+          if block_given?
+            rule.(input) { return Result::SUCCESS }
+            yield
+          else
+            Result.new(rule.(input).failure?, id) { ast(input) }
+          end
         end
 
         def [](input)

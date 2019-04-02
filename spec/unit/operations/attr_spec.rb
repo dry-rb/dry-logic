@@ -10,6 +10,11 @@ RSpec.describe Operations::Attr do
       expect(operation.(model.new('Jane'))).to be_success
       expect(operation.(model.new(nil))).to be_failure
     end
+
+    it 'yields a block on failure' do
+      expect(operation.(model.new('Jane')) { fail }).to be_success
+      expect(operation.(model.new(nil)) { :else }).to be(:else)
+    end
   end
 
   describe '#and' do

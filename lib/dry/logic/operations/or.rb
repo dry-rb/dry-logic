@@ -10,9 +10,9 @@ module Dry
         end
         alias_method :operator, :type
 
-        def call(input)
+        def call(input, &block)
           if block_given?
-            left.(input) { right.(input) }
+            left.(input) { right.(input, &block) }
           else
             left_result = left.(input)
 

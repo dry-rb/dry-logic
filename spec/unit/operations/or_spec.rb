@@ -70,4 +70,12 @@ RSpec.describe Operations::Or do
       expect(operation.to_s).to eql('nil? OR gt?(18)')
     end
   end
+
+  describe '#call' do
+    it 'yields a block on failure' do
+      expect(operation.(17) { :else }).to be(:else)
+      expect(operation.(nil) { fail }).to be_success
+      expect(operation.(19) { fail }).to be_success
+    end
+  end
 end

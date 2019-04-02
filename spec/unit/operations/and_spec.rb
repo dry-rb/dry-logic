@@ -65,4 +65,12 @@ RSpec.describe Operations::And do
       expect(operation.to_s).to eql('int? AND gt?(18)')
     end
   end
+
+  describe '#call' do
+    it 'yields a block on failure' do
+      expect(operation.('foo') { :else }).to be(:else)
+      expect(operation.(18) { :else }).to be(:else)
+      expect(operation.(19) { fail }).to be_success
+    end
+  end
 end

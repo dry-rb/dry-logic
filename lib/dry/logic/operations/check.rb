@@ -30,12 +30,17 @@ module Dry
 
         def call(input)
           *head, tail = evaluator[input]
-          result = rule.curry(*head).(tail)
-
-          if result.success?
+          if block_given?
+            result = rule.curry(*head).(tail) { return yield }
             Result::SUCCESS
           else
-            Result.new(false, id) { [type, [options[:keys], result.to_ast]] }
+            result = rule.curry(*head).(tail)
+
+            if result.success?
+              Result::SUCCESS
+            else
+              Result.new(false, id) { [type, [options[:keys], result.to_ast]] }
+            end
           end
         end
 

@@ -11,6 +11,11 @@ RSpec.describe Operations::Negation do
       expect(operation.(17)).to be_failure
     end
 
+    it 'yields a block on failure' do
+      expect(operation.('19') { fail }).to be_success
+      expect(operation.(17) { :else }).to be(:else)
+    end
+
     context 'double negation' do
       subject(:double_negation) { Operations::Negation.new(operation) }
 

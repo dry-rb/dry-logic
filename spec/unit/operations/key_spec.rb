@@ -24,6 +24,11 @@ RSpec.describe Operations::Key do
           ]]]]
         )
       end
+
+      it 'yields a block on failure' do
+        expect(operation.(user: { age: 18 }) { fail }).to be_success
+        expect(operation.(user: {}) { :else }).to be(:else)
+      end
     end
 
     context 'with a set rule as predicate' do
@@ -51,6 +56,11 @@ RSpec.describe Operations::Key do
             [:predicate, [:key?, [[:name, :zipcode], [:input, { city: 'NYC' }]]]]
           ]]]]]]
         )
+      end
+
+      it 'yields a block on failure' do
+        expect(operation.(address: { city: 'NYC', zipcode: '123' }) { fail }).to be_success
+        expect(operation.(address: { city: 'NYC' }) { :else }).to be(:else)
       end
     end
 

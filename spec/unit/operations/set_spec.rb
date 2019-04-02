@@ -11,6 +11,11 @@ RSpec.describe Operations::Set do
       expect(operation.(19)).to be_success
       expect(operation.(17)).to be_failure
     end
+
+    it 'yields a block on failure' do
+      expect(operation.(19) { fail }).to be_success
+      expect(operation.(17) { :else }).to be(:else)
+    end
   end
 
   describe '#to_ast' do
