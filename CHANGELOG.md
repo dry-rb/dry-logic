@@ -1,3 +1,15 @@
+# v0.6.0 2019-04-04
+
+### Added
+
+* Generating hints can be disabled by building `Operations::And` with `hints: false` option set (solnic)
+
+### Changed
+
+* `Rule` construction has been optimized so that currying and application is multiple-times faster (flash-gordon)
+
+[Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-logic/compare/v0.5.0...v0.6.0)
+
 # v0.5.0 2019-01-29
 
 ### Added
