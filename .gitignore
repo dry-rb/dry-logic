@@ -3,6 +3,7 @@ coverage
 /.bundle
 vendor/bundle
 tmp/
+pkg/
 .idea/
 Gemfile.lock
 .rubocop.yml
