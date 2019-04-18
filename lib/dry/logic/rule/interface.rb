@@ -18,6 +18,8 @@ module Dry
 
           if variable_arity?
             define_splat_application
+          elsif constant?
+            define_constant_application
           else
             define_fixed_application
           end
@@ -69,6 +71,22 @@ module Dry
               #{assignment}
             end
           RUBY
+        end
+
+        def define_constant_application
+          module_exec do
+            def call(*)
+              if @predicate[]
+                Result::SUCCESS
+              else
+                Result.new(false, id) { ast }
+              end
+            end
+
+            def [](*)
+              @predicate[]
+            end
+          end
         end
 
         def define_splat_application

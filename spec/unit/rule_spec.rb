@@ -198,5 +198,14 @@ RSpec.describe Dry::Logic::Rule do
         expect(rule.method(:[]).arity).to be(-1)
       end
     end
+
+    describe 'constants' do
+      let(:options) { { args: [], arity: 0 } }
+
+      fit 'accepts variable number of arguments' do
+        expect(rule.method(:call).arity).to be(-1)
+        expect(rule.method(:[]).arity).to be(-1)
+      end
+    end
   end
 end
