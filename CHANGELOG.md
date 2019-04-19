@@ -1,3 +1,9 @@
+# v1.0.0 to-be-released
+
+* No changes
+
+[Compare v0.6.1...v1.0.0](https://github.com/dry-rb/dry-logic/compare/v0.6.1...v1.0.0)
+
 # v0.6.1 2019-04-18
 
 * Fix a regression in dry-validation 0.x for argument-less predicates (flash-gordon)
