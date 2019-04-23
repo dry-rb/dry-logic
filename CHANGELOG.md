@@ -1,6 +1,6 @@
-# v1.0.0 to-be-released
+# v1.0.0 2019-04-23
 
-* No changes
+Version bump to 1.0.0
 
 [Compare v0.6.1...v1.0.0](https://github.com/dry-rb/dry-logic/compare/v0.6.1...v1.0.0)
 
