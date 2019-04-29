@@ -4,22 +4,24 @@ require 'dry/logic/result'
 module Dry
   module Logic
     module Operations
-      class Set < Multiple
+      class Part < Multiple
         def type
-          :set
+          :part
         end
 
         def call(input)
           results = rules.map { |rule| rule.(input) }
-          success = results.all?(&:success?)
+          success = results.any?(&:success?)
+
+          return Result::SUCCESS if success
 
           Result.new(success, id) do
-            [type, results.select(&:failure?).map { |failure| failure.to_ast }]
+            [type, results.map { |failure| failure.to_ast }]
           end
         end
 
         def [](input)
-          rules.map { |rule| rule[input] }.all?
+          rules.map { |rule| rule[input] }.any?
         end
       end
     end
