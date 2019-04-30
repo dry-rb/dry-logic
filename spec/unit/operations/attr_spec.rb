@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Attr do
   subject(:operation) { Operations::Attr.new(Rule::Predicate.build(str?), name: :name) }
 

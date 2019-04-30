@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Implication do
   subject(:operation) { Operations::Implication.new(left, right) }
 

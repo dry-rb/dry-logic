@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Negation do
   subject(:operation) { Operations::Negation.new(is_int) }
 

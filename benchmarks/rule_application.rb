@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'setup'
 
 unless Dry::Logic::Rule.respond_to?(:build)

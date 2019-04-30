@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/logic/rule_compiler'
 
 RSpec.describe Dry::Logic::RuleCompiler, '#call' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Xor do
   subject(:operation) { Operations::Xor.new(left, right) }
 

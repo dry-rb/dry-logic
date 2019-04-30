@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Result do
   include_context 'predicates'
 

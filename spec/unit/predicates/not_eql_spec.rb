@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates, '#not_eql?' do

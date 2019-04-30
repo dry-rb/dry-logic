@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Each do
   subject(:operation) { Operations::Each.new(is_string) }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A collection of micro-libraries, each intended to encapsulate
 # a common task in Ruby
 module Dry

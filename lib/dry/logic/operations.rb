@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/logic/operations/and'
 require 'dry/logic/operations/or'
 require 'dry/logic/operations/xor'

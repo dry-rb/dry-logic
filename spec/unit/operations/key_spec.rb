@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Key do
   subject(:operation) { Operations::Key.new(predicate, name: :user) }
 

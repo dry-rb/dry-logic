@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Rule::Predicate do
   subject(:rule) { Rule::Predicate.build(predicate) }
 

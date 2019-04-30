@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Set do
   subject(:operation) { Operations::Set.new(is_int, gt_18) }
 

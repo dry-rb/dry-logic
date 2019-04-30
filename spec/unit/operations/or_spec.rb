@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Operations::Or do
   subject(:operation) { Operations::Or.new(left, right) }
 
