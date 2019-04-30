@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Predicates do
   describe '#bool?' do
     let(:predicate_name) { :bool? }
 
-    context 'when value is a date' do
+    context 'when value is a boolean' do
       let(:arguments_list) do
         [[true], [false]]
       end

@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Predicates do
   describe '#decimal?' do
     let(:predicate_name) { :decimal? }
 
-    context 'when value is a date' do
+    context 'when value is a decimal' do
       let(:arguments_list) do
         [[1.2.to_d]]
       end

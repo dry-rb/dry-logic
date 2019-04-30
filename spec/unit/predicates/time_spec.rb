@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Predicates do
   describe '#time?' do
     let(:predicate_name) { :time? }
 
-    context 'when value is a date' do
+    context 'when value is a time' do
       let(:arguments_list) do
         [[Time.now]]
       end

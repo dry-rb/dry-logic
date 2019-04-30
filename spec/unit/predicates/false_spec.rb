@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Predicates do
   describe '#false?' do
     let(:predicate_name) { :false? }
 
-    context 'when value is a date' do
+    context 'when value is false' do
       let(:arguments_list) do
         [[false]]
       end

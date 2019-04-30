@@ -4,7 +4,7 @@ RSpec.describe Dry::Logic::Predicates do
   describe '#true?' do
     let(:predicate_name) { :true? }
 
-    context 'when value is a date' do
+    context 'when value is true' do
       let(:arguments_list) do
         [[true]]
       end

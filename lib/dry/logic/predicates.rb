@@ -197,6 +197,11 @@ module Dry
           pattern === input
         end
 
+        def uuid_v4?(input)
+          uuid_v4_format = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+          format?(uuid_v4_format, input)
+        end
+
         def predicate(name, &block)
           define_singleton_method(name, &block)
         end
