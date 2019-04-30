@@ -1,6 +1,14 @@
-# v1.0.0 to-be-released
+# v1.0.1 to-be-released
 
-* No changes
+### Added
+
+- `uuid_v4?` predicate (radar)
+
+[Compare v1.0.0...v1.0.1](https://github.com/dry-rb/dry-logic/compare/v1.0.0...v1.0.1)
+
+# v1.0.0 2019-04-23
+
+* Version bump to `1.0.0` (flash-gordon)
 
 [Compare v0.6.1...v1.0.0](https://github.com/dry-rb/dry-logic/compare/v0.6.1...v1.0.0)
 
