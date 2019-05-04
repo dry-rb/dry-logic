@@ -204,6 +204,10 @@ module Dry
           format?(uuid_v4_format, input)
         end
 
+        def respond_to?(value, method)
+          value.respond_to?(method)
+        end
+
         def predicate(name, &block)
           define_singleton_method(name, &block)
         end
