@@ -9,8 +9,8 @@ RSpec.describe Dry::Logic::Predicates do
     context 'when value responds to method' do
       let(:arguments_list) do
         [
-          [Object, :method],
-          [Hash, :new]
+          [:method, Object],
+          [:new, Hash]
         ]
       end
 
@@ -20,8 +20,8 @@ RSpec.describe Dry::Logic::Predicates do
     context 'when value does not respond to method' do
       let(:arguments_list) do
         [
-          [Object, :foo],
-          [Hash, :bar]
+          [:foo, Object],
+          [:bar, Hash]
         ]
       end
 
