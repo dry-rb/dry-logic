@@ -1,8 +1,9 @@
-# v1.0.1 to-be-released
+# v1.0.1 2019-06-04
 
 ### Added
 
 - `uuid_v4?` predicate (radar)
+- `respond_to?` predicate (waiting-for-dev)
 
 [Compare v1.0.0...v1.0.1](https://github.com/dry-rb/dry-logic/compare/v1.0.0...v1.0.1)
 
