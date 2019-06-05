@@ -1,4 +1,4 @@
-# v1.0.1 2019-06-04
+# v1.0.1 2019-06-04 (yanked)
 
 ### Added
 
@@ -6,6 +6,8 @@
 - `respond_to?` predicate (waiting-for-dev)
 
 [Compare v1.0.0...v1.0.1](https://github.com/dry-rb/dry-logic/compare/v1.0.0...v1.0.1)
+
+This release was removed from rubygems because it broke dry-schema.
 
 # v1.0.0 2019-04-23
 
