@@ -1,3 +1,9 @@
+# v1.0.2 2019-06-14
+
+Re-pushed 1.0.1 after dry-schema 1.2.0 release.
+
+[Compare v1.0.1...v1.0.2](https://github.com/dry-rb/dry-logic/compare/v1.0.1...v1.0.2)
+
 # v1.0.1 2019-06-04 (yanked)
 
 ### Added
