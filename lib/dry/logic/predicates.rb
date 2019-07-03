@@ -59,11 +59,9 @@ module Dry
         end
 
         def number?(input)
-          begin
-            true if Float(input)
-          rescue ArgumentError, TypeError
-            false
-          end
+          true if Float(input)
+        rescue ArgumentError, TypeError
+          false
         end
 
         def int?(input)
@@ -150,15 +148,13 @@ module Dry
         end
 
         def includes?(value, input)
-          begin
-            if input.respond_to?(:include?)
-              input.include?(value)
-            else
-              false
-            end
-          rescue TypeError
+          if input.respond_to?(:include?)
+            input.include?(value)
+          else
             false
           end
+        rescue TypeError
+          false
         end
 
         def excludes?(value, input)
