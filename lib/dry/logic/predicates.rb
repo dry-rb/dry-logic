@@ -181,14 +181,8 @@ module Dry
           value.equal?(false)
         end
 
-        if RUBY_VERSION < '2.4'
-          def format?(regex, input)
-            !regex.match(input).nil?
-          end
-        else
-          def format?(regex, input)
-            regex.match?(input)
-          end
+        def format?(regex, input)
+          regex.match?(input)
         end
 
         def case?(pattern, input)
