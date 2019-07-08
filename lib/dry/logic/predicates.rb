@@ -129,6 +129,23 @@ module Dry
           input.size <= num
         end
 
+        def bytesize?(size, input)
+          case size
+          when Integer then size == input.bytesize
+          when Range, Array then size.include?(input.bytesize)
+          else
+            raise ArgumentError, "+#{size}+ is not supported type for bytesize? predicate."
+          end
+        end
+
+        def min_bytesize?(num, input)
+          input.bytesize >= num
+        end
+
+        def max_bytesize?(num, input)
+          input.bytesize <= num
+        end
+
         def inclusion?(list, input)
           ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
           included_in?(list, input)
