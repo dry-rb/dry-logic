@@ -10,7 +10,7 @@ RSpec.describe Dry::Logic::Predicates do
       let(:arguments_list) do
         [
           [4, 'こa'],
-          [1..8,  'こa']
+          [1..8, 'こa']
         ]
       end
 
@@ -21,7 +21,7 @@ RSpec.describe Dry::Logic::Predicates do
       let(:arguments_list) do
         [
           [3, 'こa'],
-          [1..3,  'こa']
+          [1..3, 'こa']
         ]
       end
 
@@ -32,7 +32,7 @@ RSpec.describe Dry::Logic::Predicates do
       let(:arguments_list) do
         [
           [5, 'こa'],
-          [5..10,  'こa']
+          [5..10, 'こa']
         ]
       end
 
