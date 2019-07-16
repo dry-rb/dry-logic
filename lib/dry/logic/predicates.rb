@@ -114,7 +114,7 @@ module Dry
 
         def size?(size, input)
           case size
-          when Integer then size == input.size
+          when Integer then size.equal?(input.size)
           when Range, Array then size.include?(input.size)
           else
             raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
@@ -127,6 +127,23 @@ module Dry
 
         def max_size?(num, input)
           input.size <= num
+        end
+
+        def bytesize?(size, input)
+          case size
+          when Integer then size.equal?(input.bytesize)
+          when Range, Array then size.include?(input.bytesize)
+          else
+            raise ArgumentError, "+#{size}+ is not supported type for bytesize? predicate."
+          end
+        end
+
+        def min_bytesize?(num, input)
+          input.bytesize >= num
+        end
+
+        def max_bytesize?(num, input)
+          input.bytesize <= num
         end
 
         def inclusion?(list, input)
