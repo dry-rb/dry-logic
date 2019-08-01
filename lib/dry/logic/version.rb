@@ -2,6 +2,6 @@
 
 module Dry
   module Logic
-    VERSION = '1.0.3'.freeze
+    VERSION = '1.0.3'
   end
 end
