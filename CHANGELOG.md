@@ -6,6 +6,10 @@
 * `min_bytesize?` predicate (@bmalinconico)
 * `max_bytesize? predicate (@bmalinconico)
 
+### Changed
+
+* Min ruby version was set to `>= 2.4.0` (@flash-gordon)
+
 [Compare v1.0.2...v1.0.3](https://github.com/dry-rb/dry-logic/compare/v1.0.2...v1.0.3)
 
 # v1.0.2 2019-06-14
