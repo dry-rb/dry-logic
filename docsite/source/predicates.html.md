@@ -17,14 +17,14 @@ Now you can access all built-in predicates:
 
 ``` ruby
 Predicates[:key?]
-=> #<Method: Module(Dry::Logic::Predicates::Methods)#key?>
+# => #<Method: Module(Dry::Logic::Predicates::Methods)#key?>
 ```
 
 In the end predicates return true or false.
 
 ```ruby
 Predicates[:key?].(:name, {name: 'John'})
-=> true
+# => true
 ```
 
 * Built-in:
@@ -54,6 +54,9 @@ Predicates[:key?].(:name, {name: 'John'})
   - `size?`
   - `min_size?`
   - `max_size?`
+  - `bytesize?`
+  - `min_bytesize?`
+  - `max_bytesize?`
   - `inclusion?`
   - `exclusion?`
   - `included_in?`
@@ -78,19 +81,19 @@ require 'dry/logic/predicates'
 include Dry::Logic
 
 is_hash = Rule::Predicate.new(Predicates[:type?]).curry(Hash)
-=> #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#type?> options={:args=>[:hash]}>
+# => #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#type?> options={:args=>[:hash]}>
 name_key = Rule::Predicate.new(Predicates[:key?]).curry(:name)
-=> #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#key?> options={:args=>[:name]}>
+# => #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#key?> options={:args=>[:name]}>
 
 hash_with_key = is_hash & name_key
-=> #<Dry::Logic::Operations::And rules=[#<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#type?> options={:args=>[:hash]}>, #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#key?> options={:args=>[:name]}>] options={}>
+# => #<Dry::Logic::Operations::And rules=[#<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#type?> options={:args=>[:hash]}>, #<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#key?> options={:args=>[:name]}>] options={}>
 
 hash_with_key.(name: 'John').success?
-=> true
+# => true
 
 hash_with_key.(not_valid: 'John').success?
-=> false
+# => false
 
 hash_with_key.([1,2]).success?
-=> false
+# => false
 ```
