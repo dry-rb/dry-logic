@@ -18,13 +18,13 @@ min_18 = Rule::Predicate.new(Predicates[:gt?]).curry(18)
 
 # Here Operations::Key and Rule::Predicate are use to compose and logic based on the value of a given key e.g [:user, :age]
 has_min_age = Operations::Key.new(min_18, name: [:user, :age])
-=> #<Dry::Logic::Operations::Key rules=[#<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#gt?> options={:args=>[18]}>] options={:name=>[:user, :age], :evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :path=>[:user, :age]}>
+# => #<Dry::Logic::Operations::Key rules=[#<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#gt?> options={:args=>[18]}>] options={:name=>[:user, :age], :evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :path=>[:user, :age]}>
 
 # Thanks to the composable structure of the library we can use multiple Rules and Operations to create custom logic
 user_rule = user_present & has_min_age
 
 user_rule.(user: { age: 19 }).success?
-=> true
+# => true
 ```
 
 * Built-in:
@@ -55,8 +55,8 @@ end
 all_6 = all?(6)
 
 all_6.([6,7,8,9]).success?
-=> true
+# => true
 
 all_6.([1,2,3,4]).success?
-=> false
+# => false
 ```
