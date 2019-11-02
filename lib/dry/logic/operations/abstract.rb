@@ -26,15 +26,15 @@ module Dry
         end
 
         def curry(*args)
-          new(rules.map { |rule| rule.curry(*args) }, options)
+          new(rules.map { |rule| rule.curry(*args) }, **options)
         end
 
         def new(rules, **new_options)
-          self.class.new(*rules, options.merge(new_options))
+          self.class.new(*rules, **options, **new_options)
         end
 
         def with(new_options)
-          new(rules, options.merge(new_options))
+          new(rules, **options, **new_options)
         end
 
         def to_ast

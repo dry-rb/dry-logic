@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Dry::Logic::Rule do
-  subject(:rule) { Rule.build(predicate, options) }
+  subject(:rule) { Rule.build(predicate, **options) }
 
   let(:predicate) { -> { true } }
   let(:options) { {} }

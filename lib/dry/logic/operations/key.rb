@@ -12,13 +12,13 @@ module Dry
 
         attr_reader :path
 
-        def self.new(rules, options)
+        def self.new(rules, **options)
           if options[:evaluator]
             super
           else
             name = options.fetch(:name)
             eval = options.fetch(:evaluator, evaluator(name))
-            super(rules, options.merge(evaluator: eval, path: name))
+            super(rules, **options, evaluator: eval, path: name)
           end
         end
 
