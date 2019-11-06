@@ -1,3 +1,9 @@
+# v1.0.5 2019-11-07
+
+- Make `format?` tolerant to `nil` values. It already worked like that before, but starting Ruby 2.7 it would produce warnings. Now it won't. Don't rely on this behavior, it's only added to make tests pass in dry-schema. Use explicit type checks instead (@flash-gordon)
+
+[Compare v1.0.4...v1.0.5](https://github.com/dry-rb/dry-logic/compare/v1.0.4...v1.0.5)
+
 # v1.0.4 2019-11-06
 
 - Fix keyword warnings (@flash-gordon)
