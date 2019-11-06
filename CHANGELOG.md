@@ -1,14 +1,20 @@
+# v1.0.4 2019-11-06
+
+- Fix keyword warnings (@flash-gordon)
+
+[Compare v1.0.3...v1.0.4](https://github.com/dry-rb/dry-logic/compare/v1.0.3...v1.0.4)
+
 # v1.0.3 2019-08-01
 
 ### Added
 
-* `bytesize?` predicate (@bmalinconico)
-* `min_bytesize?` predicate (@bmalinconico)
-* `max_bytesize? predicate (@bmalinconico)
+- `bytesize?` predicate (@bmalinconico)
+- `min_bytesize?` predicate (@bmalinconico)
+- `max_bytesize? predicate (@bmalinconico)
 
 ### Changed
 
-* Min ruby version was set to `>= 2.4.0` (@flash-gordon)
+- Min ruby version was set to `>= 2.4.0` (@flash-gordon)
 
 [Compare v1.0.2...v1.0.3](https://github.com/dry-rb/dry-logic/compare/v1.0.2...v1.0.3)
 
@@ -31,13 +37,13 @@ This release was removed from rubygems because it broke dry-schema.
 
 # v1.0.0 2019-04-23
 
-* Version bump to `1.0.0` (flash-gordon)
+- Version bump to `1.0.0` (flash-gordon)
 
 [Compare v0.6.1...v1.0.0](https://github.com/dry-rb/dry-logic/compare/v0.6.1...v1.0.0)
 
 # v0.6.1 2019-04-18
 
-* Fix a regression in dry-validation 0.x for argument-less predicates (flash-gordon)
+- Fix a regression in dry-validation 0.x for argument-less predicates (flash-gordon)
 
 [Compare v0.6.0...v0.6.1](https://github.com/dry-rb/dry-logic/compare/v0.6.0...v0.6.1)
 
@@ -45,11 +51,11 @@ This release was removed from rubygems because it broke dry-schema.
 
 ### Added
 
-* Generating hints can be disabled by building `Operations::And` with `hints: false` option set (solnic)
+- Generating hints can be disabled by building `Operations::And` with `hints: false` option set (solnic)
 
 ### Changed
 
-* `Rule` construction has been optimized so that currying and application is multiple-times faster (flash-gordon)
+- `Rule` construction has been optimized so that currying and application is multiple-times faster (flash-gordon)
 
 [Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-logic/compare/v0.5.0...v0.6.0)
 
