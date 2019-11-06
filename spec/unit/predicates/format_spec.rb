@@ -7,7 +7,7 @@ RSpec.describe Dry::Logic::Predicates, '#format?' do
 
   context 'when value matches provided regexp' do
     let(:arguments_list) do
-      [['Foo', /^F/]]
+      [[/^F/, 'Foo']]
     end
 
     it_behaves_like 'a passing predicate'
@@ -15,7 +15,15 @@ RSpec.describe Dry::Logic::Predicates, '#format?' do
 
   context 'when value does not match provided regexp' do
     let(:arguments_list) do
-      [['Bar', /^F/]]
+      [[/^F/, 'Bar']]
+    end
+
+    it_behaves_like 'a failing predicate'
+  end
+
+  context 'when input is nil' do
+    let(:arguments_list) do
+      [[/^F/, nil]]
     end
 
     it_behaves_like 'a failing predicate'
