@@ -1,30 +1,28 @@
 [gem]: https://rubygems.org/gems/dry-logic
-[ci]: https://github.com/dry-rb/dry-logic/actions?query=workflow%3Aci
-[codeclimate]: https://codeclimate.com/github/dry-rb/dry-logic
+[actions]: https://github.com/dry-rb/dry-logic/actions
+[codacy]: https://www.codacy.com/gh/dry-rb/dry-logic
 [chat]: https://dry-rb.zulipchat.com
 [inchpages]: http://inch-ci.org/github/dry-rb/dry-logic
 
 # dry-logic [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://badge.fury.io/rb/dry-logic.svg)][gem]
-[![Build Status](https://github.com/dry-rb/dry-logic/workflows/ci/badge.svg)][ci]
-[![Code Climate](https://codeclimate.com/github/dry-rb/dry-logic/badges/gpa.svg)][codeclimate]
-[![Test Coverage](https://codeclimate.com/github/dry-rb/dry-logic/badges/coverage.svg)][codeclimate]
+[![CI Status](https://github.com/dry-rb/dry-logic/workflows/ci/badge.svg)][actions]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/22edf59617be4aef97cfbe4e1c99f1ce)][codacy]
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/22edf59617be4aef97cfbe4e1c99f1ce)][codacy]
 [![Inline docs](http://inch-ci.org/github/dry-rb/dry-logic.svg?branch=master)][inchpages]
-
-Predicate logic and rule composition used by:
-
-- [dry-types](https://github.com/dry-rb/dry-types) for constrained types
-- [dry-schema](https://github.com/dry-rb/dry-schema) and [dry-validation](https://github.com/dry-rb/dry-validation) for composing validation rules
-- your project...?
 
 ## Links
 
-- [Documentation](http://dry-rb.org/gems/dry-logic)
+* [User documentation](http://dry-rb.org/gems/dry-logic)
+* [API documentation](http://rubydoc.info/gems/dry-logic)
 
-## Contributing
+## Supported Ruby versions
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/dry-rb/dry-logic.
+This library officially supports the following Ruby versions:
+
+* MRI >= `2.4`
+* jruby >= `9.2`
 
 ## License
 
