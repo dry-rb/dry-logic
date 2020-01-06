@@ -9,13 +9,13 @@ RSpec.describe Dry::Logic::Predicates do
     context 'when value is an array' do
       let(:arguments_list) do
         [
-          [ [] ],
-          [ ['other', 'array'] ],
-          [ [123, 'really', :blah] ],
-          [ Array.new ],
-          [ [nil] ],
-          [ [false] ],
-          [ [true] ]
+          [[]],
+          [['other', 'array']],
+          [[123, 'really', :blah]],
+          [Array.new],
+          [[nil]],
+          [[false]],
+          [[true]]
         ]
       end
 

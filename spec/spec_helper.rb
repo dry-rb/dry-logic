@@ -5,7 +5,6 @@ require_relative 'support/coverage'
 begin
   require 'pry-byebug'
 rescue LoadError; end
-
 require 'dry-logic'
 require 'dry/core/constants'
 require 'pathname'

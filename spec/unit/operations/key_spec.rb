@@ -22,8 +22,7 @@ RSpec.describe Operations::Key do
 
         expect(result.to_ast).to eql(
           [:failure, [:user, [:key, [:user,
-            [:predicate, [:key?, [[:name, :age], [:input, {}]]]]
-          ]]]]
+                                     [:predicate, [:key?, [[:name, :age], [:input, {}]]]]]]]]
         )
       end
     end

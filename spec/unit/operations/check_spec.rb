@@ -30,8 +30,8 @@ RSpec.describe Operations::Check do
 
         expect(result.to_ast).to eql(
           [:failure, [:compare, [:check, [
-            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 1], [:right, 2]]]]]
-          ]]]
+            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 1], [:right, 2]]]]
+          ]]]]
         )
       end
     end

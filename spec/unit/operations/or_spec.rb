@@ -25,8 +25,8 @@ RSpec.describe Operations::Or do
       expect(operation.to_ast).to eql(
         [:or, [
           [:predicate, [:nil?, [[:input, Undefined]]]],
-          [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]
-        ]
+          [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]
+        ]]
       )
     end
 
@@ -34,8 +34,8 @@ RSpec.describe Operations::Or do
       expect(operation.(17).to_ast).to eql(
         [:or, [
           [:predicate, [:nil?, [[:input, 17]]]],
-          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
-        ]
+          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]
+        ]]
       )
     end
 
@@ -43,8 +43,8 @@ RSpec.describe Operations::Or do
       expect(operation.with(id: :age).(17).to_ast).to eql(
         [:failure, [:age, [:or, [
           [:predicate, [:nil?, [[:input, 17]]]],
-          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]]
-        ]]]
+          [:predicate, [:gt?, [[:num, 18], [:input, 17]]]]
+        ]]]]
       )
     end
   end

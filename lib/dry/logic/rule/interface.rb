@@ -116,7 +116,7 @@ module Dry
 
         def define_fixed_application
           parameters = unapplied_args.join(', ')
-          application = "@predicate[#{ (curried_args + unapplied_args).join(', ') }]"
+          application = "@predicate[#{(curried_args + unapplied_args).join(', ')}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(#{parameters})
