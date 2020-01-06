@@ -9,11 +9,11 @@ RSpec.describe Dry::Logic::Predicates do
     context 'when value is numerical' do
       let(:arguments_list) do
         [
-          ["34"],
-          ["1.000004"],
-          ["0"],
+          ['34'],
+          ['1.000004'],
+          ['0'],
           [4],
-          ["-15.24"],
+          ['-15.24'],
           [-3.5]
         ]
       end
@@ -25,8 +25,8 @@ RSpec.describe Dry::Logic::Predicates do
       let(:arguments_list) do
         [
           [''],
-          ["-14px"],
-          ["10,150.00"],
+          ['-14px'],
+          ['10,150.00'],
           [nil],
           [:symbol],
           [String]

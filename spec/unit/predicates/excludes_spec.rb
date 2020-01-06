@@ -26,11 +26,11 @@ RSpec.describe Dry::Logic::Predicates do
         [
           [2, 1],
           [1, nil],
-          ["foo", 1],
-          [1, "foo"],
-          [1..2, "foo"],
-          ["foo", 1..2],
-          [:key, "foo"]
+          ['foo', 1],
+          [1, 'foo'],
+          [1..2, 'foo'],
+          ['foo', 1..2],
+          [:key, 'foo']
         ]
       end
 
