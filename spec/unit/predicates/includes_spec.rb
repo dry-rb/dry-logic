@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/logic/predicates'
 
 RSpec.describe Dry::Logic::Predicates, '#is?' do
@@ -15,8 +17,7 @@ RSpec.describe Dry::Logic::Predicates, '#is?' do
 
   context 'with value is not equal to the arg' do
     let(:arguments_list) do
-      # Strings are not equal. Yet
-      [[one, two], ['one', 'one']]
+      [[one, two], [{}, {}]]
     end
 
     it_behaves_like 'a failing predicate'
