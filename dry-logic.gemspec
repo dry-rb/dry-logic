@@ -1,31 +1,36 @@
 # frozen_string_literal: true
+# this file is managed by dry-rb/devtools project
 
-require File.expand_path('../lib/dry/logic/version', __FILE__)
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'dry/logic/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'dry-logic'
-  spec.version       = Dry::Logic::VERSION
-  spec.authors       = ['Piotr Solnica']
-  spec.email         = ['piotr.solnica@gmail.com']
-  spec.summary       = 'Predicate logic with rule composition'
-  spec.homepage      = 'https://github.com/dry-rb/dry-logic'
+  spec.authors       = ["Piotr Solnica"]
+  spec.email         = ["piotr.solnica@gmail.com"]
   spec.license       = 'MIT'
+  spec.version       = Dry::Logic::VERSION.dup
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.summary       = "Predicate logic with rule composition"
+  spec.description   = spec.summary
+  spec.homepage      = 'https://dry-rb.org/gems/dry-logic'
+  spec.files         = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'dry-logic.gemspec', 'lib/**/*']
   spec.require_paths = ['lib']
+
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+  spec.metadata['changelog_uri']     = 'https://github.com/dry-rb/dry-logic/blob/master/CHANGELOG.md'
+  spec.metadata['source_code_uri']   = 'https://github.com/dry-rb/dry-logic'
+  spec.metadata['bug_tracker_uri']   = 'https://github.com/dry-rb/dry-logic/issues'
+
   spec.required_ruby_version = '>= 2.4.0'
 
-  spec.metadata = {
-    'source_code_uri' => 'https://github.com/dry-rb/dry-logic',
-    'changelog_uri' => 'https://github.com/dry-rb/dry-logic/blob/master/CHANGELOG.md'
-  }
+  # to update dependencies edit project.yml
+  spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
+  spec.add_runtime_dependency "dry-core", "~> 0.2"
+  spec.add_runtime_dependency "dry-equalizer", "~> 0.2"
 
-  spec.add_runtime_dependency 'concurrent-ruby', '~> 1.0'
-  spec.add_runtime_dependency 'dry-core', '~> 0.2'
-  spec.add_runtime_dependency 'dry-equalizer', '~> 0.2'
-
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 end
