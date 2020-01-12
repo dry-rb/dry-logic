@@ -1,2 +1,14 @@
 name: dry-logic
 codacy_id: 3ac6ea12c2dd42beb36dc3abe63d9606
+gemspec:
+  authors: ["Piotr Solnica"]
+  email: ["piotr.solnica@gmail.com"]
+  summary: "Predicate logic with rule composition"
+  development_dependencies:
+    - bundler
+    - rake
+    - rspec
+  runtime_dependencies:
+    - [concurrent-ruby, "~> 1.0"]
+    - [dry-equalizer, "~> 0.2"]
+    - [dry-core, "~> 0.2"]
