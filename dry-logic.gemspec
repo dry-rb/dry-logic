@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Predicate logic with rule composition"
   spec.description   = spec.summary
   spec.homepage      = 'https://dry-rb.org/gems/dry-logic'
-  spec.files         = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'dry-logic.gemspec', 'lib/**/*']
+  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-logic.gemspec", "lib/**/*"]
   spec.require_paths = ['lib']
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
