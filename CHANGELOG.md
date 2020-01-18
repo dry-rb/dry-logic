@@ -5,12 +5,16 @@
 
 - Make `format?` tolerant to `nil` values. It already worked like that before, but starting Ruby 2.7 it would produce warnings. Now it won't. Don't rely on this behavior, it's only added to make tests pass in dry-schema. Use explicit type checks instead (@flash-gordon)
 
+[Compare v1.0.4...v1.0.5](https://github.com/dry-rb/dry-logic/compare/v1.0.4...v1.0.5)
+
 ## 1.0.4 2019-11-06
 
 
 ### Fixed
 
 - Fix keyword warnings (@flash-gordon)
+
+[Compare v1.0.3...v1.0.4](https://github.com/dry-rb/dry-logic/compare/v1.0.3...v1.0.4)
 
 ## 1.0.3 2019-08-01
 
@@ -24,9 +28,13 @@
 ### Changed
 
 - Min ruby version was set to `>= 2.4.0` (@flash-gordon)
+[Compare v1.0.2...v1.0.3](https://github.com/dry-rb/dry-logic/compare/v1.0.2...v1.0.3)
+
 ## 1.0.2 2019-06-14
 
 Re-pushed 1.0.1 after dry-schema 1.2.0 release.
+
+[Compare v1.0.1...v1.0.2](https://github.com/dry-rb/dry-logic/compare/v1.0.1...v1.0.2)
 
 ## 1.0.1 2019-06-04
 
@@ -37,18 +45,24 @@ This release was removed from rubygems because it broke dry-schema.
 - `uuid_v4?` predicate (radar)
 - `respond_to?` predicate (waiting-for-dev)
 
+[Compare v1.0.0...v1.0.1](https://github.com/dry-rb/dry-logic/compare/v1.0.0...v1.0.1)
+
 ## 1.0.0 2019-04-23
 
 
 ### Changed
 
 - Version bump to `1.0.0` (flash-gordon)
+[Compare v0.6.1...v1.0.0](https://github.com/dry-rb/dry-logic/compare/v0.6.1...v1.0.0)
+
 ## 0.6.1 2019-04-18
 
 
 ### Fixed
 
 - Fix a regression in dry-validation 0.x for argument-less predicates (flash-gordon)
+
+[Compare v0.6.0...v0.6.1](https://github.com/dry-rb/dry-logic/compare/v0.6.0...v0.6.1)
 
 ## 0.6.0 2019-04-04
 
@@ -60,6 +74,8 @@ This release was removed from rubygems because it broke dry-schema.
 ### Changed
 
 - `Rule` construction has been optimized so that currying and application is multiple-times faster (flash-gordon)
+[Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-logic/compare/v0.5.0...v0.6.0)
+
 ## 0.5.0 2019-01-29
 
 
@@ -70,6 +86,8 @@ This release was removed from rubygems because it broke dry-schema.
 ### Fixed
 
 - `Operation::Key#ast` will now return a correct AST with non-Undefined inputs (solnic)
+
+[Compare v0.4.2...v0.5.0](https://github.com/dry-rb/dry-logic/compare/v0.4.2...v0.5.0)
 
 ## 0.4.2 2017-09-15
 
@@ -83,6 +101,8 @@ This release was removed from rubygems because it broke dry-schema.
 
 - A bug with using custom predicates within a standalone module in `dry-validation` (flash-gordon)
 
+[Compare v0.4.1...v0.4.2](https://github.com/dry-rb/dry-logic/compare/v0.4.1...v0.4.2)
+
 ## 0.4.1 2017-01-23
 
 
@@ -93,6 +113,8 @@ This release was removed from rubygems because it broke dry-schema.
 ### Changed
 
 - Predicates simply reuse other predicate methods instead of referring to them via `#[]` (georgemillo)
+[Compare v0.4.0...v0.4.1](https://github.com/dry-rb/dry-logic/compare/v0.4.0...v0.4.1)
+
 ## 0.4.0 2016-09-21
 
 This is a partial rewrite focused on internal clean up and major performance improvements. This is also the beginning of the work to make this library first-class rather than "just" a rule backend for dry-validation and dry-types.
@@ -118,6 +140,8 @@ This is a partial rewrite focused on internal clean up and major performance imp
 - [BREAKING] `Rule.new` accepts a predicate function as its first arg now (solnic)
 - [BREAKING] `Rule#name` is now `Rule#id` (solnic)
 - `Rule#parameters` is public now (solnic)
+[Compare v0.3.0...v0.4.0](https://github.com/dry-rb/dry-logic/compare/v0.3.0...v0.4.0)
+
 ## 0.3.0 2016-07-01
 
 
@@ -131,6 +155,8 @@ This is a partial rewrite focused on internal clean up and major performance imp
 - Predicates AST now includes information about args (names & possible values) (fran-worley + solnic)
 - Predicates raise errors when they are called with invalid arity (fran-worley + solnic)
 - Rules no longer evaluate input twice when building result objects (solnic)
+[Compare v0.2.3...v0.3.0](https://github.com/dry-rb/dry-logic/compare/v0.2.3...v0.3.0)
+
 ## 0.2.3 2016-05-11
 
 
@@ -142,12 +168,16 @@ This is a partial rewrite focused on internal clean up and major performance imp
 
 - Renamed `inclusion?` to `included_in?` and deprecated `inclusion?` (fran-worley)
 - Renamed `exclusion?` to `excluded_from?` and deprecated `exclusion?` (fran-worley)
+[Compare v0.2.2...v0.2.3](https://github.com/dry-rb/dry-logic/compare/v0.2.2...v0.2.3)
+
 ## 0.2.2 2016-03-30
 
 
 ### Added
 
 - `number?`, `odd?`, `even?` predicates (fran-worley)
+
+[Compare v0.2.1...v0.2.2](https://github.com/dry-rb/dry-logic/compare/v0.2.1...v0.2.2)
 
 ## 0.2.1 2016-03-20
 
@@ -156,12 +186,16 @@ This is a partial rewrite focused on internal clean up and major performance imp
 
 - Result AST for `Rule::Each` correctly maps elements with eql inputs (solnic)
 
+[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-logic/compare/v0.2.0...v0.2.1)
+
 ## 0.2.0 2016-03-11
 
 
 ### Changed
 
 - Entire AST has been redefined (solnic)
+[Compare v0.1.4...v0.2.0](https://github.com/dry-rb/dry-logic/compare/v0.1.4...v0.2.0)
+
 ## 0.1.4 2016-01-27
 
 
@@ -169,6 +203,8 @@ This is a partial rewrite focused on internal clean up and major performance imp
 
 - Support for hash-names in `Check` and `Result` which can properly resolve input
   from nested results (solnic)
+
+[Compare v0.1.3...v0.1.4](https://github.com/dry-rb/dry-logic/compare/v0.1.3...v0.1.4)
 
 ## 0.1.3 2016-01-27
 
@@ -180,12 +216,16 @@ This is a partial rewrite focused on internal clean up and major performance imp
 ### Changed
 
 - `Check` and `Result` carry original input(s) (solnic)
+[Compare v0.1.2...v0.1.3](https://github.com/dry-rb/dry-logic/compare/v0.1.2...v0.1.3)
+
 ## 0.1.2 2016-01-19
 
 
 ### Fixed
 
 - `xor` returns wrapped results when used against another result-rule (solnic)
+
+[Compare v0.1.1...v0.1.2](https://github.com/dry-rb/dry-logic/compare/v0.1.1...v0.1.2)
 
 ## 0.1.1 2016-01-18
 
@@ -195,6 +235,8 @@ This is a partial rewrite focused on internal clean up and major performance imp
 - `Rule::Attr` which can be applied to a data object with attr readers (SunnyMagadan)
 - `Rule::Result` which can be applied to a result object (solnic)
 - `true?` and `false?` predicates (solnic)
+
+[Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-logic/compare/v0.1.0...v0.1.1)
 
 ## 0.1.0 2016-01-11
 
