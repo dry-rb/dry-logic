@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'support/coverage'
+require_relative 'support/warnings'
 
 begin
   require 'pry-byebug'
@@ -19,6 +20,4 @@ include Dry::Core::Constants
 
 RSpec.configure do |config|
   config.disable_monkey_patching!
-
-  config.warnings = true
 end
