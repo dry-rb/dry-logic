@@ -1,3 +1,13 @@
+## 1.0.6 2020-02-10
+
+
+### Fixed
+
+- Made the regexp used by `uuid_v4?` more secure (@kml)
+
+
+[Compare v1.0.5...v1.0.6](https://github.com/dry-rb/dry-logic/compare/v1.0.5...v1.0.6)
+
 ## 1.0.5 2019-11-07
 
 
