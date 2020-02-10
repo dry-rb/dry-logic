@@ -1,4 +1,11 @@
 ---
+- version: 1.0.6
+  summary: 
+  date: '2020-02-10'
+  fixed:
+  - Made the regexp used by `uuid_v4?` more secure (@kml)
+  added: 
+  changed: 
 - version: 1.0.5
   date: '2019-11-07'
   fixed:
