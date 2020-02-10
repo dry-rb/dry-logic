@@ -207,7 +207,7 @@ module Dry
         end
 
         def uuid_v4?(input)
-          uuid_v4_format = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+          uuid_v4_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
           format?(uuid_v4_format, input)
         end
 
