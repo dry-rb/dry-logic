@@ -54,8 +54,11 @@ end
 
 all_6 = all?(6)
 
-all_6.([6,7,8,9]).success?
+all_6.([7,8,9]).success?
 # => true
+
+all_6.([6,7,8,9]).success?
+# => false
 
 all_6.([1,2,3,4]).success?
 # => false
