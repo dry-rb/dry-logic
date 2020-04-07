@@ -73,6 +73,7 @@ Predicates[:key?].(:name, {name: 'John'})
   - `respond_to?`
   - `predicate`
   - `uuid_v4?`
+  - `uri?`
 
 With predicates you can build more composable and complex operations:
 For example, let's say we want to check that a given input is a hash and has a specify key.
