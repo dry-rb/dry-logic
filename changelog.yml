@@ -1,4 +1,7 @@
 ---
+- version: unreleased
+  added:
+  - 'A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)'
 - version: 1.0.6
   summary: 
   date: '2020-02-10'
