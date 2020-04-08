@@ -211,6 +211,11 @@ module Dry
           format?(uuid_v4_format, input)
         end
 
+        def uri?(schemes, input)
+          uri_format = URI::DEFAULT_PARSER.make_regexp(schemes)
+          format?(uri_format, input)
+        end
+
         def respond_to?(method, input)
           input.respond_to?(method)
         end
