@@ -112,12 +112,12 @@ module Dry
           !lt?(num, input)
         end
 
-        def size?(size, input)
-          case size
-          when Integer then size.equal?(input.size)
-          when Range, Array then size.include?(input.size)
+        def size?(num, input)
+          case num
+          when Integer then num.equal?(input.size)
+          when Range, Array then num.include?(input.size)
           else
-            raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
+            raise ArgumentError, "+#{num}+ is not supported type for size? predicate."
           end
         end
 
