@@ -5,6 +5,22 @@
 
 - A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)
 
+### Changed
+
+- `size?` argument is now called `num` which fixes a regression on dry-schema side (see #72 for more details) (@tadeusz-niemiec)
+
+[Compare vunreleased...master](https://github.com/dry-rb/dry-logic/compare/vunreleased...master)
+
+## unreleased 
+
+
+### Added
+
+- A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)
+
+### Changed
+
+- `size?` argument is now called `num` which fixes a regression on dry-schema side (see #72 for more details) (@tadeusz-niemiec)
 
 [Compare v1.0.6...master](https://github.com/dry-rb/dry-logic/compare/v1.0.6...master)
 
