@@ -1,17 +1,7 @@
 ---
 - version: unreleased
-  summary: 
-  date: 
-  fixed: 
-  added: &1
-  - A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https",
-    "https://dry-rb.org")` (@nerburish)
-  changed: &2
-  - "`size?` argument is now called `num` which fixes a regression on dry-schema side
-    (see #72 for more details) (@tadeusz-niemiec)"
-- version: unreleased
-  added: *1
-  changed: *2
+  added:
+  - 'A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)'
 - version: 1.0.6
   summary: 
   date: '2020-02-10'
