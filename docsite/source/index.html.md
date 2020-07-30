@@ -32,7 +32,7 @@ user_present = Rule::Predicate.new(Predicates[:key?]).curry(:user)
 # require value to be greater than 18
 min_18 = Rule::Predicate.new(Predicates[:gt?]).curry(18)
 
-# use the min_18 predicate on the the value of user[:age]
+# use the min_18 predicate on the value of user[:age]
 has_min_age = Operations::Key.new(min_18, name: [:user, :age])
 
 user_rule = user_present & has_min_age
