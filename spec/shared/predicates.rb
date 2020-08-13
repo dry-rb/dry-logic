@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
-RSpec.shared_examples 'predicates' do
+RSpec.shared_examples "predicates" do
   let(:nil?) { Dry::Logic::Predicates[:nil?] }
 
   let(:array?) { Dry::Logic::Predicates[:array?] }
@@ -38,7 +38,7 @@ RSpec.shared_examples 'predicates' do
   let(:equal?) { Dry::Logic::Predicates[:equal?] }
 end
 
-RSpec.shared_examples 'a passing predicate' do
+RSpec.shared_examples "a passing predicate" do
   let(:predicate) { Dry::Logic::Predicates[predicate_name] }
 
   it do
@@ -48,7 +48,7 @@ RSpec.shared_examples 'a passing predicate' do
   end
 end
 
-RSpec.shared_examples 'a failing predicate' do
+RSpec.shared_examples "a failing predicate" do
   let(:predicate) { Dry::Logic::Predicates[predicate_name] }
 
   it do

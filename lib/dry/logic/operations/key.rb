@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry/logic/operations/unary'
-require 'dry/logic/evaluator'
-require 'dry/logic/result'
+require "dry/logic/operations/unary"
+require "dry/logic/evaluator"
+require "dry/logic/result"
 
 module Dry
   module Logic

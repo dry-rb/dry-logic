@@ -1,39 +1,39 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#min_bytesize?' do
+  describe "#min_bytesize?" do
     let(:predicate_name) { :min_bytesize? }
 
-    context 'when value size is greater than n' do
+    context "when value size is greater than n" do
       let(:arguments_list) do
         [
-          [3, 'こa']
+          [3, "こa"]
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'when value size is equal to n' do
+    context "when value size is equal to n" do
       let(:arguments_list) do
         [
-          [5, 'こab']
+          [5, "こab"]
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'with value size is less than n' do
+    context "with value size is less than n" do
       let(:arguments_list) do
         [
-          [5, 'こ']
+          [5, "こ"]
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

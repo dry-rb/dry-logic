@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/core/constants'
+require "dry/core/constants"
 
 module Dry
   module Logic
@@ -69,7 +69,7 @@ module Dry
         if args.empty?
           name.to_s
         else
-          "#{name}(#{args.map(&:last).map(&:inspect).join(', ')})"
+          "#{name}(#{args.map(&:last).map(&:inspect).join(", ")})"
         end
       end
 

@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require 'dry/logic'
+require "dry/logic"

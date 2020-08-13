@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#nil?' do
+  describe "#nil?" do
     let(:predicate_name) { :nil? }
 
-    context 'when value is nil' do
+    context "when value is nil" do
       let(:arguments_list) { [[nil]] }
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'when value is not nil' do
+    context "when value is not nil" do
       let(:arguments_list) do
         [
-          [''],
+          [""],
           [true],
           [false],
           [0],
@@ -24,7 +24,7 @@ RSpec.describe Dry::Logic::Predicates do
           [String]
         ]
       end
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

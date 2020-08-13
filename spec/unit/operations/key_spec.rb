@@ -3,19 +3,19 @@
 RSpec.describe Operations::Key do
   subject(:operation) { Operations::Key.new(predicate, name: :user) }
 
-  include_context 'predicates'
+  include_context "predicates"
 
   let(:predicate) do
     Rule::Predicate.build(key?).curry(:age)
   end
 
-  describe '#call' do
-    context 'with a plain predicate' do
-      it 'returns a success for valid input' do
-        expect(operation.(user: { age: 18 })).to be_success
+  describe "#call" do
+    context "with a plain predicate" do
+      it "returns a success for valid input" do
+        expect(operation.(user: {age: 18})).to be_success
       end
 
-      it 'returns a failure for invalid input' do
+      it "returns a failure for invalid input" do
         result = operation.(user: {})
 
         expect(result).to be_failure
@@ -27,7 +27,7 @@ RSpec.describe Operations::Key do
       end
     end
 
-    context 'with a set rule as predicate' do
+    context "with a set rule as predicate" do
       subject(:operation) do
         Operations::Key.new(predicate, name: :address)
       end
@@ -36,26 +36,26 @@ RSpec.describe Operations::Key do
         Operations::Set.new(Rule::Predicate.build(key?).curry(:city), Rule::Predicate.build(key?).curry(:zipcode))
       end
 
-      it 'applies set rule to the value that passes' do
-        result = operation.(address: { city: 'NYC', zipcode: '123' })
+      it "applies set rule to the value that passes" do
+        result = operation.(address: {city: "NYC", zipcode: "123"})
 
         expect(result).to be_success
       end
 
-      it 'applies set rule to the value that fails' do
-        result = operation.(address: { city: 'NYC' })
+      it "applies set rule to the value that fails" do
+        result = operation.(address: {city: "NYC"})
 
         expect(result).to be_failure
 
         expect(result.to_ast).to eql(
           [:failure, [:address, [:key, [:address, [:set, [
-            [:predicate, [:key?, [[:name, :zipcode], [:input, { city: 'NYC' }]]]]
+            [:predicate, [:key?, [[:name, :zipcode], [:input, {city: "NYC"}]]]]
           ]]]]]]
         )
       end
     end
 
-    context 'with an each rule as predicate' do
+    context "with an each rule as predicate" do
       subject(:operation) do
         Operations::Key.new(predicate, name: :nums)
       end
@@ -64,14 +64,14 @@ RSpec.describe Operations::Key do
         Operations::Each.new(Rule::Predicate.build(str?))
       end
 
-      it 'applies each rule to the value that passses' do
-        result = operation.(nums: %w(1 2 3))
+      it "applies each rule to the value that passses" do
+        result = operation.(nums: %w[1 2 3])
 
         expect(result).to be_success
       end
 
-      it 'applies each rule to the value that fails' do
-        failure = operation.(nums: [1, '3', 3])
+      it "applies each rule to the value that fails" do
+        failure = operation.(nums: [1, "3", 3])
 
         expect(failure).to be_failure
 
@@ -85,29 +85,29 @@ RSpec.describe Operations::Key do
     end
   end
 
-  describe '#to_ast' do
-    it 'returns ast' do
+  describe "#to_ast" do
+    it "returns ast" do
       expect(operation.to_ast).to eql(
         [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
       )
     end
   end
 
-  describe '#ast' do
-    it 'returns ast without the input' do
+  describe "#ast" do
+    it "returns ast without the input" do
       expect(operation.ast).to eql(
         [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
       )
     end
 
-    it 'returns ast with the input' do
-      expect(operation.ast(user: 'jane')).to eql(
-        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, 'jane']]]]]]
+    it "returns ast with the input" do
+      expect(operation.ast(user: "jane")).to eql(
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, "jane"]]]]]]
       )
     end
   end
 
-  describe '#and' do
+  describe "#and" do
     subject(:operation) do
       Operations::Key.new(Rule::Predicate.build(str?), name: [:user, :name])
     end
@@ -116,19 +116,19 @@ RSpec.describe Operations::Key do
       Operations::Key.new(Rule::Predicate.build(filled?), name: [:user, :name])
     end
 
-    it 'returns and rule where value is passed to the right' do
+    it "returns and rule where value is passed to the right" do
       present_and_string = operation.and(other)
 
-      expect(present_and_string.(user: { name: 'Jane' })).to be_success
+      expect(present_and_string.(user: {name: "Jane"})).to be_success
 
       expect(present_and_string.(user: {})).to be_failure
-      expect(present_and_string.(user: { name: 1 })).to be_failure
+      expect(present_and_string.(user: {name: 1})).to be_failure
     end
   end
 
-  describe '#to_s' do
-    it 'returns string representation' do
-      expect(operation.to_s).to eql('key[user](key?(:age))')
+  describe "#to_s" do
+    it "returns string representation" do
+      expect(operation.to_s).to eql("key[user](key?(:age))")
     end
   end
 end

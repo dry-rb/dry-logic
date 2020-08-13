@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#int?' do
+  describe "#int?" do
     let(:predicate_name) { :int? }
 
-    context 'when value is an integer' do
+    context "when value is an integer" do
       let(:arguments_list) do
         [
           [1],
@@ -15,13 +15,13 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'with value is not an integer' do
+    context "with value is not an integer" do
       let(:arguments_list) do
         [
-          [''],
+          [""],
           [[]],
           [{}],
           [nil],
@@ -30,7 +30,7 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

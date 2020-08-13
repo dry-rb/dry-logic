@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#even?' do
+  describe "#even?" do
     let(:predicate_name) { :even? }
 
-    context 'when value is an odd int' do
+    context "when value is an odd int" do
       let(:arguments_list) do
         [
           [13],
@@ -15,10 +15,10 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
 
-    context 'with value is an even int' do
+    context "with value is an even int" do
       let(:arguments_list) do
         [
           [0],
@@ -27,7 +27,7 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
   end
 end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#lteq?' do
+  describe "#lteq?" do
     let(:predicate_name) { :lteq? }
 
-    context 'when value is less than n' do
+    context "when value is less than n" do
       let(:arguments_list) do
         [
           [13, 12],
@@ -14,10 +14,10 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'when value is equal to n' do
+    context "when value is equal to n" do
       let(:arguments_list) do
         [
           [13, 13],
@@ -25,10 +25,10 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'with value is greater than n' do
+    context "with value is greater than n" do
       let(:arguments_list) do
         [
           [13, 14],
@@ -36,7 +36,7 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

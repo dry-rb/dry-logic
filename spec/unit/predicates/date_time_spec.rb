@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#date_time?' do
+  describe "#date_time?" do
     let(:predicate_name) { :date_time? }
 
-    context 'when value is a datetime' do
+    context "when value is a datetime" do
       let(:arguments_list) do
         [[DateTime.now]]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'with value is not an integer' do
+    context "with value is not an integer" do
       let(:arguments_list) do
         [
-          [''],
+          [""],
           [[]],
           [{}],
           [nil],
@@ -27,7 +27,7 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

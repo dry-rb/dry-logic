@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/logic/operations/abstract'
+require "dry/logic/operations/abstract"
 
 module Dry
   module Logic

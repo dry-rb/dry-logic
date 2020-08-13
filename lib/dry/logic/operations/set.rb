@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/logic/operations/abstract'
-require 'dry/logic/result'
+require "dry/logic/operations/abstract"
+require "dry/logic/result"
 
 module Dry
   module Logic
@@ -29,7 +29,7 @@ module Dry
         end
 
         def to_s
-          "#{type}(#{rules.map(&:to_s).join(', ')})"
+          "#{type}(#{rules.map(&:to_s).join(", ")})"
         end
       end
     end

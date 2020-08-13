@@ -6,26 +6,26 @@ shared_examples_for Dry::Logic::Rule do
   let(:rule_type) { described_class }
   let(:predicate_name) { :good? }
 
-  describe '#arity' do
-    it 'returns its predicate arity' do
+  describe "#arity" do
+    it "returns its predicate arity" do
       rule = rule_type.build(predicate)
 
       expect(rule.arity).to be(2)
     end
   end
 
-  describe '#parameters' do
-    it 'returns a list of args with their names' do
+  describe "#parameters" do
+    it "returns a list of args with their names" do
       rule = rule_type.build(-> foo, bar { true }, args: [312])
 
-      expect(rule.parameters).to eql([[:req, :foo], [:req, :bar]])
+      expect(rule.parameters).to eql([%i[req foo], %i[req bar]])
     end
   end
 
-  describe '#call' do
+  describe "#call" do
     let(:arity) { 1 }
 
-    it 'returns success for valid input' do
+    it "returns success for valid input" do
       rule = rule_type.build(predicate)
 
       expect(predicate).to receive(:[]).with(2).and_return(true)
@@ -33,7 +33,7 @@ shared_examples_for Dry::Logic::Rule do
       expect(rule.(2)).to be_success
     end
 
-    it 'returns failure for invalid input' do
+    it "returns failure for invalid input" do
       rule = rule_type.build(predicate)
 
       expect(predicate).to receive(:[]).with(2).and_return(false)
@@ -42,10 +42,10 @@ shared_examples_for Dry::Logic::Rule do
     end
   end
 
-  describe '#[]' do
+  describe "#[]" do
     let(:arity) { 1 }
 
-    it 'delegates to its predicate' do
+    it "delegates to its predicate" do
       rule = rule_type.build(predicate)
 
       expect(predicate).to receive(:[]).with(2).and_return(true)
@@ -53,8 +53,8 @@ shared_examples_for Dry::Logic::Rule do
     end
   end
 
-  describe '#curry' do
-    it 'returns a curried rule' do
+  describe "#curry" do
+    it "returns a curried rule" do
       rule = rule_type.build(predicate).curry(3)
 
       expect(predicate).to receive(:[]).with(3, 2).and_return(true)
@@ -63,11 +63,11 @@ shared_examples_for Dry::Logic::Rule do
       expect(rule.(2)).to be_success
     end
 
-    it 'raises argument error when arity does not match' do
+    it "raises argument error when arity does not match" do
       expect(predicate).to receive(:arity).and_return(2)
 
       expect { rule_type.build(predicate).curry(3, 2, 1) }.to raise_error(
-        ArgumentError, 'wrong number of arguments (3 for 2)'
+        ArgumentError, "wrong number of arguments (3 for 2)"
       )
     end
   end

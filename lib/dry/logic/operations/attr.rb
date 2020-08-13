@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/logic/operations/key'
+require "dry/logic/operations/key"
 
 module Dry
   module Logic

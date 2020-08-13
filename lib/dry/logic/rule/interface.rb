@@ -49,9 +49,9 @@ module Dry
 
         def name
           if constant?
-            'Constant'
+            "Constant"
           else
-            arity_str = variable_arity? ? 'VariableArity' : "#{arity}Arity"
+            arity_str = variable_arity? ? "VariableArity" : "#{arity}Arity"
             curried_str = curried? ? "#{curried}Curried" : EMPTY_STRING
 
             "#{arity_str}#{curried_str}"
@@ -61,9 +61,9 @@ module Dry
         def define_constructor
           assignment =
             if curried.equal?(1)
-              '@arg0 = @args[0]'
+              "@arg0 = @args[0]"
             else
-              "#{curried_args.join(', ')} = @args"
+              "#{curried_args.join(", ")} = @args"
             end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
@@ -94,9 +94,9 @@ module Dry
         def define_splat_application
           application =
             if curried?
-              "@predicate[#{curried_args.join(', ')}, *input]"
+              "@predicate[#{curried_args.join(", ")}, *input]"
             else
-              '@predicate[*input]'
+              "@predicate[*input]"
             end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
@@ -115,8 +115,8 @@ module Dry
         end
 
         def define_fixed_application
-          parameters = unapplied_args.join(', ')
-          application = "@predicate[#{(curried_args + unapplied_args).join(', ')}]"
+          parameters = unapplied_args.join(", ")
+          application = "@predicate[#{(curried_args + unapplied_args).join(", ")}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(#{parameters})

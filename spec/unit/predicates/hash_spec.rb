@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#hash?' do
+  describe "#hash?" do
     let(:predicate_name) { :hash? }
 
-    context 'when value is a hash' do
+    context "when value is a hash" do
       let(:arguments_list) do
         [
           [{}],
           [foo: :bar],
-          [Hash.new]
+          [{}]
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'when value is not a hash' do
+    context "when value is not a hash" do
       let(:arguments_list) do
         [
-          [''],
+          [""],
           [[]],
           [nil],
           [:symbol],
@@ -29,12 +29,12 @@ RSpec.describe Dry::Logic::Predicates do
           [1],
           [1.0],
           [true],
-          [Array.new],
+          [[]],
           [Hash]
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

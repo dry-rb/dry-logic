@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'dry/logic/predicates'
+require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe '#str?' do
+  describe "#str?" do
     let(:predicate_name) { :str? }
 
-    context 'when value is a string' do
+    context "when value is a string" do
       let(:arguments_list) do
         [
-          [''],
-          ['John']
+          [""],
+          ["John"]
         ]
       end
 
-      it_behaves_like 'a passing predicate'
+      it_behaves_like "a passing predicate"
     end
 
-    context 'with value is not a string' do
+    context "with value is not a string" do
       let(:arguments_list) do
         [
           [[]],
@@ -28,7 +28,7 @@ RSpec.describe Dry::Logic::Predicates do
         ]
       end
 
-      it_behaves_like 'a failing predicate'
+      it_behaves_like "a failing predicate"
     end
   end
 end

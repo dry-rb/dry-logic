@@ -7,5 +7,5 @@ module Dry
   end
 end
 
-require 'dry/logic/rule/predicate'
-require 'dry/logic/operations'
+require "dry/logic/rule/predicate"
+require "dry/logic/operations"

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/logic/operations/binary'
-require 'dry/logic/result'
+require "dry/logic/operations/binary"
+require "dry/logic/result"
 
 module Dry
   module Logic

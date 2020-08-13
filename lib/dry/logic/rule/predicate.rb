@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/logic/rule'
+require "dry/logic/rule"
 
 module Dry
   module Logic
@@ -19,9 +19,9 @@ module Dry
 
       def to_s
         if args.size > 0
-          "#{name}(#{args.map(&:inspect).join(', ')})"
+          "#{name}(#{args.map(&:inspect).join(", ")})"
         else
-          "#{name}"
+          name.to_s
         end
       end
 

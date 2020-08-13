@@ -6,22 +6,22 @@ module Dry
       def and(other)
         Operations::And.new(self, other)
       end
-      alias & and
+      alias_method :&, :and
 
       def or(other)
         Operations::Or.new(self, other)
       end
-      alias | or
+      alias_method :|, :or
 
       def xor(other)
         Operations::Xor.new(self, other)
       end
-      alias ^ xor
+      alias_method :^, :xor
 
       def then(other)
         Operations::Implication.new(self, other)
       end
-      alias > then
+      alias_method :>, :then
     end
   end
 end

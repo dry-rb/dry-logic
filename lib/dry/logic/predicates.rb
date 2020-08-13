@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'bigdecimal'
-require 'bigdecimal/util'
-require 'date'
+require "bigdecimal"
+require "bigdecimal/util"
+require "date"
 
 module Dry
   module Logic
@@ -13,7 +13,7 @@ module Dry
         end
 
         def type?(type, input)
-          input.kind_of?(type)
+          input.is_a?(type)
         end
 
         def nil?(input)
@@ -147,12 +147,12 @@ module Dry
         end
 
         def inclusion?(list, input)
-          ::Kernel.warn 'inclusion is deprecated - use included_in instead.'
+          ::Kernel.warn "inclusion is deprecated - use included_in instead."
           included_in?(list, input)
         end
 
         def exclusion?(list, input)
-          ::Kernel.warn 'exclusion is deprecated - use excluded_from instead.'
+          ::Kernel.warn "exclusion is deprecated - use excluded_from instead."
           excluded_from?(list, input)
         end
 
