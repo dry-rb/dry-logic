@@ -1,4 +1,4 @@
-## unreleased 
+## 1.0.7 2020-08-13
 
 
 ### Added
@@ -7,18 +7,7 @@
 - New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3?` and `uuid_v5?` (via #75) (@jamesbrauman)
 
 
-[Compare vunreleased...master](https://github.com/dry-rb/dry-logic/compare/vunreleased...master)
-
-## unreleased 
-
-
-### Added
-
-- A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)
-- New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3?` and `uuid_v5?` (via #75) (@jamesbrauman)
-
-
-[Compare v1.0.6...master](https://github.com/dry-rb/dry-logic/compare/v1.0.6...master)
+[Compare v1.0.6...v1.0.7](https://github.com/dry-rb/dry-logic/compare/v1.0.6...v1.0.7)
 
 ## 1.0.6 2020-02-10
 
