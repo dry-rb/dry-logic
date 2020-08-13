@@ -1,22 +1,22 @@
 ---
 - version: unreleased
-  summary: 
-  date: 
-  fixed: 
+  summary:
+  date:
+  fixed:
   added: &1
   - A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https",
     "https://dry-rb.org")` (@nerburish)
-  - 'New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3` and `uuid_v5` (via #75) (@jamesbrauman)'
-  changed: 
+  - 'New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3?` and `uuid_v5?` (via #75) (@jamesbrauman)'
+  changed:
 - version: unreleased
   added: *1
 - version: 1.0.6
-  summary: 
+  summary:
   date: '2020-02-10'
   fixed:
   - Made the regexp used by `uuid_v4?` more secure (@kml)
-  added: 
-  changed: 
+  added:
+  changed:
 - version: 1.0.5
   date: '2019-11-07'
   fixed:
