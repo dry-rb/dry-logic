@@ -206,9 +206,29 @@ module Dry
           pattern === input
         end
 
+        def uuid_v1?(input)
+          uuid_v1_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-1[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
+          format?(uuid_v1_format, input)
+        end
+
+        def uuid_v2?(input)
+          uuid_v2_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-2[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
+          format?(uuid_v2_format, input)
+        end
+
+        def uuid_v3?(input)
+          uuid_v3_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
+          format?(uuid_v3_format, input)
+        end
+
         def uuid_v4?(input)
           uuid_v4_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
           format?(uuid_v4_format, input)
+        end
+
+        def uuid_v5?(input)
+          uuid_v5_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-5[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
+          format?(uuid_v5_format, input)
         end
 
         def uri?(schemes, input)
