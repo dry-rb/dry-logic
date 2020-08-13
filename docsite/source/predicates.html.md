@@ -72,7 +72,11 @@ Predicates[:key?].(:name, {name: 'John'})
   - `format?`
   - `respond_to?`
   - `predicate`
+  - `uuid_v1?`
+  - `uuid_v2?`
+  - `uuid_v3?`
   - `uuid_v4?`
+  - `uuid_v5?`
   - `uri?`
 
 With predicates you can build more composable and complex operations:
