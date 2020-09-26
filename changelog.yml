@@ -1,4 +1,8 @@
 ---
+- version: 1.0.8
+  date: 'unreleased'
+  fixed:
+  - 'Better Ruby 3 support with fixed specialization for rules of negative arity (@flash-gordon)'
 - version: 1.0.7
   summary:
   date: '2020-08-13'
