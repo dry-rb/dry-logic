@@ -2,6 +2,7 @@
 
 require_relative "support/coverage"
 require_relative "support/warnings"
+require_relative "support/rspec_options"
 
 begin
   require "pry-byebug"
@@ -15,9 +16,10 @@ SPEC_ROOT = Pathname(__dir__)
 Dir[SPEC_ROOT.join("shared/**/*.rb")].each(&method(:require))
 Dir[SPEC_ROOT.join("support/**/*.rb")].each(&method(:require))
 
-include Dry::Logic
-include Dry::Core::Constants
-
 RSpec.configure do |config|
-  config.disable_monkey_patching!
+  config.include Module.new {
+    def undefined
+      Dry::Core::Constants::Undefined
+    end
+  }
 end

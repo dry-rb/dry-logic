@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Attr do
-  subject(:operation) { Operations::Attr.new(Rule::Predicate.build(str?), name: :name) }
+RSpec.describe Dry::Logic::Operations::Attr do
+  subject(:operation) do
+    Dry::Logic::Operations::Attr.new(Dry::Logic::Rule::Predicate.build(str?), name: :name)
+  end
 
   include_context "predicates"
 
@@ -15,7 +17,9 @@ RSpec.describe Operations::Attr do
   end
 
   describe "#and" do
-    let(:other) { Operations::Attr.new(Rule::Predicate.build(min_size?).curry(3), name: :name) }
+    let(:other) do
+      Dry::Logic::Operations::Attr.new(Dry::Logic::Rule::Predicate.build(min_size?).curry(3), name: :name)
+    end
 
     it "returns and where value is passed to the right" do
       present_and_string = operation.and(other)

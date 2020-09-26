@@ -3,7 +3,7 @@
 require "dry/logic/rule_compiler"
 
 RSpec.describe Dry::Logic::RuleCompiler, "#call" do
-  subject(:compiler) { RuleCompiler.new(predicates) }
+  subject(:compiler) { described_class.new(predicates) }
 
   let(:predicates) {
     {key?: predicate,
@@ -15,19 +15,19 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
 
   let(:predicate) { double(:predicate, name: :test?, arity: 2).as_null_object }
 
-  let(:rule) { Rule::Predicate.build(predicate) }
-  let(:key_op) { Operations::Key.new(rule, name: :email) }
-  let(:attr_op) { Operations::Attr.new(rule, name: :email) }
-  let(:check_op) { Operations::Check.new(rule, keys: [:email]) }
-  let(:not_key_op) { Operations::Negation.new(key_op) }
+  let(:rule) { Dry::Logic::Rule::Predicate.build(predicate) }
+  let(:key_op) { Dry::Logic::Operations::Key.new(rule, name: :email) }
+  let(:attr_op) { Dry::Logic::Operations::Attr.new(rule, name: :email) }
+  let(:check_op) { Dry::Logic::Operations::Check.new(rule, keys: [:email]) }
+  let(:not_key_op) { Dry::Logic::Operations::Negation.new(key_op) }
   let(:and_op) { key_op.curry(:email) & rule }
   let(:or_op) { key_op.curry(:email) | rule }
   let(:xor_op) { key_op.curry(:email) ^ rule }
-  let(:set_op) { Operations::Set.new(rule) }
-  let(:each_op) { Operations::Each.new(rule) }
+  let(:set_op) { Dry::Logic::Operations::Set.new(rule) }
+  let(:each_op) { Dry::Logic::Operations::Each.new(rule) }
 
   it "compiles key rules" do
-    ast = [[:key, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
+    ast = [[:key, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]
 
     rules = compiler.(ast)
 
@@ -35,7 +35,7 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
   end
 
   it "compiles attr rules" do
-    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
+    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]
 
     rules = compiler.(ast)
 
@@ -43,7 +43,7 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
   end
 
   it "compiles check rules" do
-    ast = [[:check, [[:email], [:predicate, [:filled?, [[:input, Undefined]]]]]]]
+    ast = [[:check, [[:email], [:predicate, [:filled?, [[:input, undefined]]]]]]]
 
     rules = compiler.(ast)
 
@@ -51,7 +51,7 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
   end
 
   it "compiles attr rules" do
-    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]
+    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]
 
     rules = compiler.(ast)
 
@@ -59,7 +59,7 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
   end
 
   it "compiles negated rules" do
-    ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, Undefined]]]]]]]]
+    ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]]
 
     rules = compiler.(ast)
 
@@ -70,8 +70,8 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
     ast = [
       [
         :and, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
-          [:predicate, [:filled?, [[:input, Undefined]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, undefined]]]]]],
+          [:predicate, [:filled?, [[:input, undefined]]]]
         ]
       ]
     ]
@@ -85,8 +85,8 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
     ast = [
       [
         :or, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
-          [:predicate, [:filled?, [[:input, Undefined]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, undefined]]]]]],
+          [:predicate, [:filled?, [[:input, undefined]]]]
         ]
       ]
     ]
@@ -100,8 +100,8 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
     ast = [
       [
         :xor, [
-          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, Undefined]]]]]],
-          [:predicate, [:filled?, [[:input, Undefined]]]]
+          [:key, [:email, [:predicate, [:key?, [[:name, :email], [:input, undefined]]]]]],
+          [:predicate, [:filled?, [[:input, undefined]]]]
         ]
       ]
     ]

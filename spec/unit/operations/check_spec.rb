@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Check do
+RSpec.describe Dry::Logic::Operations::Check do
   include_context "predicates"
 
   describe "#call" do
     context "with 1-level nesting" do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.build(eql?).curry(1), id: :compare, keys: [:num])
+        described_class.new(Dry::Logic::Rule::Predicate.build(eql?).curry(1), id: :compare, keys: [:num])
       end
 
       it "applies predicate to args extracted from the input" do
@@ -17,7 +17,9 @@ RSpec.describe Operations::Check do
 
     context "with 2-levels nesting" do
       subject(:operation) do
-        Operations::Check.new(Rule::Predicate.build(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]])
+        described_class.new(
+          Dry::Logic::Rule::Predicate.build(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]]
+        )
       end
 
       it "applies predicate to args extracted from the input" do
@@ -39,12 +41,12 @@ RSpec.describe Operations::Check do
 
   describe "#to_ast" do
     subject(:operation) do
-      Operations::Check.new(Rule::Predicate.build(str?), keys: [:email])
+      described_class.new(Dry::Logic::Rule::Predicate.build(str?), keys: [:email])
     end
 
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:check, [[:email], [:predicate, [:str?, [[:input, Undefined]]]]]]
+        [:check, [[:email], [:predicate, [:str?, [[:input, undefined]]]]]]
       )
     end
   end

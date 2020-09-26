@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Xor do
-  subject(:operation) { Operations::Xor.new(left, right) }
+RSpec.describe Dry::Logic::Operations::Xor do
+  subject(:operation) { described_class.new(left, right) }
 
   include_context "predicates"
 
-  let(:left) { Rule::Predicate.build(array?) }
-  let(:right) { Rule::Predicate.build(empty?) }
+  let(:left) { Dry::Logic::Rule::Predicate.build(array?) }
+  let(:right) { Dry::Logic::Rule::Predicate.build(empty?) }
 
   let(:other) do
-    Rule::Predicate.build(str?)
+    Dry::Logic::Rule::Predicate.build(str?)
   end
 
   describe "#call" do
@@ -23,7 +23,7 @@ RSpec.describe Operations::Xor do
   describe "#to_ast" do
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:xor, [[:predicate, [:array?, [[:input, Undefined]]]], [:predicate, [:empty?, [[:input, Undefined]]]]]]
+        [:xor, [[:predicate, [:array?, [[:input, undefined]]]], [:predicate, [:empty?, [[:input, undefined]]]]]]
       )
     end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples_for Dry::Logic::Rule do
+RSpec.shared_examples_for Dry::Logic::Rule do
   let(:arity) { 2 }
   let(:predicate) { double(:predicate, arity: arity, name: predicate_name) }
   let(:rule_type) { described_class }

@@ -50,7 +50,7 @@ RSpec.describe Dry::Logic::Predicates do
 
     context "with an unsupported size" do
       it "raises an error" do
-        expect { Predicates[:size?].call("oops", 1) }.to raise_error(ArgumentError, /oops/)
+        expect { Dry::Logic::Predicates[:size?].call("oops", 1) }.to raise_error(ArgumentError, /oops/)
       end
     end
   end

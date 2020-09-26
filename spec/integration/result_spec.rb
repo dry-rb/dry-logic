@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Result do
+RSpec.describe Dry::Logic::Result do
   include_context "predicates"
 
   describe "#to_s" do
@@ -11,7 +11,7 @@ RSpec.describe Result do
     end
 
     context "with a predicate" do
-      let(:rule) { Rule::Predicate.build(gt?, args: [18]) }
+      let(:rule) { Dry::Logic::Rule::Predicate.build(gt?, args: [18]) }
       let(:input) { 17 }
       let(:output) { "gt?(18, 17)" }
 
@@ -19,7 +19,9 @@ RSpec.describe Result do
     end
 
     context "with AND operation" do
-      let(:rule) { Rule::Predicate.build(array?).and(Rule::Predicate.build(empty?)) }
+      let(:rule) do
+        Dry::Logic::Rule::Predicate.build(array?).and(Dry::Logic::Rule::Predicate.build(empty?))
+      end
       let(:input) { "" }
       let(:output) { 'array?("") AND empty?("")' }
 
@@ -27,7 +29,9 @@ RSpec.describe Result do
     end
 
     context "with OR operation" do
-      let(:rule) { Rule::Predicate.build(array?).or(Rule::Predicate.build(empty?)) }
+      let(:rule) do
+        Dry::Logic::Rule::Predicate.build(array?).or(Dry::Logic::Rule::Predicate.build(empty?))
+      end
       let(:input) { 123 }
       let(:output) { "array?(123) OR empty?(123)" }
 
@@ -35,7 +39,9 @@ RSpec.describe Result do
     end
 
     context "with XOR operation" do
-      let(:rule) { Rule::Predicate.build(array?).xor(Rule::Predicate.build(empty?)) }
+      let(:rule) do
+        Dry::Logic::Rule::Predicate.build(array?).xor(Dry::Logic::Rule::Predicate.build(empty?))
+      end
       let(:input) { [] }
       let(:output) { "array?([]) XOR empty?([])" }
 
@@ -43,7 +49,9 @@ RSpec.describe Result do
     end
 
     context "with THEN operation" do
-      let(:rule) { Rule::Predicate.build(array?).then(Rule::Predicate.build(empty?)) }
+      let(:rule) do
+        Dry::Logic::Rule::Predicate.build(array?).then(Dry::Logic::Rule::Predicate.build(empty?))
+      end
       let(:input) { [1, 2, 3] }
       let(:output) { "empty?([1, 2, 3])" }
 
@@ -51,7 +59,7 @@ RSpec.describe Result do
     end
 
     context "with NOT operation" do
-      let(:rule) { Operations::Negation.new(Rule::Predicate.build(array?)) }
+      let(:rule) { Dry::Logic::Operations::Negation.new(Dry::Logic::Rule::Predicate.build(array?)) }
       let(:input) { "foo" }
       let(:output) { 'not(array?("foo"))' }
 

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Set do
-  subject(:operation) { Operations::Set.new(is_int, gt_18) }
+RSpec.describe Dry::Logic::Operations::Set do
+  subject(:operation) { described_class.new(is_int, gt_18) }
 
   include_context "predicates"
 
-  let(:is_int) { Rule::Predicate.build(int?) }
-  let(:gt_18) { Rule::Predicate.build(gt?, args: [18]) }
+  let(:is_int) { Dry::Logic::Rule::Predicate.build(int?) }
+  let(:gt_18) { Dry::Logic::Rule::Predicate.build(gt?, args: [18]) }
 
   describe "#call" do
     it "applies all its rules to the input" do
@@ -18,7 +18,7 @@ RSpec.describe Operations::Set do
   describe "#to_ast" do
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:set, [[:predicate, [:int?, [[:input, Undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]]
+        [:set, [[:predicate, [:int?, [[:input, undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, undefined]]]]]]
       )
     end
 

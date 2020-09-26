@@ -2,9 +2,9 @@
 
 require "dry/logic/predicates"
 
-RSpec.describe Predicates do
+RSpec.describe Dry::Logic::Predicates do
   it "can be included in another module" do
-    mod = Module.new { include Predicates }
+    mod = Module.new { include Dry::Logic::Predicates }
 
     expect(mod[:key?]).to be_a(Method)
   end
@@ -12,7 +12,7 @@ RSpec.describe Predicates do
   describe ".predicate" do
     it "defines a predicate method" do
       mod = Module.new {
-        include Predicates
+        include Dry::Logic::Predicates
 
         predicate(:test?) do |foo|
           true

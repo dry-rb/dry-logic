@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Key do
-  subject(:operation) { Operations::Key.new(predicate, name: :user) }
+RSpec.describe Dry::Logic::Operations::Key do
+  subject(:operation) { described_class.new(predicate, name: :user) }
 
   include_context "predicates"
 
   let(:predicate) do
-    Rule::Predicate.build(key?).curry(:age)
+    Dry::Logic::Rule::Predicate.build(key?).curry(:age)
   end
 
   describe "#call" do
@@ -29,11 +29,14 @@ RSpec.describe Operations::Key do
 
     context "with a set rule as predicate" do
       subject(:operation) do
-        Operations::Key.new(predicate, name: :address)
+        described_class.new(predicate, name: :address)
       end
 
       let(:predicate) do
-        Operations::Set.new(Rule::Predicate.build(key?).curry(:city), Rule::Predicate.build(key?).curry(:zipcode))
+        Dry::Logic::Operations::Set.new(
+          Dry::Logic::Rule::Predicate.build(key?).curry(:city),
+          Dry::Logic::Rule::Predicate.build(key?).curry(:zipcode)
+        )
       end
 
       it "applies set rule to the value that passes" do
@@ -57,11 +60,11 @@ RSpec.describe Operations::Key do
 
     context "with an each rule as predicate" do
       subject(:operation) do
-        Operations::Key.new(predicate, name: :nums)
+        described_class.new(predicate, name: :nums)
       end
 
       let(:predicate) do
-        Operations::Each.new(Rule::Predicate.build(str?))
+        Dry::Logic::Operations::Each.new(Dry::Logic::Rule::Predicate.build(str?))
       end
 
       it "applies each rule to the value that passses" do
@@ -88,7 +91,7 @@ RSpec.describe Operations::Key do
   describe "#to_ast" do
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, undefined]]]]]]
       )
     end
   end
@@ -96,7 +99,7 @@ RSpec.describe Operations::Key do
   describe "#ast" do
     it "returns ast without the input" do
       expect(operation.ast).to eql(
-        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, Undefined]]]]]]
+        [:key, [:user, [:predicate, [:key?, [[:name, :age], [:input, undefined]]]]]]
       )
     end
 
@@ -109,11 +112,11 @@ RSpec.describe Operations::Key do
 
   describe "#and" do
     subject(:operation) do
-      Operations::Key.new(Rule::Predicate.build(str?), name: [:user, :name])
+      described_class.new(Dry::Logic::Rule::Predicate.build(str?), name: [:user, :name])
     end
 
     let(:other) do
-      Operations::Key.new(Rule::Predicate.build(filled?), name: [:user, :name])
+      described_class.new(Dry::Logic::Rule::Predicate.build(filled?), name: [:user, :name])
     end
 
     it "returns and rule where value is passed to the right" do

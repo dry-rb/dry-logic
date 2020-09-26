@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::And do
-  subject(:operation) { Operations::And.new(left, right) }
+RSpec.describe Dry::Logic::Operations::And do
+  subject(:operation) { described_class.new(left, right) }
 
   include_context "predicates"
 
-  let(:left) { Rule::Predicate.build(int?) }
-  let(:right) { Rule::Predicate.build(gt?).curry(18) }
+  let(:left) { Dry::Logic::Rule::Predicate.build(int?) }
+  let(:right) { Dry::Logic::Rule::Predicate.build(gt?).curry(18) }
 
   describe "#call" do
     it "calls left and right" do
@@ -17,7 +17,7 @@ RSpec.describe Operations::And do
   describe "#to_ast" do
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:and, [[:predicate, [:int?, [[:input, Undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]]]
+        [:and, [[:predicate, [:int?, [[:input, undefined]]]], [:predicate, [:gt?, [[:num, 18], [:input, undefined]]]]]]
       )
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Operations::And do
   end
 
   describe "#and" do
-    let(:other) { Rule::Predicate.build(lt?).curry(30) }
+    let(:other) { Dry::Logic::Rule::Predicate.build(lt?).curry(30) }
 
     it "creates and with the other" do
       expect(operation.and(other).(31)).to be_failure
@@ -55,7 +55,7 @@ RSpec.describe Operations::And do
   end
 
   describe "#or" do
-    let(:other) { Rule::Predicate.build(lt?).curry(14) }
+    let(:other) { Dry::Logic::Rule::Predicate.build(lt?).curry(14) }
 
     it "creates or with the other" do
       expect(operation.or(other).(13)).to be_success

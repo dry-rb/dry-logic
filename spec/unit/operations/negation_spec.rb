@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Negation do
-  subject(:operation) { Operations::Negation.new(is_int) }
+RSpec.describe Dry::Logic::Operations::Negation do
+  subject(:operation) { described_class.new(is_int) }
 
   include_context "predicates"
 
-  let(:is_int) { Rule::Predicate.build(int?) }
+  let(:is_int) { Dry::Logic::Rule::Predicate.build(int?) }
 
   describe "#call" do
     it "negates its rule" do
@@ -14,7 +14,7 @@ RSpec.describe Operations::Negation do
     end
 
     context "double negation" do
-      subject(:double_negation) { Operations::Negation.new(operation) }
+      subject(:double_negation) { described_class.new(operation) }
 
       it "works as rule" do
         expect(double_negation.("19")).to be_failure
@@ -26,7 +26,7 @@ RSpec.describe Operations::Negation do
   describe "#to_ast" do
     it "returns ast" do
       expect(operation.to_ast).to eql(
-        [:not, [:predicate, [:int?, [[:input, Undefined]]]]]
+        [:not, [:predicate, [:int?, [[:input, undefined]]]]]
       )
     end
 

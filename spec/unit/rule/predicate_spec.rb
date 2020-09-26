@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Rule::Predicate do
-  subject(:rule) { Rule::Predicate.build(predicate) }
+RSpec.describe Dry::Logic::Rule::Predicate do
+  subject(:rule) { described_class.build(predicate) }
 
   let(:predicate) { str? }
 
   include_context "predicates"
 
-  it_behaves_like Rule
+  it_behaves_like Dry::Logic::Rule
 
   describe "#name" do
     it "returns predicate identifier" do
@@ -18,7 +18,7 @@ RSpec.describe Rule::Predicate do
   describe "#to_ast" do
     context "without a result" do
       it "returns rule ast" do
-        expect(rule.to_ast).to eql([:predicate, [:str?, [[:input, Undefined]]]])
+        expect(rule.to_ast).to eql([:predicate, [:str?, [[:input, undefined]]]])
       end
 
       it "returns :failure with an id" do
@@ -43,7 +43,7 @@ RSpec.describe Rule::Predicate do
         Module.new {
           def self.test?
             true
-                     end
+          end
         } .method(:test?)
       }
 

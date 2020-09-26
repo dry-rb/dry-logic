@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Or do
-  subject(:operation) { Operations::Or.new(left, right) }
+RSpec.describe Dry::Logic::Operations::Or do
+  subject(:operation) { described_class.new(left, right) }
 
   include_context "predicates"
 
-  let(:left) { Rule::Predicate.build(nil?) }
-  let(:right) { Rule::Predicate.build(gt?).curry(18) }
+  let(:left) { Dry::Logic::Rule::Predicate.build(nil?) }
+  let(:right) { Dry::Logic::Rule::Predicate.build(gt?).curry(18) }
 
   let(:other) do
-    Rule::Predicate.build(int?) & Rule::Predicate.build(lt?).curry(14)
+    Dry::Logic::Rule::Predicate.build(int?) & Dry::Logic::Rule::Predicate.build(lt?).curry(14)
   end
 
   describe "#call" do
@@ -24,8 +24,8 @@ RSpec.describe Operations::Or do
     it "returns ast" do
       expect(operation.to_ast).to eql(
         [:or, [
-          [:predicate, [:nil?, [[:input, Undefined]]]],
-          [:predicate, [:gt?, [[:num, 18], [:input, Undefined]]]]
+          [:predicate, [:nil?, [[:input, undefined]]]],
+          [:predicate, [:gt?, [[:num, 18], [:input, undefined]]]]
         ]]
       )
     end

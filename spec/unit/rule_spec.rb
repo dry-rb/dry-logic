@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Dry::Logic::Rule do
-  subject(:rule) { Rule.build(predicate, **options) }
+  subject(:rule) { described_class.build(predicate, **options) }
 
   let(:predicate) { -> { true } }
   let(:options) { {} }
@@ -32,34 +32,34 @@ RSpec.describe Dry::Logic::Rule do
     end.new
   end
 
-  it_behaves_like Dry::Logic::Rule
+  it_behaves_like described_class
 
   describe ".new" do
     it "accepts an :id" do
-      expect(Rule.build(predicate, id: :check_num).id).to be(:check_num)
+      expect(described_class.build(predicate, id: :check_num).id).to be(:check_num)
     end
   end
 
   describe "with a function returning truthy value" do
     it "is successful for valid input" do
-      expect(Rule.build(-> val { val }).("true")).to be_success
+      expect(described_class.build(-> val { val }).("true")).to be_success
     end
 
     it "is not successful for invalid input" do
-      expect(Rule.build(-> val { val }).(nil)).to be_failure
+      expect(described_class.build(-> val { val }).(nil)).to be_failure
     end
   end
 
   describe "#ast" do
     it "returns predicate node with :id" do
-      expect(Rule.build(-> value { true }).with(id: :email?).ast("oops")).to eql(
+      expect(described_class.build(-> value { true }).with(id: :email?).ast("oops")).to eql(
         [:predicate, [:email?, [[:value, "oops"]]]]
       )
     end
 
     it "returns predicate node with undefined args" do
-      expect(Rule.build(-> value { true }).with(id: :email?).ast).to eql(
-        [:predicate, [:email?, [[:value, Undefined]]]]
+      expect(described_class.build(-> value { true }).with(id: :email?).ast).to eql(
+        [:predicate, [:email?, [[:value, undefined]]]]
       )
     end
   end

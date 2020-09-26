@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe Operations::Each do
-  subject(:operation) { Operations::Each.new(is_string) }
+RSpec.describe Dry::Logic::Operations::Each do
+  subject(:operation) { described_class.new(is_string) }
 
   include_context "predicates"
 
-  let(:is_string) { Rule::Predicate.build(str?) }
+  let(:is_string) { Dry::Logic::Rule::Predicate.build(str?) }
 
   describe "#call" do
     it "applies its rules to all elements in the input" do
@@ -18,7 +18,7 @@ RSpec.describe Operations::Each do
 
   describe "#to_ast" do
     it "returns ast" do
-      expect(operation.to_ast).to eql([:each, [:predicate, [:str?, [[:input, Undefined]]]]])
+      expect(operation.to_ast).to eql([:each, [:predicate, [:str?, [[:input, undefined]]]]])
     end
 
     it "returns result ast" do
