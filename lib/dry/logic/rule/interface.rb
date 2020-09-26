@@ -4,6 +4,8 @@ module Dry
   module Logic
     class Rule
       class Interface < ::Module
+        SPLAT = ["*rest"].freeze
+
         attr_reader :arity
 
         attr_reader :curried
@@ -18,12 +20,10 @@ module Dry
 
           define_constructor if curried?
 
-          if variable_arity?
-            define_splat_application
-          elsif constant?
+          if constant?
             define_constant_application
           else
-            define_fixed_application
+            define_application
           end
         end
 
@@ -32,7 +32,7 @@ module Dry
         end
 
         def variable_arity?
-          arity.equal?(-1)
+          arity.negative?
         end
 
         def curried?
@@ -41,7 +41,13 @@ module Dry
 
         def unapplied
           if variable_arity?
-            -1
+            unapplied = arity.abs - 1 - curried
+
+            if unapplied.negative?
+              0
+            else
+              unapplied
+            end
           else
             arity - curried
           end
@@ -51,8 +57,19 @@ module Dry
           if constant?
             "Constant"
           else
-            arity_str = variable_arity? ? "VariableArity" : "#{arity}Arity"
-            curried_str = curried? ? "#{curried}Curried" : EMPTY_STRING
+            arity_str =
+              if variable_arity?
+                "Variable#{arity.abs - 1}Arity"
+              else
+                "#{arity}Arity"
+              end
+
+            curried_str =
+              if curried?
+                "#{curried}Curried"
+              else
+                EMPTY_STRING
+              end
 
             "#{arity_str}#{curried_str}"
           end
@@ -91,32 +108,10 @@ module Dry
           end
         end
 
-        def define_splat_application
-          application =
-            if curried?
-              "@predicate[#{curried_args.join(", ")}, *input]"
-            else
-              "@predicate[*input]"
-            end
-
-          module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(*input)
-              if #{application}
-                Result::SUCCESS
-              else
-                Result.new(false, id) { ast(*input) }
-              end
-            end
-
-            def [](*input)
-              #{application}
-            end
-          RUBY
-        end
-
-        def define_fixed_application
-          parameters = unapplied_args.join(", ")
-          application = "@predicate[#{(curried_args + unapplied_args).join(", ")}]"
+        def define_application
+          splat = variable_arity? ? SPLAT : EMPTY_ARRAY
+          parameters = (unapplied_args + splat).join(", ")
+          application = "@predicate[#{(curried_args + unapplied_args + splat).join(", ")}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(#{parameters})

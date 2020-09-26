@@ -219,6 +219,33 @@ RSpec.describe Dry::Logic::Rule do
       end
     end
 
+    describe "-2 arity" do
+      let(:options) { {args: [], arity: -2} }
+
+      it "accepts variable number of arguments" do
+        expect(rule.method(:call).arity).to be(-2)
+        expect(rule.method(:[]).arity).to be(-2)
+      end
+
+      context "curried 1" do
+        let(:options) { {args: [1], arity: -2} }
+
+        it "doesn't have required arguments" do
+          expect(rule.method(:call).arity).to be(-1)
+          expect(rule.method(:[]).arity).to be(-1)
+        end
+      end
+
+      context "curried 2" do
+        let(:options) { {args: [1, 2], arity: -2} }
+
+        it "doesn't have required arguments" do
+          expect(rule.method(:call).arity).to be(-1)
+          expect(rule.method(:[]).arity).to be(-1)
+        end
+      end
+    end
+
     describe "constants" do
       let(:options) { {args: [], arity: 0} }
 
