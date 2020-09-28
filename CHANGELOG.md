@@ -1,4 +1,4 @@
-## unreleased 
+## 1.0.8 2020-09-28
 
 
 ### Fixed
@@ -6,7 +6,7 @@
 - Better Ruby 3 support with fixed specialization for rules of negative arity (@flash-gordon)
 
 
-[Compare v1.0.7...master](https://github.com/dry-rb/dry-logic/compare/v1.0.7...master)
+[Compare v1.0.7...v1.0.8](https://github.com/dry-rb/dry-logic/compare/v1.0.7...v1.0.8)
 
 ## 1.0.7 2020-08-13
 
