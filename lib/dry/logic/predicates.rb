@@ -3,11 +3,14 @@
 require "bigdecimal"
 require "bigdecimal/util"
 require "date"
+require "dry/core/constants"
 
 module Dry
   module Logic
     module Predicates
       module Methods
+        include Core::Constants
+
         def [](name)
           method(name)
         end
@@ -25,8 +28,12 @@ module Dry
           input.key?(name)
         end
 
-        def attr?(name, input)
-          input.respond_to?(name)
+        def attr?(name, value = Undefined, input)
+          if Undefined.equal?(value)
+            input.respond_to?(name)
+          else
+            input.respond_to?(name) && input.public_send(name) == value
+          end
         end
 
         def empty?(input)
