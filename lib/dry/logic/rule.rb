@@ -2,7 +2,7 @@
 
 require "concurrent/map"
 require "dry/core/constants"
-require "dry/equalizer"
+require "dry/core/equalizer"
 require "dry/logic/operations"
 require "dry/logic/result"
 require "dry/logic/rule/interface"

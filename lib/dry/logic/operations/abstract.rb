@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "dry/core/constants"
-require "dry/equalizer"
+require "dry/core/equalizer"
 require "dry/logic/operators"
 
 module Dry
