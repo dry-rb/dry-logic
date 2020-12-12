@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/logic'
-require 'dry/logic/predicates'
+require "dry/logic"
+require "dry/logic/predicates"
 
 include Dry::Logic
 
