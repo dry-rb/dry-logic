@@ -165,7 +165,7 @@ excludes?(5)
 
 ## Included values
 
-> Check for exclusion. Can be used on all values responding to `include?`
+> Check for inclusion. Can be used on all values responding to `include?`
 
 ``` ruby
 includes?("A")
