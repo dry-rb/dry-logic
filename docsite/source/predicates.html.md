@@ -59,7 +59,7 @@ uuid_v5?
 "localhost"
 ```
 
-## Case? (`===`)
+## Case expression
 
 > Implements the `===` operator
 
@@ -78,7 +78,7 @@ case?(Integer)
 "string"
 ```
 
-## Bool (`true`/ `false`)
+## True / False
 
 > Check for a boolean value
 
@@ -97,7 +97,7 @@ false
 true
 ```
 
-## `is?` Equality `equal?`
+## Identity equality
 
 > Compare two values using `object_id`
 
@@ -114,7 +114,7 @@ nil
 Class.new
 ```
 
-## Inequality (`not_equal?`)
+## Inequality
 
 ``` ruby
 not_eql?(10)
@@ -128,7 +128,7 @@ not_eql?(10)
 10
 ```
 
-## Equality (value) (`eql?`)
+## Equality
 
 > Implements Rubys compare operator `==` or `eql?`
 
@@ -417,7 +417,7 @@ array?
 { a: "B" }
 ```
 
-## String?
+## String
 
 ``` ruby
 str?
@@ -431,7 +431,7 @@ str?
 :world
 ```
 
-## Decimal?
+## Decimal
 
 > Checks if input type is `BigDecimal`
 
