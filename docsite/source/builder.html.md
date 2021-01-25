@@ -99,7 +99,7 @@ module Build
     end
 
     def to_predicate(&block)
-      Predicate.call(&block)
+      Build.call(&block)
     end
   end
 end
@@ -125,6 +125,26 @@ end
 describe '.build' do
   before { extend Build }
   subject { predicate.call(described_class) }
+
+  describe "nested operations" do
+    let(:predicate) do
+      build do
+        check keys: [:person] do
+          check keys: [:age] do
+            gt?(50) & lt?(200)
+          end
+        end
+      end
+    end
+
+    describe ({person: { age: 100 }}) do
+      it { is_expected.to be_a_success }
+    end
+
+    describe ({person: { age: 10 }}) do
+      it { is_expected.not_to be_a_success }
+    end
+  end
 
   describe "operations" do
     let(:predicate) do
