@@ -48,8 +48,12 @@ module Build
       ::Object.const_get(name)
     end
 
-    def predicate(...)
-      Predicates[:predicate].call(...)
+    def predicate(*args, &block)
+      Predicates[:predicate].call(*args, &block)
+    end
+
+    if respond_to?(:ruby2_keywords, true)
+      ruby2_keywords(:predicate)
     end
   end
 
