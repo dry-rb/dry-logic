@@ -4,62 +4,200 @@ layout: gem-single
 name: dry-logic
 ---
 
-Dry-logic uses operations to interact with the input passed to the different rules.
+Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations.
+
+## Or
+
+Alias: `|`, `or`
+
+> Equivalent to Rubys `||` operator. Returns true if one of its arguments is true. Can be invoked using the `|` operator or the `or` method.
+
+Argument 1 | Argument 2 | Result
+--- | --- | ---
+true | true | true
+true | false | true
+false | true | true
+false | false | false
 
 ``` ruby
-require 'dry/logic'
-require 'dry/logic/predicates'
-
-include Dry::Logic
-
-user_present = Rule::Predicate.new(Predicates[:key?]).curry(:user)
-
-min_18 = Rule::Predicate.new(Predicates[:gt?]).curry(18)
-
-# Here Operations::Key and Rule::Predicate are use to compose and logic based on the value of a given key e.g [:user, :age]
-has_min_age = Operations::Key.new(min_18, name: [:user, :age])
-# => #<Dry::Logic::Operations::Key rules=[#<Dry::Logic::Rule::Predicate predicate=#<Method: Module(Dry::Logic::Predicates::Methods)#gt?> options={:args=>[18]}>] options={:name=>[:user, :age], :evaluator=>#<Dry::Logic::Evaluator::Key path=[:user, :age]>, :path=>[:user, :age]}>
-
-# Thanks to the composable structure of the library we can use multiple Rules and Operations to create custom logic
-user_rule = user_present & has_min_age
-
-user_rule.(user: { age: 19 }).success?
-# => true
-```
-
-* Built-in:
-  - `and`
-  - `or`
-  - `key`
-  - `attr`
-  - `binary`
-  - `check`
-  - `each`
-  - `implication`
-  - `negation`
-  - `set`
-  - `xor`
-
-Another example, lets create the `all?` method from the `Enumerable` module.
-
-``` ruby
-require 'dry/logic'
-require 'dry/logic/predicates'
-
-include Dry::Logic
-
-def all?(value)
-  Operations::Each.new(Rule::Predicate.new(Predicates[:gt?]).curry(value))
+is_number = build do
+  int? | float? | number?
 end
 
-all_6 = all?(6)
+is_number.call(1) # => true
+is_number.call(2.0) # => true
+is_number.call('3') # => false
+is_number.call('four') # => false
+```
 
-all_6.([7,8,9]).success?
-# => true
+### If "this" than "that"
 
-all_6.([6,7,8,9]).success?
-# => false
+Alias: `>`, `then`, `implication`
 
-all_6.([1,2,3,4]).success?
-# => false
+> Implication. Returns true if the first predicate fails or if the second predicate succeeds. Useful for doing pre-checks without affecting the overall predicate.
+
+Argument 1 | Argument 2 | Result
+--- | --- | ---
+true | true | true
+true | false | false
+false | true | false
+false | false | false
+
+``` ruby
+is_empty = build do
+  (attr?(:empty) > empty?) | nil?
+end
+
+is_empty.call("") # => true
+is_empty.call([]) # => true
+is_empty.call({}) # => true
+is_empty.call(nil) # => true
+
+is_empty.call("string") # => false
+is_empty.call(["array"]) # => false
+is_empty.call({key: "value"}) # => false
+```
+
+### Exclusive or
+
+Alias: `^`, `xor`
+
+> Returns true only if one of its arguments are true, otherwise false.
+
+Argument 1 | Argument 2 | Result
+--- | --- | ---
+true | true | false
+true | false | true
+false | true | true
+false | false | false
+
+``` ruby
+is_zero = build do
+  lt?(0) ^ gt?(0)
+end
+
+is_zero.call(1) # => false
+is_zero.call(0) # => true
+is_zero.call(-1) # => false
+```
+
+### And
+
+Alias: `&`, `and`
+
+> Returns true if both of its arguments are true.
+
+Argument 1 | Argument 2 | Result
+--- | --- | ---
+true | true | true
+true | false | false
+false | true | false
+false | false | false
+
+``` ruby
+is_middle_aged = build do
+  gt?(30) & lt?(50)
+end
+
+is_child.call(20) # => false
+is_child.call(40) # => true
+is_child.call(60) # => true
+```
+
+### Attribute
+
+> Run predicate on attribute specified by `name: :attribute`.
+
+``` ruby
+is_middle_aged = build do
+  attr name: :age do
+    gt?(30) & lt?(50)
+  end
+end
+
+Person = Struct.new(:age)
+
+is_middle_aged.call(Person.new(20)) # => false
+is_middle_aged.call(Person.new(40)) # => true
+is_middle_aged.call(Person.new(60)) # => false
+```
+
+### Each
+
+> Validate each input value against a predicate. Passes when all values succeed.
+
+``` ruby
+is_only_odd = build do
+  each { odd? }
+end
+
+is_only_odd.call([1, 3, 5]) # => true
+is_only_odd.call([4, 6, 8]) # => false
+```
+
+### Set
+
+Input: `Array<Predicate>`
+
+> Applies input to an array of predicates. Returns true if all predicates are true.
+
+``` ruby
+is_natrual_and_odd = build do
+  set { [int?, odd?, gt?(1)] }
+end
+
+is_natrual_and_odd.call('5') # => false
+is_natrual_and_odd.call(5) # => true
+is_natrual_and_odd.call(-1) # => false
+```
+
+### Negation
+
+Input: `Predicate`
+
+> Negates predicate.
+
+``` ruby
+is_present = build do
+  negation(empty?)
+end
+
+is_present.call([1]) # => true
+is_present.call([]) # => false
+is_present.call("A") # => true
+is_present.call("") # => false
+```
+
+### Key
+
+Input: `Hash`, `Predicate`
+
+> Takes a key path `name: path` and applies it to a predicate.
+
+``` ruby
+is_named = build do
+  key name: [:user, :name] do
+    str? & negation(empty?)
+  end
+end
+
+is_named.call({ user: { name: "John" } }) # => true
+is_named.call({ user: { name: nil } }) # => false
+```
+
+### Check
+
+Input: `Hash`, `Predicate`
+
+> Takes an array of key paths `keys: paths`. Applies each key path to its hash input and uses the result as arguments on its predicate. I.e `check = check keys: [[:a], [:b]] { pred }` invoking `check({a: "A", b: "B"})` yields `pred("A", "B")`.
+
+``` ruby
+is_speeding = build do
+  check keys: [:speed, :limit] do
+    lt?
+  end
+end
+
+is_speeding.call({ speed: 100, limit: 50 }) # => true
+is_speeding.call({ speed: 40, limit: 50 }) # => false
 ```
