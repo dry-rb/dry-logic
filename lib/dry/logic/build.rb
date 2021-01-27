@@ -9,9 +9,13 @@ module Dry
   module Logic
     module Build
       def call(&block)
-        Operation.call(&block)
-      rescue NoMethodError
-        Predicate.call(&block)
+        begin
+          Operation.call(&block)
+        rescue NameError
+          Predicate.call(&block)
+        end
+      rescue NameError => e
+        raise NameError, "#{e.message} or #{Module.nesting.first}::Operation"
       end
 
       module_function :call

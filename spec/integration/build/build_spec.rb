@@ -63,4 +63,14 @@ RSpec.describe ".build" do
       it { is_expected.not_to be_a_success }
     end
   end
+
+  describe "undefined methods" do
+    let(:predicate) do
+      build { does_not_exist }
+    end
+
+    it "raises NameError" do
+      expect { subject }.to raise_error(NameError, /does_not_exist/)
+    end
+  end
 end
