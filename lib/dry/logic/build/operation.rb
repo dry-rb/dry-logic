@@ -14,15 +14,17 @@ module Dry
         end
 
         def respond_to_missing?(method, *)
-          !to_operation(method).nil?
-        rescue NameError
-          false
+          defined?(to_class_name(method))
         end
 
         private
 
         def to_operation(name)
-          Kernel.eval(INFLECTOR.camelize("operations/#{name}"))
+          Kernel.eval(to_class_name(name))
+        end
+
+        def to_class_name(name)
+          @class_name ||= INFLECTOR.camelize("operations/#{name}")
         end
 
         def to_predicate(&block)
