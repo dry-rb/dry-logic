@@ -21,7 +21,7 @@ module Dry
         private
 
         def to_predicate(name)
-          Rule::Predicate.new(Predicates[name])
+          (@predicate ||= {})[name] ||= Rule::Predicate.new(Predicates[name])
         end
       end
     end

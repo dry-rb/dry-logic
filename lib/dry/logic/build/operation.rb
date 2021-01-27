@@ -24,7 +24,7 @@ module Dry
         end
 
         def to_class_name(name)
-          @class_name ||= INFLECTOR.camelize("operations/#{name}")
+          (@class_name ||= {})[name] ||= INFLECTOR.camelize("operations/#{name}")
         end
 
         def to_predicate(&block)
