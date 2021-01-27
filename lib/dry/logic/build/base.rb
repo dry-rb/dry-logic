@@ -4,8 +4,6 @@ module Dry
   module Logic
     module Build
       class Base < BasicObject
-        include ::Dry::Logic
-
         def self.call(&block)
           new.instance_eval(&block)
         end
