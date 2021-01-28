@@ -13,9 +13,7 @@ module Dry
         end
 
         def respond_to_missing?(method, *)
-          to_predicate(method)
-        rescue NameError
-          false
+          Predicates.methods.include?(method)
         end
 
         private
