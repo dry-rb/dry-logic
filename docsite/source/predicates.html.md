@@ -9,15 +9,15 @@ name: dry-logic
 > See `attr?`.
 
 ``` ruby
-respond_to?(:name)
-```
+has_name = build do
+  respond_to?(:name)
+end
 
-``` ruby
-# Pass
-Struct.new(:name).new("John")
+person = Struct.new(:name).new("John")
+age = Struct.new(:age).new(100)
 
-# Fail
-Struct.new(:age).new(100)
+has_name.call(person).success? # => true
+has_name.call(age).success? # => false
 ```
 
 ## URI
@@ -25,18 +25,19 @@ Struct.new(:age).new(100)
 > Verify user input is a URL.
 
 ``` ruby
-uri?(:https)
-uri?(:http)
-uri?(/https?/)
-uri?([:http, :https])
-```
+is_https_url = build { uri?(:https) }
+is_https_url = build { uri?(/https?/) }
+is_http_url = build { uri?(:http) }
+is_url = build { uri?([:http, :https]) }
 
-``` ruby
-# Pass
-"https://google.com"
+https_url = "https://example.com"
+http_url = "http://example.com"
+local_url = "example.local"
 
-# Fail
-"localhost"
+is_https_url.call(https_url).success? # => true
+is_https_url.call(local_url).success? # => false
+is_http_url.call(http_url).success? # => true
+is_url.call(https_url).success? # => false
 ```
 
 ## UUID (1-5)
@@ -44,19 +45,20 @@ uri?([:http, :https])
 > Verify user input against UUID 1-5
 
 ``` ruby
-uuid_v1?
-uuid_v2?
-uuid_v3?
-uuid_v4?
-uuid_v5?
-```
+is_uuid_v1 = build { uuid_v1? }
+is_uuid_v2 = build { uuid_v2? }
+is_uuid_v3 = build { uuid_v3? }
+is_uuid_v4 = build { uuid_v4? }
+is_uuid_v5 = build { uuid_v5? }
 
-``` ruby
-# Pass UUID-1
-"554ef240-5433-11eb-ae93-0242ac130002"
+uuid1 = "554ef240-5433-11eb-ae93-0242ac130002"
+not_uuid = "<not uuid>"
 
-# Fail
-"localhost"
+is_uuid_v1.call(uuid1).success? # => true
+is_uuid_v2.call(uuid1).success? # => false
+is_uuid_v3.call(not_uuid).success? # => false
+is_uuid_v4.call(uuid1).success? # => false
+is_uuid_v5.call(uuid1).success? # => false
 ```
 
 ## Case expression
@@ -64,18 +66,18 @@ uuid_v5?
 > Implements the `===` operator
 
 ``` ruby
-case?(5..10)
-case?(Integer)
-```
+is_natrual = build { case?(1...) }
+is_integer = build { case?(Integer) }
 
-``` ruby
-# Pass
-10
-1
+natrual = 10
+negative = -1
+string = "<string>"
 
-# Fail
-100
-"string"
+is_natrual.call(natrual).success? # => true
+is_natrual.call(negative).success? # => false
+is_natrual.call(string).success? # => false
+is_integer.call(natrual).success? # => true
+is_integer.call(string).success? # => false
 ```
 
 ## True / False
@@ -83,18 +85,13 @@ case?(Integer)
 > Check for a boolean value
 
 ``` ruby
-true?
-false?
-```
+is_true = build { true? }
+is_false = build { false? }
 
-``` ruby
-# Pass
-true
-false
-
-# Fail
-false
-true
+is_true.call(true).success? # => true
+is_true.call(false).success? # => false
+is_false.call(false).success? # => true
+is_true.call(true).success? # => false
 ```
 
 ## Identity equality
@@ -102,30 +99,13 @@ true
 > Compare two values using `object_id`
 
 ``` ruby
-is?(nil)
-is?(Class.new)
+is_nil = build { is?(nil) }
+is_very_specific = build { is?(Class.new) }
 ```
 
 ``` ruby
-# Pass
-nil
-
-# Fail
-Class.new
-```
-
-## Inequality
-
-``` ruby
-not_eql?(10)
-```
-
-``` ruby
-# Pass
-20
-
-# Fail
-10
+is_nil.call(nil).success? # => true
+is_very_specific.call(nil).success? # => false
 ```
 
 ## Equality
@@ -133,34 +113,19 @@ not_eql?(10)
 > Implements Rubys compare operator `==` or `eql?`
 
 ``` ruby
-eql?(10)
+is_zero = build { eql?(0) }
+
+is_zero.call(0).success? # => true
+is_zero.call(10).success? # => false
 ```
 
-``` ruby
-# Pass
-10
-
-# Fail
-20
-```
-
-## Excluded values
-
-> Check for exclusion. Can be used on all values responding to `include?`
+## Inequality
 
 ``` ruby
-excludes?("A")
-excludes?(5)
-```
+is_present = build { not_eql?(nil) }
 
-``` ruby
-# Pass
-"BBB"
-[1, 2, 3]
-
-# Fail
-"AAA"
-[3, 4, 5]
+is_not_zero.call("hello").success? # => true
+is_not_zero.call(nil).success? # => false
 ```
 
 ## Included values
@@ -168,46 +133,65 @@ excludes?(5)
 > Check for inclusion. Can be used on all values responding to `include?`
 
 ``` ruby
-includes?("A")
-includes?(5)
+has_zeros = build { includes?(0) }
+
+has_nils.call([0, 1, 2]).success? # => true
+has_nils.call([-1, -2, -3]).success? # => false
 ```
 
-``` ruby
-# Pass
-"AAA"
-[3, 4, 5]
+## Excluded values
 
-# Fail
-"BBB"
-[1, 2, 3]
-```
-
-## Excluded from
+> See `includes?`
 
 ``` ruby
-excluded_from?([1, 2, 3])
-```
+no_zeroes = build { excludes?(0) }
 
-``` ruby
-# Pass
-4
-
-# Fail
-1
+no_zeroes.call([1,2,3]).success? # => true
+no_zeroes.call([0, -1, -2]).success? # => false
 ```
 
 ## Included in
 
+> Check for inclusion. Can be used on all values responding to `include?`
+
 ``` ruby
-included_in?([1, 2, 3])
+is_natrual = build { included_in?(1...) }
+
+is_natrual.call(1).success? # => true
+is_natrual.call(0).success? # => false
+is_natrual.call(-1).success? # => false
+```
+
+## Excluded from
+
+> See `included_in?`
+
+```
+is_negative = build { excluded_from?(0...) }
+
+is_negative.call(-1).success? # => true
+is_negative.call(0).success? # => false
+is_negative.call(1).success? # => false
+```
+
+## Bytesize
+
+``` ruby
+bytesize?(1)
+bytesize?(2..3)
+bytesize?([2, 3])
 ```
 
 ``` ruby
 # Pass
-1
+"A"
+"AB"
+"AB"
 
 # Fail
-4
+"AB"
+"A"
+"A"
 ```
 
 ## Max byte size
@@ -236,26 +220,6 @@ min_bytesize?(1)
 
 # Fail
 ""
-```
-
-## Bytesize
-
-``` ruby
-bytesize?(1)
-bytesize?(2..3)
-bytesize?([2, 3])
-```
-
-``` ruby
-# Pass
-"A"
-"AB"
-"AB"
-
-# Fail
-"AB"
-"A"
-"A"
 ```
 
 ## Min size
