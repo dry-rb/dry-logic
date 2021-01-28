@@ -21,6 +21,6 @@ is_divisible_with_ten = build do
   divisible_with?(10)
 end
 
-is_divisible_with_ten.call(10) # => true
-is_divisible_with_ten.call(5) # => false
+is_divisible_with_ten.call(10).success? # => true
+is_divisible_with_ten.call(5).success? # => false
 ```

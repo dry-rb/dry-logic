@@ -24,10 +24,10 @@ is_number = build do
   int? | float? | number?
 end
 
-is_number.call(1) # => true
-is_number.call(2.0) # => true
-is_number.call('3') # => false
-is_number.call('four') # => false
+is_number.call(1).success? # => true
+is_number.call(2.0).success? # => true
+is_number.call('3').success? # => false
+is_number.call('four').success? # => false
 ```
 
 ### If "this" than "that"
@@ -48,14 +48,14 @@ is_empty = build do
   (attr?(:empty) > empty?) | nil?
 end
 
-is_empty.call("") # => true
-is_empty.call([]) # => true
-is_empty.call({}) # => true
-is_empty.call(nil) # => true
+is_empty.call("").success? # => true
+is_empty.call([]).success? # => true
+is_empty.call({}).success? # => true
+is_empty.call(nil).success? # => true
 
-is_empty.call("string") # => false
-is_empty.call(["array"]) # => false
-is_empty.call({key: "value"}) # => false
+is_empty.call("string").success? # => false
+is_empty.call(["array"]).success? # => false
+is_empty.call({key: "value"}).success? # => false
 ```
 
 ### Exclusive or
@@ -76,9 +76,9 @@ is_zero = build do
   lt?(0) ^ gt?(0)
 end
 
-is_zero.call(1) # => false
-is_zero.call(0) # => true
-is_zero.call(-1) # => false
+is_zero.call(1).success? # => false
+is_zero.call(0).success? # => true
+is_zero.call(-1).success? # => false
 ```
 
 ### And
@@ -99,9 +99,9 @@ is_middle_aged = build do
   gt?(30) & lt?(50)
 end
 
-is_child.call(20) # => false
-is_child.call(40) # => true
-is_child.call(60) # => true
+is_child.call(20).success? # => false
+is_child.call(40).success? # => true
+is_child.call(60).success? # => true
 ```
 
 ### Attribute
@@ -117,9 +117,9 @@ end
 
 Person = Struct.new(:age)
 
-is_middle_aged.call(Person.new(20)) # => false
-is_middle_aged.call(Person.new(40)) # => true
-is_middle_aged.call(Person.new(60)) # => false
+is_middle_aged.call(Person.new(20)).success? # => false
+is_middle_aged.call(Person.new(40)).success? # => true
+is_middle_aged.call(Person.new(60)).success? # => false
 ```
 
 ### Each
@@ -131,8 +131,8 @@ is_only_odd = build do
   each { odd? }
 end
 
-is_only_odd.call([1, 3, 5]) # => true
-is_only_odd.call([4, 6, 8]) # => false
+is_only_odd.call([1, 3, 5]).success? # => true
+is_only_odd.call([4, 6, 8]).success? # => false
 ```
 
 ### Set
@@ -146,9 +146,9 @@ is_natrual_and_odd = build do
   set { [int?, odd?, gt?(1)] }
 end
 
-is_natrual_and_odd.call('5') # => false
-is_natrual_and_odd.call(5) # => true
-is_natrual_and_odd.call(-1) # => false
+is_natrual_and_odd.call('5').success? # => false
+is_natrual_and_odd.call(5).success? # => true
+is_natrual_and_odd.call(-1).success? # => false
 ```
 
 ### Negation
@@ -162,10 +162,10 @@ is_present = build do
   negation(empty?)
 end
 
-is_present.call([1]) # => true
-is_present.call([]) # => false
-is_present.call("A") # => true
-is_present.call("") # => false
+is_present.call([1]).success? # => true
+is_present.call([]).success? # => false
+is_present.call("A").success? # => true
+is_present.call("").success? # => false
 ```
 
 ### Key
@@ -181,8 +181,8 @@ is_named = build do
   end
 end
 
-is_named.call({ user: { name: "John" } }) # => true
-is_named.call({ user: { name: nil } }) # => false
+is_named.call({ user: { name: "John" } }).success? # => true
+is_named.call({ user: { name: nil } }).success? # => false
 ```
 
 ### Check
@@ -198,6 +198,6 @@ is_speeding = build do
   end
 end
 
-is_speeding.call({ speed: 100, limit: 50 }) # => true
-is_speeding.call({ speed: 40, limit: 50 }) # => false
+is_speeding.call({ speed: 100, limit: 50 }).success? # => true
+is_speeding.call({ speed: 40, limit: 50 }).success? # => false
 ```
