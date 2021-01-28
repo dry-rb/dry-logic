@@ -137,8 +137,6 @@ is_only_odd.call([4, 6, 8]).success? # => false
 
 ### Set
 
-Input: `Array<Predicate>`
-
 > Applies input to an array of predicates. Returns true if all predicates are true.
 
 ``` ruby
@@ -152,8 +150,6 @@ is_natrual_and_odd.call(-1).success? # => false
 ```
 
 ### Negation
-
-Input: `Predicate`
 
 > Negates predicate.
 
@@ -170,8 +166,6 @@ is_present.call("").success? # => false
 
 ### Key
 
-Input: `Hash`, `Predicate`
-
 > Takes a key path `name: path` and applies it to a predicate.
 
 ``` ruby
@@ -186,8 +180,6 @@ is_named.call({ user: { name: nil } }).success? # => false
 ```
 
 ### Check
-
-Input: `Hash`, `Predicate`
 
 > Takes an array of key paths `keys: paths`. Applies each key path to its hash input and uses the result as arguments on its predicate. I.e `check = check keys: [[:a], [:b]] { pred }` invoking `check({a: "A", b: "B"})` yields `pred("A", "B")`.
 
