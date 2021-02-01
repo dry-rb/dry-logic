@@ -42,7 +42,7 @@ module Dry
         end
 
         def respond_to_missing?(method, *)
-          predicates.methods.include?(method)
+          predicates.singleton_class.method_defined?(method)
         end
 
         private
