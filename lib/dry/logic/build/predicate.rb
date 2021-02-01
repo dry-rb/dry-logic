@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "dry/logic/predicates"
+require_relative "local_predicates"
+
 module Dry
   module Logic
     module Build
@@ -13,13 +16,28 @@ module Dry
         end
 
         def respond_to_missing?(method, *)
-          Predicates.methods.include?(method)
+          predicates.methods.include?(method)
+        end
+
+        def predicate(name, &block)
+          # Remove the existing predicate defined by user
+          # Without this a warning is shown similar to:
+          #   warning: method redefined; discarding old {name}
+          if respond_to_missing?(name)
+            predicates.singleton_class.undef_method(name)
+          end
+
+          predicates[:predicate].call(name, &block)
         end
 
         private
 
         def to_predicate(name)
-          (@predicate ||= {})[name] ||= Rule::Predicate.new(Predicates[name])
+          (@predicate ||= {})[name] ||= Rule::Predicate.new(predicates[name])
+        end
+
+        def predicates
+          LocalPredicates
         end
       end
     end
