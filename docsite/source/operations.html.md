@@ -4,7 +4,7 @@ layout: gem-single
 name: dry-logic
 ---
 
-Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations.
+Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations. Take a look at the `builder` section on how to run the below examples using Dry Logic's builder.
 
 ## Or
 

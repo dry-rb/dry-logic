@@ -4,6 +4,8 @@ layout: gem-single
 name: dry-logic
 ---
 
+Predicates can be chained together using operations such as `&` and `|` (see the `operations` section). Take a look at the `builder` section on how to run the below examples using Dry Logic's builder.
+
 ## URI
 
 > Verify user input is a URL
