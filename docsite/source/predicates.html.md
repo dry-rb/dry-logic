@@ -4,25 +4,9 @@ layout: gem-single
 name: dry-logic
 ---
 
-## Respond to
-
-> See `attr?`.
-
-``` ruby
-has_name = build do
-  respond_to?(:name)
-end
-
-person = Struct.new(:name).new("John")
-age = Struct.new(:age).new(100)
-
-has_name.call(person).success? # => true
-has_name.call(age).success? # => false
-```
-
 ## URI
 
-> Verify user input is a URL.
+> Verify user input is a URL
 
 ``` ruby
 is_https_url = build { uri?(:https) }
@@ -63,35 +47,19 @@ is_uuid_v5.call(uuid1).success? # => false
 
 ## Case expression
 
-> Implements the `===` operator
+> Implements Ruby's `===` operator
 
 ``` ruby
 is_natrual = build { case?(1...) }
+
+is_natrual.call(1).success? # => true
+is_natrual.call(-1).success? # => false
+is_natrual.call("<string>").success? # => false
+
 is_integer = build { case?(Integer) }
 
-natrual = 10
-negative = -1
-string = "<string>"
-
-is_natrual.call(natrual).success? # => true
-is_natrual.call(negative).success? # => false
-is_natrual.call(string).success? # => false
-is_integer.call(natrual).success? # => true
-is_integer.call(string).success? # => false
-```
-
-## True / False
-
-> Check for a boolean value
-
-``` ruby
-is_true = build { true? }
-is_false = build { false? }
-
-is_true.call(true).success? # => true
-is_true.call(false).success? # => false
-is_false.call(false).success? # => true
-is_true.call(true).success? # => false
+is_integer.call(1).success? # => true
+is_integer.call("<string>").success? # => false
 ```
 
 ## Identity equality
@@ -100,17 +68,19 @@ is_true.call(true).success? # => false
 
 ``` ruby
 is_nil = build { is?(nil) }
-is_very_specific = build { is?(Class.new) }
-```
 
-``` ruby
 is_nil.call(nil).success? # => true
+is_nil.call(:some).success? # => false
+
+is_very_specific = build { is?(Class.new) }
+
 is_very_specific.call(nil).success? # => false
+is_very_specific.call(:some).success? # => false
 ```
 
 ## Equality
 
-> Implements Rubys compare operator `==` or `eql?`
+> Implements Ruby's `==` operator
 
 ``` ruby
 is_zero = build { eql?(0) }
@@ -141,7 +111,7 @@ has_nils.call([-1, -2, -3]).success? # => false
 
 ## Excluded values
 
-> See `includes?`
+> Inverse of `includes?`
 
 ``` ruby
 no_zeroes = build { excludes?(0) }
@@ -164,7 +134,7 @@ is_natrual.call(-1).success? # => false
 
 ## Excluded from
 
-> See `included_in?`
+> Inverse of `included_in?`
 
 ```
 is_negative = build { excluded_from?(0...) }
@@ -174,195 +144,174 @@ is_negative.call(0).success? # => false
 is_negative.call(1).success? # => false
 ```
 
-## Bytesize
-
-``` ruby
-bytesize?(1)
-bytesize?(2..3)
-bytesize?([2, 3])
-```
-
-``` ruby
-# Pass
-"A"
-"AB"
-"AB"
-
-# Fail
-"AB"
-"A"
-"A"
-```
-
-## Max byte size
-
-``` ruby
-max_bytesize?(1)
-```
-
-``` ruby
-# Pass
-""
-
-# Fail
-"AB"
-```
-
-## Min byte size
-
-``` ruby
-min_bytesize?(1)
-```
-
-``` ruby
-# Pass
-"AB"
-
-# Fail
-""
-```
-
-## Min size
-
-``` ruby
-min_size?(2)
-```
-
-``` ruby
-# Pass
-[1, 2, 3]
-
-# Fail
-[1, 2]
-```
-
-## Max size
-
-``` ruby
-max_size?(2)
-```
-
-``` ruby
-# Pass
-[1]
-
-# Fail
-[1,2]
-```
-
 ## Size
 
+> Can be applied to all values implementing `#size`, such as `Hash`, `Array`, and `String`.
+
 ``` ruby
-size?(2)
+is_empty = build { size?(0) }
+
+is_empty.call({}).success? # => true
+is_empty.call([]).success? # => true
+is_empty.call("").success? # => true
+
+is_empty.call({"1" => 2}).success? # => false
+is_empty.call([1]).success? # => false
+is_empty.call("1").success? # => false
 ```
 
-``` ruby
-# Pass
-[1, 2]
+## Minimum size
 
-# Fail
-[1]
+> Checks for a miminum size using `#size >= value`. See #size?
+
+``` ruby
+is_present = build { min_size?(1) }
+
+is_present.call({"1" => 2}).success? # => true
+is_present.call([1]).success? # => true
+is_present.call("1").success? # => true
+
+is_present.call({}).success? # => false
+is_present.call([]).success? # => false
+is_present.call("").success? # => false
+```
+
+## Maximum size
+
+> Checks for a maximum size using `#size <= value`. See #size?
+
+``` ruby
+one_or_none = build { max_size?(1) }
+
+one_or_none.call({}).success? # => true
+one_or_none.call([1]).success? # => true
+one_or_none.call("A").success? # => true
+
+one_or_none.call({"A" => :a, "B" => :b}).success? # => false
+one_or_none.call([1,2]).success? # => false
+one_or_none.call("AB").success? # => false
+```
+
+## Bytesize
+
+> Same as `size?` but uses [String#bytesize](https://www.rubydoc.info/stdlib/core/String:bytesize) instead of `size`
+
+``` ruby
+is_one = build { bytesize?(1) }
+
+is_one.call("A").success? # => true
+is_one.call("AB").success? # => false
+
+is_two_or_tree = build { bytesize?(2..3) }
+
+is_two_or_tree.call("ABC").success? # => true
+is_two_or_tree.call("ABCD").success? # => false
+
+is_four = build { bytesize?([4]) }
+
+is_four.call("ABCD").success? # => true
+is_four.call("ABC").success? # => false
+```
+
+## Minimum byte size
+
+> Same as `min_size?` but uses [String#bytesize](https://www.rubydoc.info/stdlib/core/String:bytesize) instead of `size`
+
+``` ruby
+is_min_one = build { min_bytesize?(1) }
+
+is_min_one.call("A").success? # => true
+is_min_one.call("").success? # => false
+```
+
+## Maximum byte size
+
+> Same as `max_size?` but uses [String#bytesize](https://www.rubydoc.info/stdlib/core/String:bytesize) instead of `size`
+
+``` ruby
+is_max_one = build { max_bytesize?(1) }
+
+is_max_one.call("A").success? # => true
+is_max_one.call("AB").success? # => false
+```
+
+## Greater than
+
+> Implements Ruby's greater than `>` operator
+
+``` ruby
+can_vote = build { gt?(17) }
+
+can_vote.call(17).success? # => false
+can_vote.call(18).success? # => true
+can_vote.call(19).success? # => true
 ```
 
 ## Greater or equal to
 
-``` ruby
-gteq?(10)
-```
+> Implements Ruby's greater than `>=` operator
 
 ``` ruby
-# Pass
-11
+can_vote = build { gteq?(18) }
 
-# Fail
-9
-```
-
-## Less or equal to
-
-``` ruby
-lteq?(10)
-```
-
-``` ruby
-# Pass
-9
-
-# Fail
-11
-```
-
-
-## Greater than
-
-``` ruby
-gt?(10)
-```
-
-``` ruby
-# Pass
-200
-
-# Fail
-5
+can_vote.call(17).success? # => false
+can_vote.call(18).success? # => true
+can_vote.call(19).success? # => true
 ```
 
 ## Less than
 
+> Implements Ruby's less than `<` operator
+
 ``` ruby
-lt?(10)
+can_work = build { lt?(65) }
+
+can_work.call(65).success? # => false
+can_work.call(64).success? # => true
 ```
 
-``` ruby
-# Pass
-5
+## Less or equal to
 
-# Fail
-200
+> Implements Ruby's less than `<=` operator
+
+``` ruby
+can_work = build { lteq?(64) }
+
+can_work.call(65).success? # => false
+can_work.call(64).success? # => true
 ```
 
 ## Odd
 
-``` ruby
-odd?
-```
+> Implements Ruby's `Integer#odd?` method
 
 ``` ruby
-# Pass
-5
+is_odd = build { odd? }
 
-# Fail
-2
+is_odd.call(1).success? # => true
+is_odd.call(2).success? # => false
 ```
 
 ## Even
 
-``` ruby
-even?
-```
+> Implements Ruby's `Integer#even?` method
 
 ``` ruby
-# Pass
-2
+is_even = build { even? }
 
-# Fail
-5
+is_even.call(2).success? # => true
+is_even.call(1).success? # => false
 ```
 
 ## Hash
 
-> Checks if input is of type `Hash`
+> Checks if the input is of type `Hash`
 
 ``` ruby
-hash?
-```
+is_hash = build { hash? }
 
-``` ruby
-# Pass
-{ a: "B" }
-
-# Fail
-[1, 2, 3]
+is_hash.call(Hash.new).success? # => true
+is_hash.call(Array.new).success? # => false
 ```
 
 ## Array
@@ -370,77 +319,21 @@ hash?
 > Checks if the input is of type `Array`
 
 ``` ruby
-array?
-```
+is_array = build { array? }
 
-``` ruby
-# Pass
-[1, 2, 3]
-
-# Fail
-{ a: "B" }
+is_array.call(Array.new).success? # => true
+is_array.call(Hash.new).success? # => false
 ```
 
 ## String
 
-``` ruby
-str?
-```
+> Checks if the input is of type `String`
 
 ``` ruby
-# Pass
-"hello"
+is_string = build { str? }
 
-# Fail
-:world
-```
-
-## Decimal
-
-> Checks if input type is `BigDecimal`
-
-``` ruby
-decimal?
-```
-
-``` ruby
-# Pass
-BigDecimal(1)
-
-# Fail
-1
-```
-
-## Float
-
-> Checks if input type is `Float`
-
-``` ruby
-float?
-```
-
-``` ruby
-# Pass
-10.0
-
-# Fail
-100
-```
-
-## Integer
-
-> Checks if input type is `Integer`
-
-``` ruby
-int?
-```
-
-``` ruby
-# Pass
-10
-
-# Fail
-10.0
+is_string.call(String.new).success? # => true
+is_string.call(Hash.new).success? # => false
 ```
 
 ## Number
@@ -448,24 +341,54 @@ int?
 > Checks if a value can be typecast into a number
 
 ``` ruby
-number?
+is_number = build { number? }
+
+is_number.call(4).success? # => true
+is_number.call(-4).success? # => true
+is_number.call("  4").success? # => true
+is_number.call("-4").success? # => true
+is_number.call(4.0).success? # => true
+is_number.call('4').success? # => true
+is_number.call('4.0').success? # => true
+
+is_number.call("A4").success? # => false
+is_number.call("A-4").success? # => false
+is_number.call(nil).success? # => false
+is_number.call(:four).success? # => false
+is_number.call("four").success? # => false
 ```
 
-``` ruby
-# Pass
--4
-"    4"
-"-4"
-4.0
-4
-'4'
-'4.0'
+## Decimal
 
-# Fail
-"A-4"
-"A4"
-nil
-:symbol
+> Checks if the input is of type `BigDecimal`
+
+``` ruby
+is_decimal = build { decimal? }
+
+is_decimal.call(BigDecimal(1)).success? # => true
+is_decimal.call(1).success? # => false
+```
+
+## Float
+
+> Checks if the input is of type `Float`
+
+``` ruby
+is_float = build { float? }
+
+is_float.call(1.0).success? # => true
+is_float.call(1).success? # => false
+```
+
+## Integer
+
+> Checks if the input is of type `Integer`
+
+``` ruby
+is_num = build { num? }
+
+is_num.call(1).success? # => true
+is_num.call(1.0).success? # => false
 ```
 
 ## Time
@@ -473,15 +396,10 @@ nil
 > Checks if the input is of type `Time`
 
 ``` ruby
-time?
-```
+is_time = build { time? }
 
-``` ruby
-# Pass
-Time.new
-
-# Fail
-:symbol
+is_time.call(Time.new).success? # => true
+is_time.call("2 o'clock").success? # => false
 ```
 
 ## DateTime
@@ -489,15 +407,10 @@ Time.new
 > Checks if the input is of type `DateTime`
 
 ``` ruby
-date_time?
-```
+is_date_time = build { date_time? }
 
-``` ruby
-# Pass
-DateTime.new
-
-# Fail
-:symbol
+is_date_time.call(DateTime.new).success? # => true
+is_date_time.call("2 o'clock").success? # => false
 ```
 
 ## Date
@@ -505,90 +418,93 @@ DateTime.new
 > Checks if the input is of type `Date`
 
 ``` ruby
-date?
-```
+is_date = build { date? }
 
-``` ruby
-# Pass
-Date.new
-
-# Fail
-:symbol
+is_date.call(Date.new).success? # => true
+is_date.call("1 year ago").success? # => false
 ```
 
 ## Bool
 
-> Checks if input is `true` or `false`
+> Checks if the input is of type `TrueClass` or `FalseClass`
 
 ``` ruby
-bool?
+is_bool = build { bool? }
+
+is_bool.call(true).success? # => true
+is_bool.call(false).success? # => true
+
+is_bool.call(:false).success? # => false
+is_bool.call("true").success? # => false
 ```
 
-``` ruby
-# Pass
-true
-false
+## True / False
 
-# Fail
-:symbol
-```
-
-## Filled
-
-> Checks if the input is not empty
+> Check for a boolean value
 
 ``` ruby
-filled?
-```
+is_true = build { true? }
+is_false = build { false? }
 
-``` ruby
-# Pass
-[1,2]
-"string"
-{ key: "value" }
-nil
-
-# Fail
-[]
-""
-{}
+is_true.call(true).success? # => true
+is_true.call(false).success? # => false
+is_false.call(false).success? # => true
+is_true.call(true).success? # => false
 ```
 
 ## Empty
 
-> Checks if the input is empty
+> Checks if a value is empty?
 
 ``` ruby
-empty?
+is_empty = build { empty? }
+
+is_empty.call(nil).success? # => true
+is_empty.call([]).success? # => true
+is_empty.call("").success? # => true
+is_empty.call({}).success? # => true
+
+is_empty.call({key: :value}).success? # => false
+is_empty.call([:array]).success? # => false
+is_empty.call("string").success? # => false
+is_empty.call(:symbol).success? # => false
 ```
 
-``` ruby
-# Pass
-[]
-""
-{}
+## Filled
 
-# Fail
-[1,2]
-"string"
-{ key: "value" }
-nil
+> Checks if a value is present? (not empty)
+
+``` ruby
+is_filled = build { filled? }
+
+is_filled.call({key: :value}).success? # => true
+is_filled.call([:array]).success? # => true
+is_filled.call("string").success? # => true
+is_filled.call(:symbol).success? # => true
+
+is_filled.call(nil).success? # => false
+is_filled.call([]).success? # => false
+is_filled.call("").success? # => false
+is_filled.call({}).success? # => false
 ```
 
 ## Attribute
 
-> Checks if an object responds to a certain method. Uses `respond_to?` to check the input.
+> Implements Ruby's `respond_to?` method. Aliased to `respond_to?`
 
 ``` ruby
-attr?(:name)
-```
+has_named = build { attr?(:name) }
 
-``` ruby
-# Pass
-Struct.new(:name).new("John")
+class Person < Struct.new(:age, :name)
+  # Logic ...
+end
 
-# Fail
-Struct.new(:age).new(50)
+class Car < Struct.new(:age, :brand)
+  # Logic ...
+end
+
+is_named.call(Person.new(30, "John")).success? # => true
+is_named.call(Car.new(3, "Volvo")).success? # => false
 ```
 
 ## Nil
@@ -596,48 +512,30 @@ Struct.new(:age).new(50)
 > Checks if the input is nil using `nil?`. Aliased to `none?`
 
 ``` ruby
-nil?
-none?
-```
+is_nil = build { nil? }
 
-``` ruby
-# Pass
-nil
-
-# Fail
-:symbol
+is_nil.call(nil).success? # => true
+is_nil.call(:some).success? # => false
 ```
 
 ## Key
 
-> Checks if the input of type `Hash` contains the provided key.
+> Checks if the input of type `Hash` contains the provided key
 
 ``` ruby
-key?(:name)
-```
+is_named = build { key?(:name) }
 
-``` ruby
-# Pass
-{ name: "John" }
-
-# Fail
-{ age: 50 }
+is_named.call({ name: "John" }).success? # => true
+is_named.call({ age: 30 }).success? # => false
 ```
 
 ## Format
 
-> Applies a regular expression to its input
+> Checks if the regular expression matches the input
 
 ``` ruby
-format?(/^(A|B)$/)
-```
+is_email_ish = build { format?(/^\S+@\S+$/) }
 
-``` ruby
-# Pass
-"A"
-"B"
-
-# Fail
-"C"
-"D"
+is_email_ish.call("hello@example.com") # => true
+is_email_ish.call("nope|failed.com") # => false
 ```
