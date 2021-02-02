@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/inflector"
 require_relative "build/base"
 require_relative "build/predicate"
 require_relative "build/operation"

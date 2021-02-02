@@ -4,8 +4,6 @@ module Dry
   module Logic
     module Build
       class Operation < Base
-        INFLECTOR = Dry::Inflector.new.freeze
-
         def method_missing(method, *args, **kwargs, &block)
           super unless respond_to_missing?(method)
           super unless Kernel.block_given?
@@ -24,7 +22,7 @@ module Dry
         end
 
         def to_class_name(name)
-          (@class_name ||= {})[name] ||= INFLECTOR.camelize("operations/#{name}")
+          (@class_name ||= {})[name] ||= ["Operations", name.capitalize].join("::")
         end
 
         def to_predicate(&block)
