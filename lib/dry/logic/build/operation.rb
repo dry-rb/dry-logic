@@ -22,12 +22,14 @@ module Dry
         end
 
         def to_class_name(name)
-          (@class_name ||= {})[name] ||= ["Operations", name.capitalize].join("::")
+          ["Operations", name.capitalize].join("::")
         end
 
         def to_predicate(&block)
           Build.call(&block)
         end
+
+        memoize :to_class_name
       end
     end
   end

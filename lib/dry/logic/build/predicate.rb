@@ -48,12 +48,14 @@ module Dry
         private
 
         def to_predicate(name)
-          (@predicate ||= {})[name] ||= Rule::Predicate.new(predicates[name])
+          Rule::Predicate.new(predicates[name])
         end
 
         def predicates
           LocalPredicates
         end
+
+        memoize :to_predicate
       end
     end
   end
