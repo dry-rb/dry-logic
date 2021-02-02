@@ -37,6 +37,25 @@ RSpec.describe Dry::Logic::Operations::Check do
         )
       end
     end
+
+    context "with its output as input" do
+      let(:gt?) { Dry::Logic::Predicates[:gt?] }
+      let(:min) { Dry::Logic::Rule::Predicate.new(gt?).curry(18) }
+      let(:inner) { described_class.new(min, keys: [:age]) }
+      let(:outer) { described_class.new(inner, keys: [:person]) }
+
+      subject { outer.call(input) }
+
+      describe "success" do
+        let(:input) { {person: {age: 20}} }
+        it { is_expected.to be_a_success }
+      end
+
+      describe "failure" do
+        let(:input) { {person: {age: 10}} }
+        it { is_expected.not_to be_a_success }
+      end
+    end
   end
 
   describe "#to_ast" do
