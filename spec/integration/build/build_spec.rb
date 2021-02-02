@@ -6,7 +6,7 @@ RSpec.describe ".build" do
   subject { predicate.call(described_class) }
   before { extend Dry::Logic::Build }
 
-  xdescribe "nested operations" do
+  describe "nested operations" do
     let(:predicate) do
       build do
         check keys: [:person] do

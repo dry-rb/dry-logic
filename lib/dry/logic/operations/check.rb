@@ -12,7 +12,7 @@ module Dry
 
         def self.new(rule, **options)
           if options[:evaluator]
-            super(rule, options)
+            super(rule, **options)
           else
             keys = options.fetch(:keys)
             evaluator = Evaluator::Set.new(keys)
