@@ -3,6 +3,23 @@
 ## 1.1.0 2020-12-26
 
 
+### Fixed
+
+- Nested `Check` operations no longer crash under MRI 3.0 (@oleander)
+
+### Changed
+
+- Switched to equalizer from dry-core (@solnic)
+
+[Compare v1.1.0...v1.1.0](https://github.com/dry-rb/dry-logic/compare/v1.1.0...v1.1.0)
+
+## 1.1.0 2020-12-26
+
+
+### Fixed
+
+- Nested `Check` operations no longer crash under MRI 3.0 (@oleander)
+
 ### Changed
 
 - Switched to equalizer from dry-core (@solnic)
