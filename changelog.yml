@@ -1,27 +1,36 @@
 ---
 - version: 1.1.0
-  summary:
+  summary: 
   date: '2020-12-26'
-  changed:
-  - 'Switched to equalizer from dry-core (@solnic)'
+  fixed: &2
+  - Nested `Check` operations no longer crash under MRI 3.0 (@oleander)
+  added: 
+  changed: &1
+  - Switched to equalizer from dry-core (@solnic)
+- version: 1.1.0
+  summary: 
+  date: '2020-12-26'
+  changed: *1
+  fixed: *2
 - version: 1.0.8
   date: '2020-09-28'
   fixed:
-  - 'Better Ruby 3 support with fixed specialization for rules of negative arity (@flash-gordon)'
+  - Better Ruby 3 support with fixed specialization for rules of negative arity (@flash-gordon)
 - version: 1.0.7
-  summary:
+  summary: 
   date: '2020-08-13'
-  fixed:
+  fixed: 
   added:
-  - 'A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https", "https://dry-rb.org")` (@nerburish)'
+  - A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https",
+    "https://dry-rb.org")` (@nerburish)
   - 'New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3?` and `uuid_v5?` (via #75) (@jamesbrauman)'
 - version: 1.0.6
-  summary:
+  summary: 
   date: '2020-02-10'
   fixed:
   - Made the regexp used by `uuid_v4?` more secure (@kml)
-  added:
-  changed:
+  added: 
+  changed: 
 - version: 1.0.5
   date: '2019-11-07'
   fixed:
