@@ -2,7 +2,9 @@
 
 require_relative "build/base"
 require_relative "build/predicate"
+require_relative "build/tree"
 require_relative "build/operation"
+require "dry/logic/rule_compiler"
 
 module Dry
   module Logic
@@ -23,16 +25,17 @@ module Dry
       #   is_zero.call(-1).success? # => false
       #
       def call(&block)
-        begin
-          Operation.call(&block)
-        rescue NameError
-          Predicate.call(&block)
-        end
-      rescue NameError => e
-        raise NameError, "#{e.message} or #{Module.nesting.first}::Operation"
+        compiler = RuleCompiler.new(LocalPredicates)
+        compiler.visit(construct(&block).ast)
       end
 
-      module_function :call
+      def construct(&block)
+        Operation.call(&block)
+      rescue NameError
+        Predicate.call(&block)
+      end
+
+      module_function :call, :construct
 
       #
       # @example Check for odd numbers using {Build#build}

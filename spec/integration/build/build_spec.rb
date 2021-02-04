@@ -9,8 +9,8 @@ RSpec.describe ".build" do
   describe "nested operations" do
     let(:predicate) do
       build do
-        check keys: [:person] do
-          check keys: [:age] do
+        check [:person] do
+          check [:age] do
             gt?(50) & lt?(200)
           end
         end
