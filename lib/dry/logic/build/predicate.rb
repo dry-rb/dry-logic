@@ -7,7 +7,6 @@ module Dry
   module Logic
     module Build
       class Predicate < Base
-        include Dry::Core::Constants
         #
         # Defines a user defined predicate
         #
@@ -39,7 +38,7 @@ module Dry
           super if Kernel.block_given?
           super unless kwargs.empty?
 
-          Tree.new([:predicate, [method, [[:_, Undefined]] + args.map { |a| [:_, a] }]])
+          to_predicate(method).curry(*args)
         end
 
         def respond_to_missing?(method, *)

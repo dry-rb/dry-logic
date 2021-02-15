@@ -4,11 +4,11 @@ module Dry
   module Logic
     module Build
       class Operation < Base
-        def method_missing(method, *args, &block)
+        def method_missing(method, *args, **kwargs, &block)
           super unless respond_to_missing?(method)
           super unless Kernel.block_given?
 
-          Tree.new([method, [*args, to_predicate(&block)]])
+          to_operation(method).new(*to_predicate(&block), *args, **kwargs)
         end
 
         def respond_to_missing?(method, *)
@@ -26,7 +26,7 @@ module Dry
         end
 
         def to_predicate(&block)
-          Build.construct(&block).ast
+          Build.call(&block)
         end
 
         memoize :to_class_name
