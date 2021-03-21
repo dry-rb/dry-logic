@@ -1136,7 +1136,7 @@ RSpec.describe "predicates" do
   end
 
   describe :predicate do
-    before { extend Dry::Logic::Build }
+    before { extend Dry::Logic::Builder }
 
     before(:each) do
       build do

@@ -3,6 +3,28 @@
 require_relative "../../shared/operation"
 
 RSpec.describe "operations" do
+  describe "nested" do
+    let(:predicate) do
+      Dry::Logic::Builder.call do
+        check keys: [:person] do
+          check keys: [:age] do
+            gt?(50) & lt?(200)
+          end
+        end
+      end
+    end
+
+    describe "success" do
+      subject { predicate.call({person: {age: 100}}) }
+      it { is_expected.to be_a_success }
+    end
+
+    describe "failure" do
+      subject { predicate.call({person: {age: 10}}) }
+      it { is_expected.not_to be_a_success }
+    end
+  end
+
   describe :check do
     describe "one path" do
       let(:expression) do
@@ -241,31 +263,31 @@ RSpec.describe "operations" do
     end
   end
 
-  describe :attr do
-    let(:expression) do
-      lambda do |*|
-        attr name: :age do
-          gt?(50)
-        end
-      end
-    end
-
-    let(:person) { Struct.new(:age) }
-
-    describe "success" do
-      it_behaves_like "operation" do
-        let(:input) { person.new(100) }
-        let(:output) { true }
-      end
-    end
-
-    describe "failure" do
-      it_behaves_like "operation" do
-        let(:input) { person.new(0) }
-        let(:output) { false }
-      end
-    end
-  end
+  # describe :attr do
+  #   let(:expression) do
+  #     lambda do |*|
+  #       attr name: :age do
+  #         gt?(50)
+  #       end
+  #     end
+  #   end
+  #
+  #   let(:person) { Struct.new(:age) }
+  #
+  #   describe "success" do
+  #     it_behaves_like "operation" do
+  #       let(:input) { person.new(100) }
+  #       let(:output) { true }
+  #     end
+  #   end
+  #
+  #   describe "failure" do
+  #     it_behaves_like "operation" do
+  #       let(:input) { person.new(0) }
+  #       let(:output) { false }
+  #     end
+  #   end
+  # end
 
   describe "operators" do
     describe :& do

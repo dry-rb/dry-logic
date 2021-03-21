@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require "dry/logic/build"
+require "dry/logic/builder"
 
 # TODO: Merge with {operation}?
 RSpec.shared_examples "predicate" do
-  let(:predicate) { Dry::Logic::Build.call(&expression) }
+  before { extend Dry::Logic::Builder }
+  let(:predicate) { build(&expression) }
   let(:args) { defined?(input) ? [input] : [] }
   subject { predicate.call(*args).success? }
   it { is_expected.to eq(output) }
