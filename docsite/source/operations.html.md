@@ -13,7 +13,7 @@ is_zero = build { eql?(0) }
 is_zero.call(10).success?
 ```
 
-## Or (`|`, `or`)
+### Or (`|`, `or`)
 
 > Equivalent to Rubys `||` operator. Returns true if one of its arguments is true.
 
