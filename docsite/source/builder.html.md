@@ -4,14 +4,12 @@ layout: gem-single
 name: dry-logic
 ---
 
-Use the build-in `Dry::Logic::Build` builder to run Dry Logic's predicates and operations.
+Use Dry Logic's builder evaluate predicates and operations
 
 ``` ruby
-require "dry/logic/build"
+require "dry/logic/builder"
 
-extend Dry::Logic::Build
-
-is_zero = build do
+is_zero = Dry::Logic::Builder.call do
   lt?(0) ^ gt?(0)
 end
 

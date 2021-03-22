@@ -4,13 +4,18 @@ layout: gem-single
 name: dry-logic
 ---
 
-Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations. Take a look at the `builder` section on how to run the below examples using Dry Logic's builder.
+Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations. Use Dry Logic's builder to evaluate operations
 
-## Or
+``` ruby
+extend Dry::Logic::Builder
 
-Alias: `|`, `or`
+is_zero = build { eql?(0) }
+is_zero.call(10).success?
+```
 
-> Equivalent to Rubys `||` operator. Returns true if one of its arguments is true. Can be invoked using the `|` operator or the `or` method.
+## Or (`|`, `or`)
+
+> Equivalent to Rubys `||` operator. Returns true if one of its arguments is true.
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -30,11 +35,9 @@ is_number.call('3').success? # => false
 is_number.call('four').success? # => false
 ```
 
-### If "this" than "that"
+### Implication (`>`, `then`, `implication`)
 
-Alias: `>`, `then`, `implication`
-
-> Implication. Returns true if the first predicate fails or if the second predicate succeeds. Useful for doing pre-checks without affecting the overall predicate.
+> Like Ruby's `if then` expression. Returns true if the first predicate fails or the second predicate succeeds
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -58,11 +61,9 @@ is_empty.call(["array"]).success? # => false
 is_empty.call({key: "value"}).success? # => false
 ```
 
-### Exclusive or
+### Exclusive or (`^`, `xor`)
 
-Alias: `^`, `xor`
-
-> Returns true only if one of its arguments are true, otherwise false.
+> Returns true when at most one of its arguments are true, otherwise false.
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -72,18 +73,16 @@ false | true | true
 false | false | false
 
 ``` ruby
-is_zero = build do
+is_not_zero = build do
   lt?(0) ^ gt?(0)
 end
 
-is_zero.call(1).success? # => false
-is_zero.call(0).success? # => true
-is_zero.call(-1).success? # => false
+is_not_zero.call(1).success? # => true
+is_not_zero.call(0).success? # => false
+is_not_zero.call(-1).success? # => true
 ```
 
-### And
-
-Alias: `&`, `and`
+### And (`&`, `and`)
 
 > Returns true if both of its arguments are true.
 
@@ -104,9 +103,9 @@ is_child.call(40).success? # => true
 is_child.call(60).success? # => true
 ```
 
-### Attribute
+### Attribute (`attr`)
 
-> Run predicate on attribute specified by `name: :attribute`.
+> Run predicate on attribute specified by `name: :attribute` or `name: [:attributes]`.
 
 ``` ruby
 is_middle_aged = build do
@@ -122,9 +121,9 @@ is_middle_aged.call(Person.new(40)).success? # => true
 is_middle_aged.call(Person.new(60)).success? # => false
 ```
 
-### Each
+### Each (`each`)
 
-> Validate each input value against a predicate. Passes when all values succeed.
+> Run each of inputs on predicate. Passes when all values succeed.
 
 ``` ruby
 is_only_odd = build do
@@ -135,9 +134,9 @@ is_only_odd.call([1, 3, 5]).success? # => true
 is_only_odd.call([4, 6, 8]).success? # => false
 ```
 
-### Set
+### Set (`set`)
 
-> Applies input to an array of predicates. Returns true if all predicates are true.
+> Applies input to an array of predicates. Returns true if all predicates yields true.
 
 ``` ruby
 is_natrual_and_odd = build do
@@ -149,7 +148,7 @@ is_natrual_and_odd.call(5).success? # => true
 is_natrual_and_odd.call(-1).success? # => false
 ```
 
-### Negation
+### Negation (`negation`)
 
 > Negates predicate.
 
@@ -164,9 +163,9 @@ is_present.call("A").success? # => true
 is_present.call("").success? # => false
 ```
 
-### Key
+### Hash key (`key`)
 
-> Takes a key path `name: path` and applies it to a predicate.
+> Applies key path to input hash and passes the result to predicate:
 
 ``` ruby
 is_named = build do
@@ -179,9 +178,22 @@ is_named.call({ user: { name: "John" } }).success? # => true
 is_named.call({ user: { name: nil } }).success? # => false
 ```
 
-### Check
+### Compare hash values (`check`)
 
-> Takes an array of key paths `keys: paths`. Applies each key path to its hash input and uses the result as arguments on its predicate. I.e `check = check keys: [[:a], [:b]] { pred }` invoking `check({a: "A", b: "B"})` yields `pred("A", "B")`.
+> Like `attr`, but for hashes.
+
+``` ruby
+is_allowed_to_drive = build do
+  check keys: [:age] do
+    gt?(18)
+  end
+end
+
+is_allowed_to_drive.call({ age: 30 }).success? # => true
+is_allowed_to_drive.call({ age: 10 }).success? # => false
+```
+
+Or when the predicate allows for more than one argument
 
 ``` ruby
 is_speeding = build do
@@ -193,3 +205,11 @@ end
 is_speeding.call({ speed: 100, limit: 50 }).success? # => true
 is_speeding.call({ speed: 40, limit: 50 }).success? # => false
 ```
+
+Which is the same as this
+
+``` ruby
+input[:limit].lt?(*input.values_at(:speed))
+```
+
+
