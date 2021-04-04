@@ -12,13 +12,13 @@ module Dry
     class RuleInterpreter
       include Core::Constants
 
-      BINARY_OPS = { "AND" => :and, "XOR" => :xor, "OR" => :or, "THEN" => :implication }.freeze
+      BINARY_OPS = {"AND" => :and, "XOR" => :xor, "OR" => :or, "THEN" => :implication}.freeze
 
       PATTERNS = {
         binary_op: Regexp.new("\\s+(?:#{Regexp.union(BINARY_OPS.keys).source})\s+"),
-         check_op: /\Acheck\[(.+)\]\((.+)\)/,
-           key_op: /\A(attr|key)\[(.+)\]\((.+)\)/,
-         unary_op: /\A(\w+(?!\?))\((.+)\)/,
+        check_op: /\Acheck\[(.+)\]\((.+)\)/,
+        key_op: /\A(attr|key)\[(.+)\]\((.+)\)/,
+        unary_op: /\A(\w+(?!\?))\((.+)\)/,
         predicate: /\A(\w+\?)(\((.+)\))?/
       }.freeze
 
@@ -102,3 +102,4 @@ module Dry
     end
   end
 end
+

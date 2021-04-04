@@ -28,31 +28,37 @@ RSpec.describe Dry::Logic::RuleInterpreter, "#call" do
 
   it "interpretes key rules" do
     rules = interpreter.compile("key[email](filled?)")
+
     expect(rules).to eql([key_op])
   end
 
   it "interpretes attr rules" do
     rules = interpreter.compile("attr[email](filled?)")
+
     expect(rules).to eql([attr_op])
   end
 
   it "interpretes check rules" do
     rules = interpreter.compile("check[email](filled?)")
+
     expect(rules).to eql([check_op])
   end
 
   it "interpretes negated rules" do
     rules = interpreter.compile("not(key[email](filled?))")
+
     expect(rules).to eql([not_key_op])
   end
 
   it "interpretes and rules" do
     rules = interpreter.compile("key[email](key?(:email)) AND filled?")
+
     expect(rules).to eql([and_op])
   end
 
   it "interpretes or rules" do
     rules = interpreter.compile("key[email](key?(:email)) OR filled?")
+
     expect(rules).to eql([or_op])
   end
 
@@ -69,6 +75,7 @@ RSpec.describe Dry::Logic::RuleInterpreter, "#call" do
 
   it "interpretes each rules" do
     rules = interpreter.compile("each(filled?)")
+
     expect(rules).to eql([each_op])
   end
 end
