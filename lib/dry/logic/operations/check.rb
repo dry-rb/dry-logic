@@ -48,6 +48,10 @@ module Dry
         def ast(input = Undefined)
           [type, [options[:keys], rule.ast(input)]]
         end
+
+        def to_s
+          "#{type}[#{options[:keys].join(",")}](#{rule})"
+        end
       end
     end
   end
