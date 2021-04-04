@@ -72,3 +72,4 @@ RSpec.describe Dry::Logic::RuleInterpreter, "#call" do
     expect(rules).to eql([each_op])
   end
 end
+

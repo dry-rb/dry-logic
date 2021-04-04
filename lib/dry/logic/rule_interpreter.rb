@@ -12,20 +12,15 @@ module Dry
     class RuleInterpreter
       include Core::Constants
 
-      BINARY_OPS = {
-        'AND'  => :and,
-        'XOR'  => :xor,
-        'OR'   => :or,
-        'THEN' => :implication
-      }
+      BINARY_OPS = { "AND" => :and, "XOR" => :xor, "OR" => :or, "THEN" => :implication }.freeze
 
       PATTERNS = {
-        :binary_op => Regexp.new("\\s+(?:#{Regexp.union(BINARY_OPS.keys).source})\\s+"),
-        :check_op  => /\Acheck\[(.+)\]\((.+)\)/,
-        :key_op    => /\A(attr|key)\[(.+)\]\((.+)\)/,
-        :unary_op  => /\A(\w+(?!\?))\((.+)\)/,
-        :predicate => /\A(\w+\?)(\((.+)\))?/
-      }
+        binary_op: Regexp.new("\\s+(?:#{Regexp.union(BINARY_OPS.keys).source})\s+"),
+         check_op: /\Acheck\[(.+)\]\((.+)\)/,
+           key_op: /\A(attr|key)\[(.+)\]\((.+)\)/,
+         unary_op: /\A(\w+(?!\?))\((.+)\)/,
+        predicate: /\A(\w+\?)(\((.+)\))?/
+      }.freeze
 
       attr_reader :predicates
 
@@ -55,57 +50,52 @@ module Dry
       end
 
       def read_with_patterns(rule)
-        PATTERNS.inject(nil) do |a, (key, pattern)|
-          a || pattern.match(rule) { |m| visit(key, m) }
+        PATTERNS.inject(nil) do |matched, (key, pattern)|
+          matched || pattern.match(rule) { |match| visit(key, match) }
         end
       end
 
-      def visit(key, m)
-        send(:"visit_#{key}", m)
+      def visit(key, arg)
+        send(:"visit_#{key}", arg)
       end
 
-      def visit_binary_op(m)
-        op = m[0].strip
-        [BINARY_OPS.fetch(op), call(m.pre_match, m.post_match)]
+      def visit_binary_op(match)
+        operator = match[0].strip
+        [BINARY_OPS.fetch(operator), call(match.pre_match, match.post_match)]
       end
 
-      def visit_unary_op(m)
-        visit(m[1].to_sym, m[2])
+      def visit_unary_op(match)
+        case operation = match[1].to_sym
+        when :each, :not
+          [operation, *call(match[2])]
+        else
+          [operation, call(match[2])]
+        end
       end
 
-      def visit_each(string)
-        [:each, *call(string)]
+      def visit_key_op(match)
+        operation = match[1].to_sym
+        [operation, call(*match.values_at(2, 3))]
       end
 
-      def visit_set(string)
-        [:set, call(string)]
+      def visit_check_op(match)
+        keys = match[1].split(",").map(&:to_sym)
+        [:check, [keys, *call(match[2])]]
       end
 
-      def visit_not(string)
-        [:not, *call(string)]
+      def visit_predicate_params(key, args)
+        params = Predicates[key].parameters.map(&:last)
+        params.map.with_index { |name, index| [name, args.fetch(index, Undefined)] }
       end
 
-      def visit_key_op(m)
-        [m[1].to_sym, call(*m.values_at(2, 3))]
-      end
-
-      def visit_check_op(m)
-        [:check, [m[1].split(",").map(&:to_sym), *call(m[2])]]
-      end
-
-      def visit_predicate_params(name, args)
-        params = Predicates[name].parameters.map(&:last)
-        params.map.with_index { |name, idx| [name, args.fetch(idx, Undefined)] }
-      end
-
-      def visit_predicate(m)
-        name = m[1].to_sym
-        args = m[2] ? m[3].split(',').flat_map { |v| call(v) } : EMPTY_ARRAY
+      def visit_predicate(match)
+        name = match[1].to_sym
+        args = match[2] ? match[3].split(",").flat_map { |value| call(value) } : EMPTY_ARRAY
         [:predicate, [name, visit_predicate_params(name, args)]]
       end
 
       def eval_string(rule)
-        eval(rule)
+        instance_eval(rule)
       rescue NameError
         rule.to_sym
       end
