@@ -50,14 +50,6 @@ RSpec.describe Dry::Logic::RuleCompiler, "#call" do
     expect(rules).to eql([check_op])
   end
 
-  it "compiles attr rules" do
-    ast = [[:attr, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]
-
-    rules = compiler.(ast)
-
-    expect(rules).to eql([attr_op])
-  end
-
   it "compiles negated rules" do
     ast = [[:not, [:key, [:email, [:predicate, [:filled?, [[:input, undefined]]]]]]]]
 
