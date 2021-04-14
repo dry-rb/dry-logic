@@ -1,7 +1,7 @@
 ---
 - version: 1.1.1
   summary:
-  date:
+  date: '2021-04-14'
   fixed:
   - Fixed a crash under jruby caused by arg splatting in Binary operations (@flash-gordon)
 - version: 1.1.0
