@@ -10,9 +10,10 @@ module Dry
 
         attr_reader :right
 
-        def initialize(*rules, **options)
+        def initialize(left, right, **options)
           super
-          @left, @right = rules
+          @left = left
+          @right = right
         end
 
         def ast(input = Undefined)
