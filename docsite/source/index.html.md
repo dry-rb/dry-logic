@@ -7,6 +7,8 @@ name: dry-logic
 sections:
   - predicates
   - operations
+  - custom-predicates
+  - builder
 ---
 
 Predicate logic and rule composition used by:
