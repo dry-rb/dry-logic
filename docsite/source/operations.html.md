@@ -4,7 +4,7 @@ layout: gem-single
 name: dry-logic
 ---
 
-Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations. Use Dry Logic's builder to evaluate operations
+Operations work on one or more predicates (see predicates) and can be invoked in conjunction with other operations. Use `Dry::Logic::Builder` to evaluate operations & predicates.
 
 ``` ruby
 extend Dry::Logic::Builder
@@ -15,7 +15,7 @@ is_zero.call(10).success?
 
 ### Or (`|`, `or`)
 
-> Equivalent to Rubys `||` operator. Returns true if one of its arguments is true.
+> Returns true if one of its arguments is true. Similar to Ruby's `||` operator
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -37,7 +37,7 @@ is_number.call('four').success? # => false
 
 ### Implication (`>`, `then`, `implication`)
 
-> Like Ruby's `if then` expression. Returns true if the first predicate fails or the second predicate succeeds
+> Similar to Ruby's `if then` expression
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -63,7 +63,7 @@ is_empty.call({key: "value"}).success? # => false
 
 ### Exclusive or (`^`, `xor`)
 
-> Returns true when at most one of its arguments are true, otherwise false.
+> Returns true if at most one of its arguments are valid; otherwise, false
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -84,7 +84,7 @@ is_not_zero.call(-1).success? # => true
 
 ### And (`&`, `and`)
 
-> Returns true if both of its arguments are true.
+> Returns true if both of its arguments are true. Similar to Ruby's `&&` operator
 
 Argument 1 | Argument 2 | Result
 --- | --- | ---
@@ -105,8 +105,6 @@ is_child.call(60).success? # => true
 
 ### Attribute (`attr`)
 
-> Run predicate on attribute specified by `name: :attribute` or `name: [:attributes]`.
-
 ``` ruby
 is_middle_aged = build do
   attr name: :age do
@@ -123,7 +121,7 @@ is_middle_aged.call(Person.new(60)).success? # => false
 
 ### Each (`each`)
 
-> Run each of inputs on predicate. Passes when all values succeed.
+> True when any of the inputs is true when applied to the predicate. Similar to `Array#any?`
 
 ``` ruby
 is_only_odd = build do
@@ -136,11 +134,11 @@ is_only_odd.call([4, 6, 8]).success? # => false
 
 ### Set (`set`)
 
-> Applies input to an array of predicates. Returns true if all predicates yields true.
+> Applies input to an array of predicates. Returns true if all predicates yield true. Similar to `Array#all?`
 
 ``` ruby
 is_natrual_and_odd = build do
-  set { [int?, odd?, gt?(1)] }
+  set(int?, odd?, gt?(1))
 end
 
 is_natrual_and_odd.call('5').success? # => false
@@ -148,9 +146,9 @@ is_natrual_and_odd.call(5).success? # => true
 is_natrual_and_odd.call(-1).success? # => false
 ```
 
-### Negation (`negation`)
+### Negation (`negation`, `not`)
 
-> Negates predicate.
+> Returns true when predicate returns false. Similar to Ruby's `!` operator
 
 ``` ruby
 is_present = build do
@@ -163,9 +161,7 @@ is_present.call("A").success? # => true
 is_present.call("").success? # => false
 ```
 
-### Hash key (`key`)
-
-> Applies key path to input hash and passes the result to predicate:
+### Key (`key`)
 
 ``` ruby
 is_named = build do
@@ -178,9 +174,7 @@ is_named.call({ user: { name: "John" } }).success? # => true
 is_named.call({ user: { name: nil } }).success? # => false
 ```
 
-### Compare hash values (`check`)
-
-> Like `attr`, but for hashes.
+### Check (`check`)
 
 ``` ruby
 is_allowed_to_drive = build do
@@ -193,7 +187,7 @@ is_allowed_to_drive.call({ age: 30 }).success? # => true
 is_allowed_to_drive.call({ age: 10 }).success? # => false
 ```
 
-Or when the predicate allows for more than one argument
+Or when the predicate allows for more than one argument.
 
 ``` ruby
 is_speeding = build do
@@ -211,5 +205,3 @@ Which is the same as this
 ``` ruby
 input[:limit].lt?(*input.values_at(:speed))
 ```
-
-
