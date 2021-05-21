@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: gem install ossy --no-document
       - name: Update changelog.yml from commit
-        run: tmp/devtools/bin/update-changelog-fdry-commit $GITHUB_SHA
+        run: tmp/devtools/bin/update-changelog-from-commit $GITHUB_SHA
       - name: Compile CHANGELOG.md
         run: tmp/devtools/bin/compile-changelog
       - name: Commit
