@@ -497,7 +497,7 @@ is_filled.call({}).success? # => false
 > Returns true when the struct input responds to the given method. Similar to Ruby's `Object#respond_to?` method
 
 ``` ruby
-has_named = build { attr?(:name) }
+is_named = build { attr?(:name) }
 
 class Person < Struct.new(:age, :name)
   # Logic ...
