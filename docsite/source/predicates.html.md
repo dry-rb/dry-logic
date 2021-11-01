@@ -52,11 +52,11 @@ is_uuid_v5.call(uuid1).success? # => false
 > Similar to Ruby's `===` operator
 
 ``` ruby
-is_natrual = build { case?(1...) }
+is_natural = build { case?(1...) }
 
-is_natrual.call(1).success? # => true
-is_natrual.call(-1).success? # => false
-is_natrual.call("<string>").success? # => false
+is_natural.call(1).success? # => true
+is_natural.call(-1).success? # => false
+is_natural.call("<string>").success? # => false
 
 is_integer = build { case?(Integer) }
 
