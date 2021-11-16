@@ -28,4 +28,12 @@ RSpec.describe Dry::Logic::Predicates, "#format?" do
 
     it_behaves_like "a failing predicate"
   end
+
+  context "when input is nil" do
+    let(:arguments_list) do
+      [[/^F/, 1]]
+    end
+
+    it_behaves_like "a failing predicate"
+  end
 end

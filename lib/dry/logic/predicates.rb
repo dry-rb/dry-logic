@@ -199,7 +199,7 @@ module Dry
         end
 
         def format?(regex, input)
-          !input.nil? && regex.match?(input)
+          !input.nil? && str?(input) && regex.match?(input)
         end
 
         def case?(pattern, input)
