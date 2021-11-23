@@ -3,6 +3,7 @@
 require "bigdecimal"
 require "bigdecimal/util"
 require "date"
+require "open-uri"
 
 module Dry
   module Logic
