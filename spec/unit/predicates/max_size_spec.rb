@@ -12,7 +12,6 @@ RSpec.describe Dry::Logic::Predicates do
           [3, [1, 2]],
           [5, "Jill"],
           [3, {1 => "st", 2 => "nd"}],
-          [9, 1],
           [6, 1..5]
         ]
       end
@@ -26,7 +25,6 @@ RSpec.describe Dry::Logic::Predicates do
           [2, [1, 2]],
           [4, "Jill"],
           [2, {1 => "st", 2 => "nd"}],
-          [8, 1],
           [5, 1..5]
         ]
       end
@@ -40,7 +38,6 @@ RSpec.describe Dry::Logic::Predicates do
           [1, [1, 2]],
           [3, "Jill"],
           [1, {1 => "st", 2 => "nd"}],
-          [7, 1],
           [4, 1..5]
         ]
       end

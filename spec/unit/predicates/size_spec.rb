@@ -9,11 +9,10 @@ RSpec.describe Dry::Logic::Predicates do
     context "when value size is equal to n" do
       let(:arguments_list) do
         [
-          [[8], 2],
+          [[2, 4, 6], "abcd"],
           [4, "Jill"],
           [2, {1 => "st", 2 => "nd"}],
-          [8, 8],
-          [1..8, 5]
+          [1..8, "qwerty"]
         ]
       end
 
@@ -23,11 +22,10 @@ RSpec.describe Dry::Logic::Predicates do
     context "when value size is greater than n" do
       let(:arguments_list) do
         [
-          [[1, 2], 3],
+          [[1, 2], "abc"],
           [5, "Jill"],
           [3, {1 => "st", 2 => "nd"}],
-          [1, 9],
-          [1..5, 6]
+          [1..5, "qwerty"]
         ]
       end
 
@@ -40,8 +38,7 @@ RSpec.describe Dry::Logic::Predicates do
           [[1, 2], 1],
           [3, "Jill"],
           [1, {1 => "st", 2 => "nd"}],
-          [1, 7],
-          [1..5, 4]
+          [1..5, "qwerty"]
         ]
       end
 
