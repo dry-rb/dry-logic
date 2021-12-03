@@ -178,7 +178,7 @@ module Dry
           !includes?(value, input)
         end
 
-        def eql?(left, right)
+        def eq?(left, right)
           left.eql?(right)
         end
 
@@ -186,7 +186,7 @@ module Dry
           left.equal?(right)
         end
 
-        def not_eql?(left, right)
+        def not_eq?(left, right)
           !left.eql?(right)
         end
 

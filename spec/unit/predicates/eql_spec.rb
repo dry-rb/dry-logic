@@ -2,8 +2,8 @@
 
 require "dry/logic/predicates"
 
-RSpec.describe Dry::Logic::Predicates, "#eql?" do
-  let(:predicate_name) { :eql? }
+RSpec.describe Dry::Logic::Predicates, "#eq?" do
+  let(:predicate_name) { :eq? }
 
   context "when value is equal to the arg" do
     let(:arguments_list) do

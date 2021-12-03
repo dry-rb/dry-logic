@@ -80,23 +80,23 @@ is_very_specific.call(nil).success? # => false
 is_very_specific.call(:some).success? # => false
 ```
 
-### Equality (`eql?`)
+### Equality (`eq?`)
 
 > Returns true when the input is equal to the provided value. Similar to `Object#eql?`
 
 ``` ruby
-is_zero = build { eql?(0) }
+is_zero = build { eq?(0) }
 
 is_zero.call(0).success? # => true
 is_zero.call(10).success? # => false
 ```
 
-### Inequality (`not_eql?`)
+### Inequality (`not_eq?`)
 
 > Returns true when the input does not equal the provided value. Similar to Ruby's `!=` operator
 
 ``` ruby
-is_present = build { not_eql?(nil) }
+is_present = build { not_eq?(nil) }
 
 is_present.call("hello").success? # => true
 is_present.call(nil).success? # => false

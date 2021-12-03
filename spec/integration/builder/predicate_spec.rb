@@ -888,8 +888,8 @@ RSpec.describe "predicates" do
   end
 
   describe "compare methods" do
-    describe :eql? do
-      let(:expression) { ->(*) { eql?(10) } }
+    describe :eq? do
+      let(:expression) { ->(*) { eq?(10) } }
 
       describe "success" do
         it_behaves_like "predicate" do
@@ -906,8 +906,8 @@ RSpec.describe "predicates" do
       end
     end
 
-    describe :not_eql? do
-      let(:expression) { ->(*) { not_eql?(10) } }
+    describe :not_eq? do
+      let(:expression) { ->(*) { not_eq?(10) } }
 
       describe "success" do
         it_behaves_like "predicate" do

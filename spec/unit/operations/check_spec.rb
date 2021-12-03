@@ -6,7 +6,7 @@ RSpec.describe Dry::Logic::Operations::Check do
   describe "#call" do
     context "with 1-level nesting" do
       subject(:operation) do
-        described_class.new(Dry::Logic::Rule::Predicate.build(eql?).curry(1), id: :compare, keys: [:num])
+        described_class.new(Dry::Logic::Rule::Predicate.build(eq?).curry(1), id: :compare, keys: [:num])
       end
 
       it "applies predicate to args extracted from the input" do
@@ -18,7 +18,7 @@ RSpec.describe Dry::Logic::Operations::Check do
     context "with 2-levels nesting" do
       subject(:operation) do
         described_class.new(
-          Dry::Logic::Rule::Predicate.build(eql?), id: :compare, keys: [[:nums, :left], [:nums, :right]]
+          Dry::Logic::Rule::Predicate.build(eq?), id: :compare, keys: [[:nums, :left], [:nums, :right]]
         )
       end
 
@@ -32,7 +32,7 @@ RSpec.describe Dry::Logic::Operations::Check do
 
         expect(result.to_ast).to eql(
           [:failure, [:compare, [:check, [
-            [[:nums, :left], [:nums, :right]], [:predicate, [:eql?, [[:left, 1], [:right, 2]]]]
+            [[:nums, :left], [:nums, :right]], [:predicate, [:eq?, [[:left, 1], [:right, 2]]]]
           ]]]]
         )
       end
