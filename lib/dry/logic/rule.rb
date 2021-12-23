@@ -78,7 +78,7 @@ module Dry
       end
 
       def eval_args(object)
-        with(args: args.map { |arg| UnboundMethod === arg ? arg.bind(object).() : arg })
+        with(args: args.map { |arg| arg.is_a?(UnboundMethod) ? arg.bind(object).() : arg })
       end
 
       def with(new_opts)
