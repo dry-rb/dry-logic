@@ -13,8 +13,8 @@ require "pathname"
 
 SPEC_ROOT = Pathname(__dir__)
 
-Dir[SPEC_ROOT.join("shared/**/*.rb")].each(&method(:require))
-Dir[SPEC_ROOT.join("support/**/*.rb")].each(&method(:require))
+Dir[SPEC_ROOT.join("shared/**/*.rb")].sort.each(&method(:require))
+Dir[SPEC_ROOT.join("support/**/*.rb")].sort.each(&method(:require))
 
 RSpec.configure do |config|
   config.include Module.new {

@@ -10,6 +10,10 @@ RSpec.describe Dry::Logic::Rule do
     Class.new do
       define_method(:class, Kernel.instance_method(:class))
 
+      def respond_to_missing?(m, *)
+        super || m.to_s.end_with?("?")
+      end
+
       def method_missing(m, *)
         if m.to_s.end_with?("?")
           self.class.new

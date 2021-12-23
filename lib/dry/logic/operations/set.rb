@@ -16,7 +16,7 @@ module Dry
           success = results.all?(&:success?)
 
           Result.new(success, id) do
-            [type, results.select(&:failure?).map { |failure| failure.to_ast }]
+            [type, results.select(&:failure?).map(&:to_ast)]
           end
         end
 

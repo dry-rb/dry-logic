@@ -46,7 +46,7 @@ RSpec.describe "Rules" do
   end
 
   specify "defining a rule with options" do
-    rule = Dry::Logic::Rule(id: :empty?) { |value| value.empty? }
+    rule = Dry::Logic::Rule(id: :empty?, &:empty?)
 
     expect(rule.("foo")).to be_failure
     expect(rule.("")).to be_success

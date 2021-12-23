@@ -7,6 +7,7 @@ require "date"
 module Dry
   module Logic
     module Predicates
+      # rubocop:disable Metrics/ModuleLength
       module Methods
         def [](name)
           method(name)
@@ -252,5 +253,6 @@ module Dry
         other.extend(Methods)
       end
     end
+    # rubocop:enable Metrics/ModuleLength
   end
 end

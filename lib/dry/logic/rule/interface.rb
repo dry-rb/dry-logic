@@ -11,6 +11,8 @@ module Dry
         attr_reader :curried
 
         def initialize(arity, curried)
+          super()
+
           @arity = arity
           @curried = curried
 
@@ -84,11 +86,11 @@ module Dry
             end
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def initialize(*)
-              super
-
-              #{assignment}
-            end
+            def initialize(*)  # def initialize(*)
+              super            #   super
+                               #
+              #{assignment}    #   @arg0 = @args[0]
+            end                # end
           RUBY
         end
 
@@ -114,17 +116,17 @@ module Dry
           application = "@predicate[#{(curried_args + unapplied_args + splat).join(", ")}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(#{parameters})
-              if #{application}
-                Result::SUCCESS
-              else
-                Result.new(false, id) { ast(#{parameters}) }
-              end
-            end
-
-            def [](#{parameters})
-              #{application}
-            end
+            def call(#{parameters})                            # def call(input0, input1, *rest)
+              if #{application}                                #   if @predicate[@arg0, @arg1, input0, input1, *rest]
+                Result::SUCCESS                                #     Result::Success
+              else                                             #   else
+                Result.new(false, id) { ast(#{parameters}) }   #     Result.new(false, id) { ast(input0, input1, *rest) }
+              end                                              #   end
+            end                                                # end
+                                                               #
+            def [](#{parameters})                              # def [](@arg0, @arg1, input0, input1, *rest)
+              #{application}                                   #   @predicate[@arg0, @arg1, input0, input1, *rest]
+            end                                                # end
           RUBY
         end
 
