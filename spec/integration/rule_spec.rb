@@ -46,7 +46,10 @@ RSpec.describe "Rules" do
   end
 
   specify "defining a rule with options" do
-    rule = Dry::Logic::Rule(id: :empty?, &:empty?)
+    # rubocop:disable Style/SymbolProc
+    # using &:empty? breaks the spec
+    rule = Dry::Logic::Rule(id: :empty?) { |value| value.empty? }
+    # rubocop:enable Style/SymbolProc
 
     expect(rule.("foo")).to be_failure
     expect(rule.("")).to be_success
