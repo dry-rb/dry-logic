@@ -5,7 +5,9 @@ require "bundler/setup"
 require "dry/logic"
 require "dry/logic/predicates"
 
+# rubocop:disable Style/MixinUsage
 include Dry::Logic
+# rubocop:enable Style/MixinUsage
 
 require "irb"
 IRB.start

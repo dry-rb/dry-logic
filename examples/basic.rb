@@ -3,7 +3,9 @@
 require "dry/logic"
 require "dry/logic/predicates"
 
+# rubocop:disable Style/MixinUsage
 include Dry::Logic
+# rubocop:enable Style/MixinUsage
 
 user_present = Rule::Predicate.build(Predicates[:key?]).curry(:user)
 

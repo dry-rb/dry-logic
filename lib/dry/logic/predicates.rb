@@ -9,6 +9,22 @@ module Dry
     module Predicates
       # rubocop:disable Metrics/ModuleLength
       module Methods
+        def self.uuid_format(version)
+          ::Regexp.new(<<~FORMAT.chomp, ::Regexp::IGNORECASE)
+            \\A[0-9A-F]{8}-[0-9A-F]{4}-#{version}[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\\z
+          FORMAT
+        end
+
+        UUIDv1 = uuid_format(1)
+
+        UUIDv2 = uuid_format(2)
+
+        UUIDv3 = uuid_format(3)
+
+        UUIDv4 = uuid_format(4)
+
+        UUIDv5 = uuid_format(5)
+
         def [](name)
           method(name)
         end
@@ -204,32 +220,29 @@ module Dry
         end
 
         def case?(pattern, input)
+          # rubocop:disable Style/CaseEquality
           pattern === input
+          # rubocop:enable Style/CaseEquality
         end
 
         def uuid_v1?(input)
-          uuid_v1_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-1[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
-          format?(uuid_v1_format, input)
+          format?(UUIDv1, input)
         end
 
         def uuid_v2?(input)
-          uuid_v2_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-2[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
-          format?(uuid_v2_format, input)
+          format?(UUIDv2, input)
         end
 
         def uuid_v3?(input)
-          uuid_v3_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
-          format?(uuid_v3_format, input)
+          format?(UUIDv3, input)
         end
 
         def uuid_v4?(input)
-          uuid_v4_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
-          format?(uuid_v4_format, input)
+          format?(UUIDv4, input)
         end
 
         def uuid_v5?(input)
-          uuid_v5_format = /\A[0-9A-F]{8}-[0-9A-F]{4}-5[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\z/i
-          format?(uuid_v5_format, input)
+          format?(UUIDv5, input)
         end
 
         def uri?(schemes, input)
