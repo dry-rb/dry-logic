@@ -32,4 +32,31 @@ RSpec.describe Dry::Logic::Predicates do
       it_behaves_like "a failing predicate"
     end
   end
+
+  describe "#uri_rfc3986?" do
+    let(:predicate_name) { :uri_rfc3986? }
+
+    context "when value is a valid URI" do
+      let(:arguments_list) do
+        [
+          ["https://github.com/dry-rb/dry-logic"], # with https format
+          ["mailto:myemail@host.com"], # with mailto format
+          ["urn:isbn:0451450523"] # with URN format
+        ]
+      end
+
+      it_behaves_like "a passing predicate"
+    end
+
+    context "with value is not a valid URI" do
+      let(:arguments_list) do
+        [
+          ["not-a-uri-at-all"],
+          ["[https://github.com/dry-rb/dry-logic]"]
+        ]
+      end
+
+      it_behaves_like "a failing predicate"
+    end
+  end
 end
