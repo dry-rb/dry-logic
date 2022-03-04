@@ -492,7 +492,7 @@ is_filled.call("").success? # => false
 is_filled.call({}).success? # => false
 ```
 
-### Attribute (`attr?`, `respond_to?`)
+### Attribute (`attr?`, `responds_to?`)
 
 > Returns true when the struct input responds to the given method. Similar to Ruby's `Object#respond_to?` method
 

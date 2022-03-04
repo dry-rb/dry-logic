@@ -254,7 +254,7 @@ module Dry
           format?(URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
-        def respond_to?(method, input)
+        def responds_to?(method, input)
           input.respond_to?(method)
         end
 
