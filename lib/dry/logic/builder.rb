@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require "dry/logic"
 require "singleton"
 require "delegate"
 
 module Dry
   module Logic
-    autoload :Operations, "dry/logic/operations"
-    autoload :Predicates, "dry/logic/predicates"
     module Builder
       IGNORED_OPERATIONS = %i[
         Abstract

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/logic/rule"
-
 module Dry
   module Logic
     class Rule

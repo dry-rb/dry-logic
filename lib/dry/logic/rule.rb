@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require "concurrent/map"
-require "dry/core/constants"
 require "dry/core/equalizer"
-require "dry/logic/operations"
-require "dry/logic/result"
-require "dry/logic/rule/interface"
+require "concurrent/map"
 
 module Dry
   module Logic

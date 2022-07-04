@@ -7,7 +7,8 @@ require_relative "support/rspec_options"
 begin
   require "pry-byebug"
 rescue LoadError; end
-require "dry-logic"
+
+require "dry/logic"
 require "dry/core/constants"
 require "pathname"
 

@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
-require "dry/core/constants"
-
-require "dry/logic/rule"
-require "dry/logic/rule/predicate"
-
 module Dry
   module Logic
     class RuleCompiler
-      include Core::Constants
-
       attr_reader :predicates
 
       def initialize(predicates)
