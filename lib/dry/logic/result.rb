@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
-require "dry/core/constants"
-
 module Dry
   module Logic
     class Result
-      include Core::Constants
-
       SUCCESS = Class.new {
         def success?
           true
