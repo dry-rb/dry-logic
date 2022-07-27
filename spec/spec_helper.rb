@@ -9,7 +9,6 @@ begin
 rescue LoadError; end
 
 require "dry/logic"
-require "dry/core/constants"
 require "pathname"
 
 SPEC_ROOT = Pathname(__dir__)
