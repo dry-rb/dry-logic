@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 #
 require "zeitwerk"
-require "dry/core/constants"
+require "dry/core"
 
 module Dry
   module Logic
@@ -13,7 +13,10 @@ module Dry
         loader.tag = "dry-logic"
         loader.inflector = Zeitwerk::GemInflector.new("#{root}/dry-logic.rb")
         loader.push_dir(root)
-        loader.ignore("#{root}/dry-logic.rb")
+        loader.ignore(
+          "#{root}/dry-logic.rb",
+          "#{root}/dry/logic/{constants,version}.rb"
+        )
       end
     end
 
