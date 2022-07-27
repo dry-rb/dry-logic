@@ -15,7 +15,7 @@ module Dry
         loader.push_dir(root)
         loader.ignore(
           "#{root}/dry-logic.rb",
-          "#{root}/dry/logic/{constants,version}.rb"
+          "#{root}/dry/logic/version.rb"
         )
       end
     end
