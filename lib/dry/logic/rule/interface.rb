@@ -98,9 +98,9 @@ module Dry
           module_exec do
             def call(*)
               if @predicate[]
-                Result::SUCCESS
+                ::Dry::Logic::Result::SUCCESS
               else
-                Result.new(false, id) { ast }
+                ::Dry::Logic::Result.new(false, id) { ast }
               end
             end
 
@@ -116,17 +116,17 @@ module Dry
           application = "@predicate[#{(curried_args + unapplied_args + splat).join(", ")}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(#{parameters})                            # def call(input0, input1, *rest)
-              if #{application}                                #   if @predicate[@arg0, @arg1, input0, input1, *rest]
-                Result::SUCCESS                                #     Result::Success
-              else                                             #   else
-                Result.new(false, id) { ast(#{parameters}) }   #     Result.new(false, id) { ast(input0, input1, *rest) }
-              end                                              #   end
-            end                                                # end
-                                                               #
-            def [](#{parameters})                              # def [](@arg0, @arg1, input0, input1, *rest)
-              #{application}                                   #   @predicate[@arg0, @arg1, input0, input1, *rest]
-            end                                                # end
+            def call(#{parameters})                                         # def call(input0, input1, *rest)
+              if #{application}                                             #   if @predicate[@arg0, @arg1, input0, input1, *rest]
+                ::Dry::Logic::Result::SUCCESS                               #     ::Dry::Logic::Result::Success
+              else                                                          #   else
+                ::Dry::Logic::Result.new(false, id) { ast(#{parameters}) }  #     ::Dry::Logic::Result.new(false, id) { ast(input0, input1, *rest) }
+              end                                                           #   end
+            end                                                             # end
+                                                                            #
+            def [](#{parameters})                                           # def [](@arg0, @arg1, input0, input1, *rest)
+              #{application}                                                #   @predicate[@arg0, @arg1, input0, input1, *rest]
+            end                                                             # end
           RUBY
         end
 
