@@ -98,9 +98,9 @@ module Dry
           module_exec do
             def call(*)
               if @predicate[]
-                ::Dry::Logic::Result::SUCCESS
+                Result::SUCCESS
               else
-                ::Dry::Logic::Result.new(false, id) { ast }
+                Result.new(false, id) { ast }
               end
             end
 
@@ -118,9 +118,9 @@ module Dry
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def call(#{parameters})                                         # def call(input0, input1, *rest)
               if #{application}                                             #   if @predicate[@arg0, @arg1, input0, input1, *rest]
-                ::Dry::Logic::Result::SUCCESS                               #     ::Dry::Logic::Result::Success
+                Result::SUCCESS                               #     ::Dry::Logic::Result::Success
               else                                                          #   else
-                ::Dry::Logic::Result.new(false, id) { ast(#{parameters}) }  #     ::Dry::Logic::Result.new(false, id) { ast(input0, input1, *rest) }
+                Result.new(false, id) { ast(#{parameters}) }  #     ::Dry::Logic::Result.new(false, id) { ast(input0, input1, *rest) }
               end                                                           #   end
             end                                                             # end
                                                                             #
