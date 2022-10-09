@@ -3,7 +3,7 @@
 require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates, "#eql?" do
-  let(:predicate_name) { :eql? }
+  let(:predicate_name) { :is_eql? }
 
   context "when value is equal to the arg" do
     let(:arguments_list) do
