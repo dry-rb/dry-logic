@@ -1115,9 +1115,9 @@ RSpec.describe "predicates" do
     end
   end
 
-  describe :respond_to? do
+  describe :interface? do
     let(:expression) do
-      ->(*) { respond_to?(:awesome?) }
+      ->(*) { interface?(:awesome?) }
     end
 
     describe "success" do

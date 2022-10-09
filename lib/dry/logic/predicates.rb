@@ -9,6 +9,8 @@ module Dry
     module Predicates
       # rubocop:disable Metrics/ModuleLength
       module Methods
+        extend Dry::Core::Deprecations[:dry_logic]
+
         def self.uuid_format(version)
           ::Regexp.new(<<~FORMAT.chomp, ::Regexp::IGNORECASE)
             \\A[0-9A-F]{8}-[0-9A-F]{4}-#{version}[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\\z
@@ -254,9 +256,10 @@ module Dry
           format?(URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
-        def respond_to?(method, input)
+        def interface?(method, input)
           input.respond_to?(method)
         end
+        deprecate :respond_to?, :interface?
 
         def predicate(name, &block)
           define_singleton_method(name, &block)
