@@ -29,7 +29,7 @@ RSpec.shared_examples "predicates" do
 
   let(:attr?) { Dry::Logic::Predicates[:attr?] }
 
-  let(:eql?) { Dry::Logic::Predicates[:eql?] }
+  let(:is_eql?) { Dry::Logic::Predicates[:is_eql?] }
 
   let(:size?) { Dry::Logic::Predicates[:size?] }
 
