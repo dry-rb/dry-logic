@@ -7,6 +7,9 @@
 
 - `uri_rfc3986?` predicate that uses a better regexp than `uri?` (see #94 for more details) (@hieuk09)
 
+### Changed
+
+- Deprecate respond_to? in favor of interface? (issue #73 closed via #99) (@solnic)
 
 [Compare v1.2.0...master](https://github.com/dry-rb/dry-logic/compare/v1.2.0...master)
 
