@@ -257,9 +257,10 @@ module Dry
           format?(URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
-        def respond_to?(method, input)
+        def interface?(method, input)
           input.respond_to?(method)
         end
+        deprecate :respond_to?, :interface?
 
         def predicate(name, &block)
           define_singleton_method(name, &block)

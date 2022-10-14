@@ -3,8 +3,8 @@
 require "dry/logic/predicates"
 
 RSpec.describe Dry::Logic::Predicates do
-  describe "#respond_to?" do
-    let(:predicate_name) { :respond_to? }
+  describe "#interface?" do
+    let(:predicate_name) { :interface? }
 
     context "when value responds to method" do
       let(:arguments_list) do
