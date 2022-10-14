@@ -6,7 +6,8 @@
   added:
   - "`uri_rfc3986?` predicate that uses a better regexp than `uri?` (see #94 for more
     details) (@hieuk09)"
-  changed: 
+  changed:
+  - 'Deprecate respond_to? in favor of interface? (issue #73 closed via #99) (@solnic)'
 - version: 1.2.0
   summary: 
   date: '2021-04-26'
