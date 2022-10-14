@@ -9,7 +9,8 @@
 
 ### Changed
 
-- Deprecate respond_to? in favor of interface? (issue #73 closed via #99) (@solnic)
+- Deprecate `eql?` in favor of `is_eql?` (issue #92 via #98) (@solnic)
+- Deprecate `respond_to?` in favor of `interface?` (issue #73 closed via #99) (@solnic)
 
 [Compare v1.2.0...master](https://github.com/dry-rb/dry-logic/compare/v1.2.0...master)
 
