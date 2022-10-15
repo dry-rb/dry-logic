@@ -9,8 +9,6 @@ module Dry
     module Predicates
       # rubocop:disable Metrics/ModuleLength
       module Methods
-        extend Dry::Core::Deprecations[:dry_logic]
-
         def self.uuid_format(version)
           ::Regexp.new(<<~FORMAT.chomp, ::Regexp::IGNORECASE)
             \\A[0-9A-F]{8}-[0-9A-F]{4}-#{version}[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\\z
@@ -197,17 +195,16 @@ module Dry
           !includes?(value, input)
         end
 
-        def is_eql?(left, right)
+        def eql?(left, right)
           left.eql?(right)
-        end
-        deprecate :eql?, :is_eql?
-
-        def not_eql?(left, right)
-          !left.eql?(right)
         end
 
         def is?(left, right)
           left.equal?(right)
+        end
+
+        def not_eql?(left, right)
+          !left.eql?(right)
         end
 
         def true?(value)
