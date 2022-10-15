@@ -12,7 +12,16 @@
 - Deprecate `eql?` in favor of `is_eql?` (issue #92 via #98) (@solnic)
 - Deprecate `respond_to?` in favor of `interface?` (issue #73 closed via #99) (@solnic)
 
-[Compare v1.2.0...master](https://github.com/dry-rb/dry-logic/compare/v1.2.0...master)
+[Compare v1.3.0...master](https://github.com/dry-rb/dry-logic/compare/v1.3.0...master)
+
+## 1.3.0 2022-10-15
+
+
+### Changed
+
+- Use zeitwerk for auto-loading (@solnic + @flash-gordon)
+
+[Compare v1.2.0...v1.3.0](https://github.com/dry-rb/dry-logic/compare/v1.2.0...v1.3.0)
 
 ## 1.2.0 2021-04-26
 
