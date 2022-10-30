@@ -9,8 +9,6 @@ module Dry
     module Predicates
       # rubocop:disable Metrics/ModuleLength
       module Methods
-        extend Dry::Core::Deprecations[:dry_logic]
-
         def self.uuid_format(version)
           ::Regexp.new(<<~FORMAT.chomp, ::Regexp::IGNORECASE)
             \\A[0-9A-F]{8}-[0-9A-F]{4}-#{version}[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\\z
@@ -166,12 +164,12 @@ module Dry
         end
 
         def inclusion?(list, input)
-          ::Kernel.warn "inclusion is deprecated - use included_in instead."
+          deprecated(:inclusion?, :included_in?)
           included_in?(list, input)
         end
 
         def exclusion?(list, input)
-          ::Kernel.warn "exclusion is deprecated - use excluded_from instead."
+          deprecated(:exclusion?, :excluded_from?)
           excluded_from?(list, input)
         end
 
@@ -200,7 +198,11 @@ module Dry
         def is_eql?(left, right)
           left.eql?(right)
         end
-        deprecate :eql?, :is_eql?
+
+        def eql?(left, right)
+          deprecated(:eql?, :is_eql?)
+          left.eql?(right)
+        end
 
         def not_eql?(left, right)
           !left.eql?(right)
@@ -260,10 +262,24 @@ module Dry
         def interface?(method, input)
           input.respond_to?(method)
         end
-        deprecate :respond_to?, :interface?
+
+        def respond_to?(method, input)
+          deprecated(:respond_to?, :interface?)
+          input.respond_to?(method, input)
+        end
 
         def predicate(name, &block)
           define_singleton_method(name, &block)
+        end
+
+        def deprecated(name, in_favor_of)
+          Core::Deprecations.warn(
+            "#{name}? predicate is deprecated and will "\
+            "be removed in the next major version\n"\
+            "Please use #{in_favor_of}? predicate instead",
+            tag: 'dry-logic',
+            uplevel: 3
+          )
         end
       end
 
