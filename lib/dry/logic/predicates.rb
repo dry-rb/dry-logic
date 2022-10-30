@@ -274,9 +274,9 @@ module Dry
 
         def deprecated(name, in_favor_of)
           Core::Deprecations.warn(
-            "#{name}? predicate is deprecated and will "\
+            "#{name} predicate is deprecated and will "\
             "be removed in the next major version\n"\
-            "Please use #{in_favor_of}? predicate instead",
+            "Please use #{in_favor_of} predicate instead",
             tag: 'dry-logic',
             uplevel: 3
           )
