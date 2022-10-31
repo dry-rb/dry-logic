@@ -13,7 +13,7 @@
 - Deprecate `respond_to?` in favor of `interface?` (issue #73 closed via #99) (@solnic)
 - This version uses dry-core 1.0 (@flash-gordon)
 
-[Compare v1.3.0...master](https://github.com/dry-rb/dry-logic/compare/v1.3.0...master)
+[Compare v1.3.0...main](https://github.com/dry-rb/dry-logic/compare/v1.3.0...main)
 
 ## 1.3.0 2022-10-15
 
