@@ -221,7 +221,7 @@ module Dry
         end
 
         def format?(regex, input)
-          !input.nil? && regex.match?(input)
+          !input.nil? && input.is_a?(String) && regex.match?(input)
         end
 
         def case?(pattern, input)

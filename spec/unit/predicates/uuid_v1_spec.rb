@@ -21,7 +21,8 @@ RSpec.describe Dry::Logic::Predicates do
           ["f2d26c57-e07c-1416-a749-57e937930e04\nnot-a-uuid-at-all"], # V1 with invalid suffix
           ["f2d26c57-e07c-3416-a749-57e937930e04"], # wrong version number (3, not 1)
           ["20633928-6a07-41e9-a923-1681be663d3e"], # UUID V4
-          ["not-a-uuid-at-all"]
+          ["not-a-uuid-at-all"],
+          [Hash.new] # Not even a string
         ]
       end
 

@@ -25,7 +25,8 @@ RSpec.describe Dry::Logic::Predicates do
         [
           ["http", "mailto:myemail@host.com"], # scheme not allowed
           [%w[http https], "ftp:://myftp.com"], # scheme not allowed
-          ["", "not-a-uri-at-all"]
+          ["", "not-a-uri-at-all"],
+          ["", Hash.new] # Not even a string
         ]
       end
 
@@ -52,7 +53,8 @@ RSpec.describe Dry::Logic::Predicates do
       let(:arguments_list) do
         [
           ["not-a-uri-at-all"],
-          ["[https://github.com/dry-rb/dry-logic]"]
+          ["[https://github.com/dry-rb/dry-logic]"],
+          [Hash.new] # Not even a string
         ]
       end
 
