@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "dry/core/constants"
+
 require "bigdecimal"
 require "bigdecimal/util"
 require "date"
@@ -7,6 +9,8 @@ require "date"
 module Dry
   module Logic
     module Predicates
+      include Dry::Core::Constants
+
       # rubocop:disable Metrics/ModuleLength
       module Methods
         def self.uuid_format(version)
@@ -254,7 +258,10 @@ module Dry
           format?(URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
-        def respond_to?(method, input)
+        # This overrides Object#respond_to? so we need to make it compatible
+        def respond_to?(method, input = Undefined)
+          return super if input.equal?(Undefined)
+
           input.respond_to?(method)
         end
 
