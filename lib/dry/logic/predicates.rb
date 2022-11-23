@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "dry/core/constants"
+
 require "bigdecimal"
 require "bigdecimal/util"
 require "date"
@@ -7,6 +9,8 @@ require "date"
 module Dry
   module Logic
     module Predicates
+      include Dry::Core::Constants
+
       # rubocop:disable Metrics/ModuleLength
       module Methods
         def self.uuid_format(version)
@@ -195,21 +199,19 @@ module Dry
           !includes?(value, input)
         end
 
-        def is_eql?(left, right)
-          left.eql?(right)
-        end
+        # This overrides Object#eql? so we need to make it compatible
+        def eql?(left, right = Undefined)
+          return super(left) if right.equal?(Undefined)
 
-        def eql?(left, right)
-          deprecated(:eql?, :is_eql?)
           left.eql?(right)
-        end
-
-        def not_eql?(left, right)
-          !left.eql?(right)
         end
 
         def is?(left, right)
           left.equal?(right)
+        end
+
+        def not_eql?(left, right)
+          !left.eql?(right)
         end
 
         def true?(value)
@@ -259,13 +261,11 @@ module Dry
           format?(URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
-        def interface?(method, input)
-          input.respond_to?(method)
-        end
+        # This overrides Object#respond_to? so we need to make it compatible
+        def respond_to?(method, input = Undefined)
+          return super if input.equal?(Undefined)
 
-        def respond_to?(method, input)
-          deprecated(:respond_to?, :interface?)
-          input.respond_to?(method, input)
+          input.respond_to?(method)
         end
 
         def predicate(name, &block)

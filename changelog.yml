@@ -1,14 +1,13 @@
 ---
-- version: unreleased
+- version: 1.5.0
   summary:
-  date:
+  date: 2022-11-23
   fixed:
   added:
   - "`uri_rfc3986?` predicate that uses a better regexp than `uri?` (see #94 for more details) (@hieuk09)"
   changed:
-  - 'Deprecate `eql?` in favor of `is_eql?` (issue #92 via #98) (@solnic)'
-  - 'Deprecate `respond_to?` in favor of `interface?` (issue #73 closed via #99) (@solnic)'
-  - 'This version uses dry-core 1.0 (@flash-gordon)'
+  - 'Made `Predicates.respond_to?` compatible with `Object#respond_to?` (via #105) (@solnic)'
+  - 'Made `Predicates.eql?` compatible with `Object#eql?` (via #106) (@solnic)'
 - version: 1.4.0
   summary:
   date: '2022-11-04'
