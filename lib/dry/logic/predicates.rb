@@ -199,7 +199,10 @@ module Dry
           !includes?(value, input)
         end
 
-        def eql?(left, right)
+        # This overrides Object#eql? so we need to make it compatible
+        def eql?(left, right = Undefined)
+          return super(left) if right.equal?(Undefined)
+
           left.eql?(right)
         end
 

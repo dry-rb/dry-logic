@@ -29,4 +29,11 @@ RSpec.describe Dry::Logic::Predicates do
       expect(Dry::Logic::Predicates.respond_to?(:not_here)).to be(false)
     end
   end
+
+  describe ".eql?" do
+    it "works with another object to compare to" do
+      expect(Dry::Logic::Predicates.eql?(Dry::Logic::Predicates)).to be(true)
+      expect(Dry::Logic::Predicates.eql?("something else")).to be(false)
+    end
+  end
 end
