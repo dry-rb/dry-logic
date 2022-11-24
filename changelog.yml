@@ -1,7 +1,7 @@
 ---
 - version: 1.5.0
   summary:
-  date: 2022-11-23
+  date: 2022-11-24
   fixed:
   added:
   - "`uri_rfc3986?` predicate that uses a better regexp than `uri?` (see #94 for more details) (@hieuk09)"
