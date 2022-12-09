@@ -9,5 +9,4 @@ gemspec
 group :tools do
   gem "benchmark-ips", platform: :mri
   gem "hotch", platform: :mri
-  gem "pry-byebug", platform: :mri
 end
