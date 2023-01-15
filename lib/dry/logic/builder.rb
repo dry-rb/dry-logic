@@ -52,15 +52,15 @@ module Dry
         #
         # @name [Symbol] Name of predicate
         # @Context [Proc]
-        def predicate(name, &context)
+        def predicate(name, context = nil, &block)
           if singleton_class.method_defined?(name)
             singleton_class.undef_method(name)
           end
 
-          prerdicate = Rule::Predicate.new(context)
+          predicate = Rule::Predicate.new(context || block)
 
           define_singleton_method(name) do |*args|
-            prerdicate.curry(*args)
+            predicate.curry(*args)
           end
         end
 
@@ -78,7 +78,7 @@ module Dry
 
           Predicates::Methods.instance_methods(false).each do |name|
             unless IGNORED_PREDICATES.include?(name)
-              predicate(name, &Predicates[name])
+              predicate(name, Predicates[name])
             end
           end
         end
