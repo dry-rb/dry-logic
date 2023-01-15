@@ -22,4 +22,9 @@ RSpec.describe Dry::Logic::Builder do
       it { is_expected.to respond_to(:build) }
     end
   end
+
+  describe "ast of built rule" do
+    let(:expression) { -> (*) { key?(:speed) } }
+    it_behaves_like "built rule", :predicate, :key?, [:name, :speed]
+  end
 end
