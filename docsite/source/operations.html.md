@@ -137,13 +137,13 @@ is_only_odd.call([4, 6, 8]).success? # => false
 > Applies input to an array of predicates. Returns true if all predicates yield true. Similar to `Array#all?`
 
 ``` ruby
-is_natrual_and_odd = build do
+is_natural_and_odd = build do
   set(int?, odd?, gt?(1))
 end
 
-is_natrual_and_odd.call('5').success? # => false
-is_natrual_and_odd.call(5).success? # => true
-is_natrual_and_odd.call(-1).success? # => false
+is_natural_and_odd.call('5').success? # => false
+is_natural_and_odd.call(5).success? # => true
+is_natural_and_odd.call(-1).success? # => false
 ```
 
 ### Negation (`negation`, `not`)
