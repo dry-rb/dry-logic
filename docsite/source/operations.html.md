@@ -43,12 +43,12 @@ Argument 1 | Argument 2 | Result
 --- | --- | ---
 true | true | true
 true | false | false
-false | true | false
-false | false | false
+false | true | true 
+false | false | true 
 
 ``` ruby
 is_empty = build do
-  (attr?(:empty) > empty?) | nil?
+  (attr?(:empty?) > empty?) | nil?
 end
 
 is_empty.call("").success? # => true
