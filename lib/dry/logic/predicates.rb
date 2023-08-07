@@ -29,6 +29,12 @@ module Dry
 
         UUIDv5 = uuid_format(5)
 
+        UUIDv6 = uuid_format(6)
+
+        UUIDv7 = uuid_format(7)
+
+        UUIDv8 = uuid_format(8)
+
         def [](name)
           method(name)
         end
@@ -250,6 +256,18 @@ module Dry
 
         def uuid_v5?(input)
           format?(UUIDv5, input)
+        end
+
+        def uuid_v6?(input)
+          format?(UUIDv6, input)
+        end
+
+        def uuid_v7?(input)
+          format?(UUIDv7, input)
+        end
+
+        def uuid_v8?(input)
+          format?(UUIDv8, input)
         end
 
         def uri?(schemes, input)
