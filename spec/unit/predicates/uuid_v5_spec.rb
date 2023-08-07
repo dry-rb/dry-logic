@@ -14,7 +14,7 @@ RSpec.describe Dry::Logic::Predicates do
       it_behaves_like "a passing predicate"
     end
 
-    context "with value is not a valid V4 UUID" do
+    context "with value is not a valid V5 UUID" do
       let(:arguments_list) do
         [
           ["not-a-uuid-at-all\nf2d26c57-e07c-5416-a749-57e937930e04"], # V5 with invalid prefix
