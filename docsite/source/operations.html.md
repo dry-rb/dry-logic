@@ -43,8 +43,8 @@ Argument 1 | Argument 2 | Result
 --- | --- | ---
 true | true | true
 true | false | false
-false | true | false
-false | false | false
+false | true | true
+false | false | true
 
 ``` ruby
 is_empty = build do
@@ -59,6 +59,16 @@ is_empty.call(nil).success? # => true
 is_empty.call("string").success? # => false
 is_empty.call(["array"]).success? # => false
 is_empty.call({key: "value"}).success? # => false
+```
+
+Note that if the premise is false, the value of the conclusion doesn't matter
+
+``` ruby
+is_integer_greater_than_two = build do
+  int? > gt?(2)
+end
+
+is_integer_greater_than_two.call("string").success? # => true
 ```
 
 ### Exclusive or (`^`, `xor`)
