@@ -152,7 +152,7 @@ is_natural_and_odd.call(-1).success? # => false
 
 ``` ruby
 is_present = build do
-  negation(empty?)
+  negation { empty? }
 end
 
 is_present.call([1]).success? # => true
@@ -166,7 +166,7 @@ is_present.call("").success? # => false
 ``` ruby
 is_named = build do
   key name: [:user, :name] do
-    str? & negation(empty?)
+    str? & negation { empty? }
   end
 end
 
