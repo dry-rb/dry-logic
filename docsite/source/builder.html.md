@@ -4,13 +4,13 @@ layout: gem-single
 name: dry-logic
 ---
 
-Use Dry Logic's builder evaluate predicates and operations
+Use Dry Logic's builder to evaluate predicates and operations.
 
 ``` ruby
 require "dry/logic/builder"
 
 is_zero = Dry::Logic::Builder.call do
-  lt?(0) ^ gt?(0)
+  lteq?(0) & gteq?(0)
 end
 
 is_zero.call(0).success? # => true
