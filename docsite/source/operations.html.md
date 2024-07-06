@@ -31,7 +31,7 @@ end
 
 is_number.call(1).success? # => true
 is_number.call(2.0).success? # => true
-is_number.call('3').success? # => false
+is_number.call('3').success? # => true
 is_number.call('four').success? # => false
 ```
 
@@ -98,9 +98,9 @@ is_middle_aged = build do
   gt?(30) & lt?(50)
 end
 
-is_child.call(20).success? # => false
-is_child.call(40).success? # => true
-is_child.call(60).success? # => true
+is_middle_aged.call(20).success? # => false
+is_middle_aged.call(40).success? # => true
+is_middle_aged.call(60).success? # => false
 ```
 
 ### Attribute (`attr`)
@@ -138,10 +138,10 @@ is_only_odd.call([4, 6, 8]).success? # => false
 
 ``` ruby
 is_natural_and_odd = build do
-  set(int?, odd?, gt?(1))
+  set { [int?, odd?, gt?(1)] }
 end
 
-is_natural_and_odd.call('5').success? # => false
+is_natural_and_odd.call('5').success? # => NoMethodError: undefined method `odd?' for "5":String
 is_natural_and_odd.call(5).success? # => true
 is_natural_and_odd.call(-1).success? # => false
 ```
@@ -152,7 +152,7 @@ is_natural_and_odd.call(-1).success? # => false
 
 ``` ruby
 is_present = build do
-  negation(empty?)
+  negation { empty? }
 end
 
 is_present.call([1]).success? # => true
@@ -166,7 +166,7 @@ is_present.call("").success? # => false
 ``` ruby
 is_named = build do
   key name: [:user, :name] do
-    str? & negation(empty?)
+    str? & negation { empty? }
   end
 end
 
