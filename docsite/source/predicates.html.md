@@ -14,7 +14,7 @@ Predicates can be chained together using operations such as `&` and `|` (see the
 is_https_url = build { uri?(:https) }
 is_https_url = build { uri?(/https?/) }
 is_http_url = build { uri?(:http) }
-is_url = build { uri?([:http, :https]) }
+is_url = build { uri?(['http', 'https']) }
 
 https_url = "https://example.com"
 http_url = "http://example.com"
@@ -23,7 +23,7 @@ local_url = "example.local"
 is_https_url.call(https_url).success? # => true
 is_https_url.call(local_url).success? # => false
 is_http_url.call(http_url).success? # => true
-is_url.call(https_url).success? # => false
+is_url.call(https_url).success? # => true
 ```
 
 ### UUID (`uuid_v1?`, `uuid_v2?`, `uuid_v3?`, `uuid_v4?`, `uuid_v5?`)
@@ -384,15 +384,15 @@ is_float.call(1.0).success? # => true
 is_float.call(1).success? # => false
 ```
 
-### Number (`num?`)
+### Integer (`int?`)
 
 > Returns true if the input is of type `Integer`
 
 ``` ruby
-is_num = build { num? }
+is_int = build { int? }
 
-is_num.call(1).success? # => true
-is_num.call(1.0).success? # => false
+is_int.call(1).success? # => true
+is_int.call(1.0).success? # => false
 ```
 
 ### Time (`time?`)
@@ -453,7 +453,7 @@ is_false = build { false? }
 is_true.call(true).success? # => true
 is_true.call(false).success? # => false
 is_false.call(false).success? # => true
-is_true.call(true).success? # => false
+is_false.call(true).success? # => false
 ```
 
 ### Empty (`empty?`)
@@ -540,6 +540,6 @@ is_named.call({ age: 30 }).success? # => false
 ``` ruby
 is_email_ish = build { format?(/^\S+@\S+$/) }
 
-is_email_ish.call("hello@example.com") # => true
-is_email_ish.call("nope|failed.com") # => false
+is_email_ish.call("hello@example.com").success? # => true
+is_email_ish.call("nope|failed.com").success? # => false
 ```
