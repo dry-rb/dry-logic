@@ -5,6 +5,7 @@ require "dry/core/constants"
 require "bigdecimal"
 require "bigdecimal/util"
 require "date"
+require "uri"
 
 module Dry
   module Logic
