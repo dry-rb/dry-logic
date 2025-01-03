@@ -185,9 +185,16 @@ module Dry
 
         def uuid_v8?(input) = format?(UUIDv8, input)
 
-        def uri?(schemes, input)
-          uri_format = ::URI::RFC2396_PARSER.make_regexp(schemes)
-          format?(uri_format, input)
+        if defined?(::URI::RFC2396_PARSER)
+          def uri?(schemes, input)
+            uri_format = ::URI::RFC2396_PARSER.make_regexp(schemes)
+            format?(uri_format, input)
+          end
+        else
+          def uri?(schemes, input)
+            uri_format = ::URI::DEFAULT_PARSER.make_regexp(schemes)
+            format?(uri_format, input)
+          end
         end
 
         def uri_rfc3986?(input) = format?(::URI::RFC3986_Parser::RFC3986_URI, input)
