@@ -4,10 +4,6 @@ gemspec:
   authors: ["Piotr Solnica"]
   email: ["piotr.solnica@gmail.com"]
   summary: "Predicate logic with rule composition"
-  development_dependencies:
-    - bundler
-    - rake
-    - rspec
   runtime_dependencies:
     - [bigdecimal]
     - [concurrent-ruby, "~> 1.0"]
