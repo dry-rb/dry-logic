@@ -29,17 +29,11 @@ module Dry
           end
         end
 
-        def constant?
-          arity.zero?
-        end
+        def constant? = arity.zero?
 
-        def variable_arity?
-          arity.negative?
-        end
+        def variable_arity? = arity.negative?
 
-        def curried?
-          !curried.zero?
-        end
+        def curried? = !curried.zero?
 
         def unapplied
           if variable_arity?
@@ -116,26 +110,26 @@ module Dry
           application = "@predicate[#{(curried_args + unapplied_args + splat).join(", ")}]"
 
           module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def call(#{parameters})                                         # def call(input0, input1, *rest)
-              if #{application}                                             #   if @predicate[@arg0, @arg1, input0, input1, *rest]
-                Result::SUCCESS                               #     ::Dry::Logic::Result::Success
-              else                                                          #   else
-                Result.new(false, id) { ast(#{parameters}) }  #     ::Dry::Logic::Result.new(false, id) { ast(input0, input1, *rest) }
-              end                                                           #   end
-            end                                                             # end
-                                                                            #
-            def [](#{parameters})                                           # def [](@arg0, @arg1, input0, input1, *rest)
-              #{application}                                                #   @predicate[@arg0, @arg1, input0, input1, *rest]
-            end                                                             # end
+            def call(#{parameters})                          # def call(input0, input1, *rest)
+              if #{application}                              #   if @predicate[@arg0, @arg1, input0, input1, *rest]
+                Result::SUCCESS                              #     ::Dry::Logic::Result::Success
+              else                                           #   else
+                Result.new(false, id) { ast(#{parameters}) } #     ::Dry::Logic::Result.new(false, id) { ast(input0, input1, *rest) }
+              end                                            #   end
+            end                                              # end
+                                                             #
+            def [](#{parameters})                            # def [](@arg0, @arg1, input0, input1, *rest)
+              #{application}                                 #   @predicate[@arg0, @arg1, input0, input1, *rest]
+            end                                              # end
           RUBY
         end
 
         def curried_args
-          @curried_args ||= ::Array.new(curried) { |i| "@arg#{i}" }
+          @curried_args ||= ::Array.new(curried) { "@arg#{_1}" }
         end
 
         def unapplied_args
-          @unapplied_args ||= ::Array.new(unapplied) { |i| "input#{i}" }
+          @unapplied_args ||= ::Array.new(unapplied) { "input#{_1}" }
         end
       end
     end

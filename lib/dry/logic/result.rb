@@ -3,7 +3,7 @@
 module Dry
   module Logic
     class Result
-      SUCCESS = Class.new {
+      SUCCESS = ::Class.new {
         def success?
           true
         end

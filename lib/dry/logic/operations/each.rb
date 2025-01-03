@@ -23,7 +23,7 @@ module Dry
         end
 
         def [](arr)
-          arr.map { |input| rule[input] }.all?
+          arr.all? { |input| rule[input] }
         end
       end
     end

@@ -5,7 +5,7 @@ module Dry
     module Operations
       class Abstract
         include Core::Constants
-        include Dry::Equalizer(:rules, :options)
+        include ::Dry::Equalizer(:rules, :options)
         include Operators
 
         attr_reader :rules

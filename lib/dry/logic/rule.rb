@@ -14,7 +14,7 @@ module Dry
 
     class Rule
       include Core::Constants
-      include Dry::Equalizer(:predicate, :options)
+      include ::Dry::Equalizer(:predicate, :options)
       include Operators
 
       attr_reader :predicate
@@ -32,7 +32,7 @@ module Dry
       def self.specialize(arity, curried, base = Rule)
         base.interfaces.fetch_or_store([arity, curried]) do
           interface = Interface.new(arity, curried)
-          klass = Class.new(base) { include interface }
+          klass = ::Class.new(base) { include interface }
           base.const_set("#{base.name.split("::").last}#{interface.name}", klass)
           klass
         end
