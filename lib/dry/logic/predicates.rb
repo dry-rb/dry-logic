@@ -144,7 +144,7 @@ module Dry
           else
             false
           end
-        rescue TypeError
+        rescue ::TypeError
           false
         end
 
@@ -186,7 +186,7 @@ module Dry
         def uuid_v8?(input) = format?(UUIDv8, input)
 
         def uri?(schemes, input)
-          uri_format = ::URI::DEFAULT_PARSER.make_regexp(schemes)
+          uri_format = ::URI::RFC2396_PARSER.make_regexp(schemes)
           format?(uri_format, input)
         end
 
