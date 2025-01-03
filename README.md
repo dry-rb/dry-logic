@@ -2,7 +2,7 @@
 [gem]: https://rubygems.org/gems/dry-logic
 [actions]: https://github.com/dry-rb/dry-logic/actions
 
-# dry-logic [![Gem Version](https://badge.fury.io/rb/dry-logic.svg)][gem] [![CI Status](https://github.com/dry-rb/dry-logic/workflows/ci/badge.svg)][actions]
+# dry-logic [![Gem Version](https://badge.fury.io/rb/dry-logic.svg)][gem] [![CI Status](https://github.com/dry-rb/dry-logic/workflows/CI/badge.svg)][actions]
 
 ## Links
 
@@ -14,7 +14,7 @@
 
 This library officially supports the following Ruby versions:
 
-* MRI `>= 3.0.0`
+* MRI `>= 3.1`
 * jruby `>= 9.4` (not tested on CI)
 
 ## License
