@@ -10,7 +10,7 @@ require "uri"
 module Dry
   module Logic
     module Predicates
-      include Dry::Core::Constants
+      include ::Dry::Core::Constants
 
       # rubocop:disable Metrics/ModuleLength
       module Methods
@@ -40,139 +40,89 @@ module Dry
           method(name)
         end
 
-        def type?(type, input)
-          input.is_a?(type)
-        end
+        def type?(type, input) = input.is_a?(type)
 
-        def nil?(input)
-          input.nil?
-        end
+        def nil?(input) = input.nil?
         alias_method :none?, :nil?
 
-        def key?(name, input)
-          input.key?(name)
-        end
+        def key?(name, input) = input.key?(name)
 
-        def attr?(name, input)
-          input.respond_to?(name)
-        end
+        def attr?(name, input) = input.respond_to?(name)
 
         def empty?(input)
           case input
-          when String, Array, Hash then input.empty?
+          when ::String, ::Array, ::Hash then input.empty?
           when nil then true
           else
             false
           end
         end
 
-        def filled?(input)
-          !empty?(input)
-        end
+        def filled?(input) = !empty?(input)
 
-        def bool?(input)
-          input.is_a?(TrueClass) || input.is_a?(FalseClass)
-        end
+        def bool?(input) = input.equal?(true) || input.equal?(false)
 
-        def date?(input)
-          input.is_a?(Date)
-        end
+        def date?(input) = input.is_a?(::Date)
 
-        def date_time?(input)
-          input.is_a?(DateTime)
-        end
+        def date_time?(input) = input.is_a?(::DateTime)
 
-        def time?(input)
-          input.is_a?(Time)
-        end
+        def time?(input) = input.is_a?(::Time)
 
         def number?(input)
           true if Float(input)
-        rescue ArgumentError, TypeError
+        rescue ::ArgumentError, ::TypeError
           false
         end
 
-        def int?(input)
-          input.is_a?(Integer)
-        end
+        def int?(input) = input.is_a?(::Integer)
 
-        def float?(input)
-          input.is_a?(Float)
-        end
+        def float?(input) = input.is_a?(::Float)
 
-        def decimal?(input)
-          input.is_a?(BigDecimal)
-        end
+        def decimal?(input) = input.is_a?(::BigDecimal)
 
-        def str?(input)
-          input.is_a?(String)
-        end
+        def str?(input) = input.is_a?(::String)
 
-        def hash?(input)
-          input.is_a?(Hash)
-        end
+        def hash?(input) = input.is_a?(::Hash)
 
-        def array?(input)
-          input.is_a?(Array)
-        end
+        def array?(input) = input.is_a?(::Array)
 
-        def odd?(input)
-          input.odd?
-        end
+        def odd?(input) = input.odd?
 
-        def even?(input)
-          input.even?
-        end
+        def even?(input) = input.even?
 
-        def lt?(num, input)
-          input < num
-        end
+        def lt?(num, input) = input < num
 
-        def gt?(num, input)
-          input > num
-        end
+        def gt?(num, input) = input > num
 
-        def lteq?(num, input)
-          !gt?(num, input)
-        end
+        def lteq?(num, input) = !gt?(num, input)
 
-        def gteq?(num, input)
-          !lt?(num, input)
-        end
+        def gteq?(num, input) = !lt?(num, input)
 
         def size?(size, input)
           case size
-          when Integer then size.equal?(input.size)
-          when Range, Array then size.include?(input.size)
+          when ::Integer then size.equal?(input.size)
+          when ::Range, ::Array then size.include?(input.size)
           else
-            raise ArgumentError, "+#{size}+ is not supported type for size? predicate."
+            raise ::ArgumentError, "+#{size}+ is not supported type for size? predicate."
           end
         end
 
-        def min_size?(num, input)
-          input.size >= num
-        end
+        def min_size?(num, input) = input.size >= num
 
-        def max_size?(num, input)
-          input.size <= num
-        end
+        def max_size?(num, input) = input.size <= num
 
         def bytesize?(size, input)
           case size
-          when Integer then size.equal?(input.bytesize)
-          when Range, Array then size.include?(input.bytesize)
+          when ::Integer then size.equal?(input.bytesize)
+          when ::Range, ::Array then size.include?(input.bytesize)
           else
-            raise ArgumentError, "+#{size}+ is not supported type for bytesize? predicate."
+            raise ::ArgumentError, "+#{size}+ is not supported type for bytesize? predicate."
           end
         end
 
-        def min_bytesize?(num, input)
-          input.bytesize >= num
-        end
+        def min_bytesize?(num, input) = input.bytesize >= num
 
-        def max_bytesize?(num, input)
-          input.bytesize <= num
-        end
+        def max_bytesize?(num, input) = input.bytesize <= num
 
         def inclusion?(list, input)
           deprecated(:inclusion?, :included_in?)
@@ -184,13 +134,9 @@ module Dry
           excluded_from?(list, input)
         end
 
-        def included_in?(list, input)
-          list.include?(input)
-        end
+        def included_in?(list, input) = list.include?(input)
 
-        def excluded_from?(list, input)
-          !list.include?(input)
-        end
+        def excluded_from?(list, input) = !list.include?(input)
 
         def includes?(value, input)
           if input.respond_to?(:include?)
@@ -202,9 +148,7 @@ module Dry
           false
         end
 
-        def excludes?(value, input)
-          !includes?(value, input)
-        end
+        def excludes?(value, input) = !includes?(value, input)
 
         # This overrides Object#eql? so we need to make it compatible
         def eql?(left, right = Undefined)
@@ -213,72 +157,40 @@ module Dry
           left.eql?(right)
         end
 
-        def is?(left, right)
-          left.equal?(right)
-        end
+        def is?(left, right) = left.equal?(right)
 
-        def not_eql?(left, right)
-          !left.eql?(right)
-        end
+        def not_eql?(left, right) = !left.eql?(right)
 
-        def true?(value)
-          value.equal?(true)
-        end
+        def true?(value) = value.equal?(true)
 
-        def false?(value)
-          value.equal?(false)
-        end
+        def false?(value) = value.equal?(false)
 
-        def format?(regex, input)
-          !input.nil? && regex.match?(input)
-        end
+        def format?(regex, input) = !input.nil? && regex.match?(input)
 
-        def case?(pattern, input)
-          # rubocop:disable Style/CaseEquality
-          pattern === input
-          # rubocop:enable Style/CaseEquality
-        end
+        def case?(pattern, input) = pattern === input # rubocop:disable Style/CaseEquality
 
-        def uuid_v1?(input)
-          format?(UUIDv1, input)
-        end
+        def uuid_v1?(input) = format?(UUIDv1, input)
 
-        def uuid_v2?(input)
-          format?(UUIDv2, input)
-        end
+        def uuid_v2?(input) = format?(UUIDv2, input)
 
-        def uuid_v3?(input)
-          format?(UUIDv3, input)
-        end
+        def uuid_v3?(input) = format?(UUIDv3, input)
 
-        def uuid_v4?(input)
-          format?(UUIDv4, input)
-        end
+        def uuid_v4?(input) = format?(UUIDv4, input)
 
-        def uuid_v5?(input)
-          format?(UUIDv5, input)
-        end
+        def uuid_v5?(input) = format?(UUIDv5, input)
 
-        def uuid_v6?(input)
-          format?(UUIDv6, input)
-        end
+        def uuid_v6?(input) = format?(UUIDv6, input)
 
-        def uuid_v7?(input)
-          format?(UUIDv7, input)
-        end
+        def uuid_v7?(input) = format?(UUIDv7, input)
 
-        def uuid_v8?(input)
-          format?(UUIDv8, input)
-        end
+        def uuid_v8?(input) = format?(UUIDv8, input)
 
         def uri?(schemes, input)
           uri_format = ::URI::DEFAULT_PARSER.make_regexp(schemes)
           format?(uri_format, input)
         end
 
-        def uri_rfc3986?(input)
-          format?(::URI::RFC3986_Parser::RFC3986_URI, input)
-        end
+        def uri_rfc3986?(input) = format?(::URI::RFC3986_Parser::RFC3986_URI, input)
 
         # This overrides Object#respond_to? so we need to make it compatible
         def respond_to?(method, input = Undefined)
