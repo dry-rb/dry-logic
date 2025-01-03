@@ -28,8 +28,8 @@ module Dry
       #   p is_zero.call(1) # => false
       #   p is_zero.call(0) # => true
       #   p is_zero.call(-1) # => false
-      def call(&context)
-        Context.instance.call(&context)
+      def call(&)
+        Context.instance.call(&)
       end
       module_function :call
       alias_method :build, :call
@@ -44,8 +44,8 @@ module Dry
         end
 
         # @see Builder#call
-        def call(&context)
-          instance_eval(&context)
+        def call(&)
+          instance_eval(&)
         end
 
         # Defines custom predicate

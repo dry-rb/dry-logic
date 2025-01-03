@@ -272,12 +272,12 @@ module Dry
         end
 
         def uri?(schemes, input)
-          uri_format = URI::DEFAULT_PARSER.make_regexp(schemes)
+          uri_format = ::URI::DEFAULT_PARSER.make_regexp(schemes)
           format?(uri_format, input)
         end
 
         def uri_rfc3986?(input)
-          format?(URI::RFC3986_Parser::RFC3986_URI, input)
+          format?(::URI::RFC3986_Parser::RFC3986_URI, input)
         end
 
         # This overrides Object#respond_to? so we need to make it compatible
@@ -287,8 +287,8 @@ module Dry
           input.respond_to?(method)
         end
 
-        def predicate(name, &block)
-          define_singleton_method(name, &block)
+        def predicate(name, &)
+          define_singleton_method(name, &)
         end
 
         def deprecated(name, in_favor_of)
