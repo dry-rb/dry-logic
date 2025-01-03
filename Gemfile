@@ -8,4 +8,5 @@ gemspec
 
 group :tools do
   gem "benchmark-ips", platform: :mri
+  # gem "hotch", platform: :mri
 end
