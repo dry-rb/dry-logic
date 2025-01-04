@@ -3,6 +3,10 @@
 ## 1.6.0 2025-01-04
 
 
+### Added
+
+- Support for more UUID formats (via #110) (@Ptico)
+
 ### Fixed
 
 - Fix NoMethodError when trying to get AST of a Builder's result. (via #107) (@estum)
