@@ -1,15 +1,16 @@
 ---
-- version: unreleased
-  summary: 
-  date: 
+- version: 1.6.0
+  summary:
+  date: 2025-01-04
   fixed:
   - 'Fix NoMethodError when trying to get AST of a Builder''s result. (via #107) (@estum)'
-  added: 
-  changed: 
+  added:
+  changed:
+  - "Set 3.1 as minimum ruby version (@flash-gordon)"
 - version: 1.5.0
-  summary: 
+  summary:
   date: 2022-11-24
-  fixed: 
+  fixed:
   added:
   - "`uri_rfc3986?` predicate that uses a better regexp than `uri?` (see #94 for more
     details) (@hieuk09)"
@@ -18,37 +19,37 @@
     (@solnic)'
   - 'Made `Predicates.eql?` compatible with `Object#eql?` (via #106) (@solnic)'
 - version: 1.4.0
-  summary: 
+  summary:
   date: '2022-11-04'
-  fixed: 
-  added: 
+  fixed:
+  added:
   changed:
   - Updated to dry-core 1.0 (@flash-gordon + @solnic)
 - version: 1.3.0
-  summary: 
+  summary:
   date: '2022-10-15'
-  fixed: 
-  added: 
+  fixed:
+  added:
   changed:
   - Use zeitwerk for auto-loading (@solnic + @flash-gordon)
 - version: 1.2.0
-  summary: 
+  summary:
   date: '2021-04-26'
-  fixed: 
+  fixed:
   added:
   - Add predicate and operation builder DSL (@oleander)
-  changed: 
+  changed:
 - version: 1.1.1
-  summary: 
+  summary:
   date: '2021-04-14'
   fixed:
   - Fixed a crash under jruby caused by arg splatting in Binary operations (@flash-gordon)
 - version: 1.1.0
-  summary: 
+  summary:
   date: '2020-12-26'
   fixed:
   - Nested `Check` operations no longer crash under MRI 3.0 (@oleander)
-  added: 
+  added:
   changed:
   - Switched to equalizer from dry-core (@solnic)
 - version: 1.0.8
@@ -56,20 +57,20 @@
   fixed:
   - Better Ruby 3 support with fixed specialization for rules of negative arity (@flash-gordon)
 - version: 1.0.7
-  summary: 
+  summary:
   date: '2020-08-13'
-  fixed: 
+  fixed:
   added:
   - A new `uri?` predicate that you can use to verify `URI` strings, ie `uri?("https",
     "https://dry-rb.org")` (@nerburish)
   - 'New predicates: `uuid_v1?`, `uuid_v2?`, `uuid_v3?` and `uuid_v5?` (via #75) (@jamesbrauman)'
 - version: 1.0.6
-  summary: 
+  summary:
   date: '2020-02-10'
   fixed:
   - Made the regexp used by `uuid_v4?` more secure (@kml)
-  added: 
-  changed: 
+  added:
+  changed:
 - version: 1.0.5
   date: '2019-11-07'
   fixed:
