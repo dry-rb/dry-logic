@@ -5,6 +5,7 @@
   fixed:
   - 'Fix NoMethodError when trying to get AST of a Builder''s result. (via #107) (@estum)'
   added:
+  - 'Support for more UUID formats (via #110) (@Ptico)'
   changed:
   - "Set 3.1 as minimum ruby version (@flash-gordon)"
 - version: 1.5.0
