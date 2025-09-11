@@ -1,0 +1,19 @@
+name:
+  gem: dry-logic
+  constant: Dry::Logic
+github_org: dry-rb
+gemspec:
+  authors: ["Hanakai team"]
+  email: ["info@hanakai.org"]
+  summary: "Predicate logic with rule composition"
+  homepage: "https://dry-rb.org/gems/dry-logic"
+  required_ruby_version: ">= 3.1.0"
+  development_dependencies:
+    - bundler
+    - rake
+    - rspec
+  runtime_dependencies:
+    - bigdecimal
+    - [concurrent-ruby, "~> 1.0"]
+    - [dry-core, "~> 1.1"]
+    - [zeitwerk, "~> 2.6"]
