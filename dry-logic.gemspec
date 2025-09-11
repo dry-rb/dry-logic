@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# this file is synced from dry-rb/template-gem project
+# This file is synced from hanakai-rb/repo-sync. To update it, edit repo-sync.yml.
 
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -8,8 +8,8 @@ require "dry/logic/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "dry-logic"
-  spec.authors       = ["Piotr Solnica"]
-  spec.email         = ["piotr.solnica@gmail.com"]
+  spec.authors       = ["Hanakai team"]
+  spec.email         = ["info@hanakai.org"]
   spec.license       = "MIT"
   spec.version       = Dry::Logic::VERSION.dup
 
@@ -25,13 +25,17 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-logic/blob/main/CHANGELOG.md"
   spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-logic"
   spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-logic/issues"
-  spec.metadata["rubygems_mfa_required"] = "true"
+  spec.metadata["funding_uri"]       = "https://github.com/sponsors/hanami"
 
   spec.required_ruby_version = ">= 3.1.0"
 
-  # to update dependencies edit project.yml
-  spec.add_dependency "bigdecimal"
-  spec.add_dependency "concurrent-ruby", "~> 1.0"
-  spec.add_dependency "dry-core", "~> 1.1"
-  spec.add_dependency "zeitwerk", "~> 2.6"
+  spec.add_runtime_dependency "bigdecimal"
+  spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
+  spec.add_runtime_dependency "dry-core", "~> 1.1"
+  spec.add_runtime_dependency "zeitwerk", "~> 2.6"
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  
 end
+
