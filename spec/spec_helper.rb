@@ -3,10 +3,6 @@
 require_relative "support/coverage"
 require_relative "support/warnings"
 
-begin
-  require "pry-byebug"
-rescue LoadError; end
-
 require "dry/logic"
 require "pathname"
 
