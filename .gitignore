@@ -6,3 +6,4 @@ tmp/
 pkg/
 .idea/
 Gemfile.lock
+/.rubocop-*

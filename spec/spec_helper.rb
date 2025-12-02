@@ -5,7 +5,8 @@ require_relative "support/warnings"
 
 begin
   require "pry-byebug"
-rescue LoadError; end
+rescue LoadError;
+end
 
 require "dry/logic"
 require "pathname"
