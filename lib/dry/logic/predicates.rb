@@ -12,7 +12,6 @@ module Dry
     module Predicates
       include ::Dry::Core::Constants
 
-      # rubocop:disable Metrics/ModuleLength
       module Methods
         def self.uuid_format(version)
           ::Regexp.new(<<~FORMAT.chomp, ::Regexp::IGNORECASE)
