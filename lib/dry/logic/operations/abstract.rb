@@ -5,16 +5,18 @@ module Dry
     module Operations
       class Abstract
         include Core::Constants
-        include ::Dry::Equalizer(:rules, :options)
+        include ::Dry::Equalizer(:rules, :options, immutable: true)
         include Operators
 
         attr_reader :rules
 
         attr_reader :options
 
+        def self.new(...) = Interner::OPERATIONS.(super)
+
         def initialize(*rules, **options)
-          @rules = rules
-          @options = options
+          @rules = rules.freeze
+          @options = options.freeze
         end
 
         def id

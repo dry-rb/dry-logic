@@ -17,7 +17,8 @@ module Dry
         end
 
         def initialize(evaluators)
-          @evaluators = evaluators
+          @evaluators = evaluators.freeze
+          freeze
         end
 
         def call(input)
@@ -41,7 +42,8 @@ module Dry
       end
 
       def initialize(path)
-        @path = Array(path)
+        @path = [*path].freeze
+        freeze
       end
     end
   end

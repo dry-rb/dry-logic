@@ -14,7 +14,7 @@ module Dry
 
     class Rule
       include Core::Constants
-      include ::Dry::Equalizer(:predicate, :options)
+      include ::Dry::Equalizer(:predicate, :options, immutable: true)
       include Operators
 
       attr_reader :predicate
