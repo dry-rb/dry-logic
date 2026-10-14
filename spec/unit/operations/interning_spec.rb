@@ -16,7 +16,9 @@ RSpec.describe Dry::Logic::Operations::Abstract, ".new" do
   end
 
   it "does not share an operation holding a rule that is not shared" do
-    unshared = Dry::Logic::Rule::Predicate.build(Dry::Logic::Predicates[:max_size?], args: [5])
+    unshared = Dry::Logic::Rule::Predicate.build(
+      Dry::Logic::Predicates[:max_size?], args: [Object.new.freeze]
+    )
 
     expect(str? & unshared).not_to be(str? & unshared)
   end

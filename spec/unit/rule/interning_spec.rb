@@ -16,15 +16,24 @@ RSpec.describe Dry::Logic::Rule::Predicate, ".build" do
       .not_to be(described_class.build(max_size?).curry(256))
   end
 
-  it "does not share a rule whose args are not frozen" do
+  it "does not store a rule whose args are not frozen" do
     list = %w[a b]
 
     expect(described_class.build(included_in?).curry(list))
       .not_to be(described_class.build(included_in?).curry(list))
   end
 
-  it "does not share a rule built with an args array that is not frozen" do
-    expect(described_class.build(max_size?, args: [5]))
-      .not_to be(described_class.build(max_size?, args: [5]))
+  it "does not store a rule built with an args array that is not frozen" do
+    args = [Object.new.freeze]
+
+    expect(described_class.build(max_size?, args: args))
+      .not_to be(described_class.build(max_size?, args: args))
+  end
+
+  it "answers a rule built with unfrozen args with an equal stored one" do
+    token = Object.new.freeze
+    stored = described_class.build(max_size?).curry(token)
+
+    expect(described_class.build(max_size?, args: [token])).to be(stored)
   end
 end

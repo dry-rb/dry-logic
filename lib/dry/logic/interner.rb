@@ -9,37 +9,50 @@ module Dry
     #
     # @api private
     class Interner
-      def initialize(&shareable)
-        @shareable = shareable
+      # `candidate` is asked first and must stay cheap: it guards #hash, which
+      # is called on every value it lets through. `storable` is asked only of a
+      # value that is about to become the shared one; a value equal to an
+      # existing shared one is answered with that one, frozen as it is, so the
+      # costly check runs once per distinct value.
+      def initialize(candidate: ->(_) { true }, storable:)
+        @candidate = candidate
+        @storable = storable
         @table = ::ObjectSpace::WeakKeyMap.new
         @shared = ::ObjectSpace::WeakMap.new
       end
 
       def call(value)
-        if shareable?(value)
-          @table.getkey(value) || value.tap do
-            @table[value] = true
-            @shared[value] = true
-          end
+        if @candidate.(value)
+          @table.getkey(value) || store(value)
         else
           value
         end
       end
 
-      def shareable?(value) = @shareable.(value)
-
       # Compares by identity, so it never calls #hash on a value it was not
       # given: dry-schema's macros, for one, define a #hash of their own.
       def shared?(value) = @shared.key?(value)
 
-      # A rule is shared only while everything in its options is deeply frozen:
-      # changing an object it holds would change every rule sharing it.
-      RULES = new { |rule| ::Ractor.shareable?(rule.options) }
+      private
 
-      # An operation is shared only when its rules are: an equal operation
-      # holding an unshared rule would hand that rule to every user.
-      OPERATIONS = new { |operation|
-        ::Ractor.shareable?(operation.options) &&
+      def store(value)
+        if @storable.(value)
+          @table[value] = true
+          @shared[value] = true
+        end
+
+        value
+      end
+
+      # A rule is stored only while everything in its options is deeply frozen:
+      # changing an object it holds would change every rule sharing it.
+      RULES = new(storable: ->(rule) { ::Ractor.shareable?(rule.options) })
+
+      # An operation is looked up only when its rules are shared instances:
+      # that keeps #hash away from anything else, and equal operations then
+      # hold the very same rules.
+      OPERATIONS = new(
+        candidate: lambda { |operation|
           operation.rules.all? do |rule|
             case rule
             when Rule then RULES.shared?(rule)
@@ -47,7 +60,9 @@ module Dry
             else false
             end
           end
-      }
+        },
+        storable: ->(operation) { ::Ractor.shareable?(operation.options) }
+      )
     end
   end
 end
