@@ -39,7 +39,9 @@ module Dry
       end
 
       def self.build(predicate, args: EMPTY_ARRAY, arity: predicate.arity, **options)
-        specialize(arity, args.size).new(predicate, {args: args, arity: arity, **options})
+        Interner::RULES.(
+          specialize(arity, args.size).new(predicate, {args: args, arity: arity, **options}.freeze)
+        )
       end
 
       def initialize(predicate, options = EMPTY_HASH)
@@ -58,7 +60,7 @@ module Dry
       end
 
       def curry(*new_args)
-        with(args: args + new_args)
+        with(args: (args + new_args).freeze)
       end
 
       def bind(object)
