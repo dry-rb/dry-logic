@@ -10,6 +10,7 @@ and this project adheres to [Break Versioning](https://www.taoensso.com/break-ve
 ### Changed
 
 - Set minumum Ruby version to 3.2 (@alassek)
+- Speed up key rules by reading a single key directly instead of reducing over a one-element path. (@parndt)
 
 ## [1.6.0] - 2025-01-04
 

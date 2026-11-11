@@ -27,8 +27,14 @@ module Dry
       end
 
       class Key < Evaluator
+        def initialize(path)
+          super
+          @single_key = @path.size == 1
+          @key = @path.first
+        end
+
         def call(input)
-          path.reduce(input) { |a, e| a[e] }
+          @single_key ? input[@key] : path.reduce(input) { |a, e| a[e] }
         end
         alias_method :[], :call
       end
