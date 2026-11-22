@@ -25,7 +25,13 @@ RSpec.describe Dry::Logic::Predicates do
         [
           ["http", "mailto:myemail@host.com"], # scheme not allowed
           [%w[http https], "ftp:://myftp.com"], # scheme not allowed
-          ["", "not-a-uri-at-all"]
+          ["", "not-a-uri-at-all"],
+          # permitted-scheme URI embedded in a longer value
+          ["https", "javascript:alert(document.cookie)//https://example.com"],
+          ["https", "<script>alert(1)</script> https://example.com"],
+          ["https", " https://example.com"],
+          ["https", "https://example.com\njavascript:alert(1)"],
+          ["https", "javascript:alert(1);\nhttps://example.com"]
         ]
       end
 
