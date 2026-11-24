@@ -11,6 +11,10 @@ and this project adheres to [Break Versioning](https://www.taoensso.com/break-ve
 
 - Set minumum Ruby version to 3.2 (@alassek)
 
+### Security
+
+- Make the `uri?` predicate match only when the whole input is a URI with a permitted scheme. Previously it matched any input that contained one, such as `javascript:alert(1)//https://example.com`. (@parndt in GHSA-88x6-8wr7-j6gp)
+
 ## [1.6.0] - 2025-01-04
 
 

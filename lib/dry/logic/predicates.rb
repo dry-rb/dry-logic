@@ -184,15 +184,17 @@ module Dry
 
         def uuid_v8?(input) = format?(UUIDv8, input)
 
+        # `make_regexp` builds an unanchored pattern meant for extracting URIs from text, so it is
+        # anchored here to require the whole input to be a URI with a permitted scheme.
         if defined?(::URI::RFC2396_PARSER)
           def uri?(schemes, input)
             uri_format = ::URI::RFC2396_PARSER.make_regexp(schemes)
-            format?(uri_format, input)
+            format?(/\A(?:#{uri_format})\z/, input)
           end
         else
           def uri?(schemes, input)
             uri_format = ::URI::DEFAULT_PARSER.make_regexp(schemes)
-            format?(uri_format, input)
+            format?(/\A(?:#{uri_format})\z/, input)
           end
         end
 
